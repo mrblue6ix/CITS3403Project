@@ -1,1 +1,2 @@
 FLASK_APP=learnpython.py
+FLASK_ENV=development
