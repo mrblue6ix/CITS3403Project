@@ -1,5 +1,6 @@
 # initialization file for the app
 from flask import Flask
+from config import Config
 
 app = Flask(__name__)
 #change secret key to something else, it is unsafe to have it like below
