@@ -16,3 +16,5 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('New Password', [validators.DataRequired(), validators.EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Repeat Password')
     accept_tos = BooleanField('I accept the TOS', [validators.DataRequired()])
+
+#https://flask.palletsprojects.com/en/1.1.x/patterns/wtforms/ for forms tutorial
