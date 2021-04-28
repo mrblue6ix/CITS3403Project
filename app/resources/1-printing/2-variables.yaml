@@ -1,0 +1,15 @@
+---
+name: 2-variables
+requires: 
+  - 1-helloworld
+title: Variables
+prompt: >
+  Variables are a way we can store a value in memory so we can access it later.
+  For example, if we wanted to repeat the previous activity we could write:
+
+  `message = "Hello, world!"
+  
+  print(message)`
+answer:
+solution:
+...

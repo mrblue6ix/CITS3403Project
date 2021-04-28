@@ -1,0 +1,10 @@
+---
+name: 4-userinput
+requires: 
+  - 3-printingmultiple 
+title: Asking the user a question
+prompt: >
+  We can user Python to accept input from a user
+answer:
+solution:
+...
