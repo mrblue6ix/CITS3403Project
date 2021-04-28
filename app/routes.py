@@ -1,6 +1,7 @@
 # the routes are the different URLs that the application implements.
 from flask import render_template, flash, redirect
 from app import app
+from .forms import LoginForm, RegistrationForm
 
 @app.route("/")
 @app.route("/index")
@@ -25,4 +26,5 @@ def login():
         return redirect('/index')
     #if form couldn't be validated then render template for home.html so user can sign in again
     #maybe add a login.html where all logins happen???
-    return render_template('home.html', title='Sign In', form=form)
+    user = {'username':'Jordan'}
+    return render_template('home.html', title='Sign In', form=form, user=user)
