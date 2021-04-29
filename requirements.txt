@@ -1,2 +1,4 @@
 Flask==1.1.2
 python-dotenv==0.17.0
+flask-sqlalchemy==1.4.11
+flask-migrate==2.7.0

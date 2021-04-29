@@ -9,5 +9,5 @@ class Config(object):
     #also store database key, locations,... here
     #should app.db be learnpython.db ????
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE.URL') or \
-        'sqlite:///' + os.path.join(basedir, 'app.db')
+        'sqlite:///' + os.path.join(basedir, 'learnpython.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False

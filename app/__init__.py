@@ -1,7 +1,7 @@
 # initialization file for the app
 from flask import Flask
-from config import config
-from flask_sqlalchemy import flask_sqlalchemy
+from config import Config
+from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 #add db stuff to config file to make this do stuff
