@@ -1,5 +1,7 @@
 # the routes are the different URLs that the application implements.
 from flask import render_template, flash, redirect
+from flask_login import current_user, login_user
+from flask import url_for
 from app import app
 
 @app.route("/")
@@ -18,6 +20,8 @@ def problem():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     form = LoginForm()
     #if the form is correctly validated, flash a string then reidrect to homepage and log in
     if form.validate_on_submit():
