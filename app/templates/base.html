@@ -29,12 +29,13 @@
       <div class="sidebar-heading">LearnPython</div>
       <div class="list-group list-group-flush">
         <!-- below will be dynamically made from database-->
-        <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
+        <a href="index" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+        {% if current_user.is_anonymous %}
+        <a href="register" class="list-group-item list-group-item-action bg-light">Register</a>
+        <a href="login" class="list-group-item list-group-item-action bg-light">Login</a>
+        {% else %}
+        <a href="logout" class="list-group-item list-group-item-action bg-light">Logout</a>
+        {% endif %}
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -71,10 +72,22 @@
           </ul>
         </div>
       </nav>
+
+      <!-- FLASHED MESSAGES TO BE INSERTED HERE-->
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-primary" role="alert">
+          {{message}}
+        </div>
+        {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <!-- END FLASHED MESSAGES-->
+
       <!-- BLOCK CONTENT TO BE INSERTED HERE -->
       {% block content %}{% endblock %}
       <!-- END BLOCK CONTENT-->
-      >
     </div>
     <!-- /#page-content-wrapper -->
 
