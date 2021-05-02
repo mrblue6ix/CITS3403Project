@@ -18,10 +18,10 @@ class User(UserMixin, db.Model):
     email = db.Column(db.Text, unique=True, nullable=False)
     username = db.Column(db.Text, unique=True, nullable=False)
     password_hash = db.Column(db.Text, nullable=False)
-    total_submissions = db.Column(db.Integer)
-    lines_of_code = db.Column(db.Integer)
-    num_correct = db.Column(db.Integer)
-    num_incorrect = db.Column(db.Integer)
+    total_submissions = db.Column(db.Integer, default=0)
+    lines_of_code = db.Column(db.Integer, default=0)
+    num_correct = db.Column(db.Integer, default=0)
+    num_incorrect = db.Column(db.Integer, default=0)
 
     def __repr__(self):
         return f'<User {self.username}>'

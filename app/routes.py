@@ -2,7 +2,7 @@
 from flask import render_template, flash, redirect
 from flask_login import current_user, login_user, logout_user
 from flask import url_for
-from app import app
+from app import app, db
 from app.models import User
 from .forms import LoginForm, RegistrationForm
 
@@ -27,6 +27,29 @@ def logout():
     flash('You have been logged out successfully.')
     return redirect(url_for('index'))
 
+@app.route('/tos')
+def tos():
+    return render_template('tos.html')
+
+# register
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        # add user here if doesn't exist already
+        user = User(username=form.username.data, email=form.email.data,
+                    firstname=form.firstname.data, lastname=form.lastname.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Successfully registered.')
+        return redirect(url_for('login'))
+    return render_template('register.html', title="Register", form=form)
+
+# Route to login a user
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:

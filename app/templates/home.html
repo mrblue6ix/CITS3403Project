@@ -10,7 +10,7 @@
     <!-- If user.logged_in then display Hello, name, and stats...
         If not then do form rendering for login/register-->
     {% if current_user.is_authenticated %}
-    <h2>Hello, {{ current_user.username }}</h2>
+    <h2>Hello, {{ current_user.firstname }}</h2>
     {% else %}
     <h2>Please login.</h2>
     {% endif %}

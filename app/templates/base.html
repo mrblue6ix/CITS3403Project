@@ -31,6 +31,7 @@
         <!-- below will be dynamically made from database-->
         <a href="index" class="list-group-item list-group-item-action bg-light">Dashboard</a>
         {% if current_user.is_anonymous %}
+        <a href="register" class="list-group-item list-group-item-action bg-light">Register</a>
         <a href="login" class="list-group-item list-group-item-action bg-light">Login</a>
         {% else %}
         <a href="logout" class="list-group-item list-group-item-action bg-light">Logout</a>
