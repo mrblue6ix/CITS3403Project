@@ -1,0 +1,68 @@
+h1 {
+    text-align: center;
+}
+
+.module {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 480px;
+    width: 65%;
+    background-color: grey;
+    margin: 10px auto;
+}
+
+.module-lines {
+    background-color: lightgray;
+    min-width: 408px;
+    width: 85%;
+    padding: 15px;
+    margin: 30px auto;
+}
+
+.module-contents {
+    display: flex;
+    word-wrap: break-word;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+svg {
+    display: flex;
+    flex: 1 1 1;
+    justify-content: center;
+    align-content: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: auto;
+    width: 75px;
+    height: 75px;
+    transform: rotate(-90deg);
+    background: rgb(225, 0, 0);
+    border-radius: 50%;
+}
+
+circle {
+    fill: rgb(225, 0, 0);
+    stroke: rgb(0, 215, 0);
+    stroke-width: 32;
+    stroke-dasharray: 55 100;
+}
+
+.module-contents p {
+    align-self: center;
+    font-size: 30px;
+}
+
+.module-contents button {
+    margin-left: auto;
+    word-wrap: break-word;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: rgb(0, 215, 0);
+    font-size: 15px;
+}
+
+.module-contents button:hover {
+    background-color: rgb(0, 230, 0);
+}
