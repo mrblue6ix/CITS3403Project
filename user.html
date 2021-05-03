@@ -7,92 +7,43 @@
     </head>
     
     <h1>User Dashboard</h1>
+    
     <p>Flavour text here.</p>
-    
-    <br><br>
-    
-    <div class="module">
-        
-        <div class="module module-lines">
-            
-            <div class="module-contents">
-                
-                <!-- <div class="progress">20%</div> -->
-                
-                <svg viewBox="0 0 32 32">
-                    <circle r="16" cx="16" cy="16" />
-                </svg>
-                
-                <p>Python Basics I</p>
-                <button href="#">Start Module</button>
-            </div>
-
-            <div class="module-contents">
-                
-                <!-- <div class="progress">20%</div> -->
-                
-                <svg viewBox="0 0 32 32">
-                    <circle r="16" cx="16" cy="16" />
-                </svg>
-                
-                <p>Python Basics II</p>
-                <button href="#">Start Module</button>
-            </div>
-
-            <div class="module-contents">
-                
-                <!-- <div class="progress">20%</div> -->
-                
-                <svg viewBox="0 0 32 32">
-                    <circle r="16" cx="16" cy="16" />
-                </svg>
-                
-                <p>Python Basics III</p>
-                <button href="#">Start Module</button>
-            </div>
-            
-        </div>
-        
-        <div class="module module-lines">
-            
-            <div class="module-contents">
-                
-                <!-- <div class="progress">20%</div> -->
-                
-                <svg viewBox="0 0 32 32">
-                    <circle r="16" cx="16" cy="16" />
-                </svg>
-                
-                <p>Python Basics I</p>
-                <button href="#">Start Module</button>
-            </div>
-
-            <div class="module-contents">
-                
-                <!-- <div class="progress">20%</div> -->
-                
-                <svg viewBox="0 0 32 32">
-                    <circle r="16" cx="16" cy="16" />
-                </svg>
-                
-                <p>Python Basics II</p>
-                <button href="#">Start Module</button>
-            </div>
-
-            <div class="module-contents">
-                
-                <!-- <div class="progress">20%</div> -->
-                
-                <svg viewBox="0 0 32 32">
-                    <circle r="16" cx="16" cy="16" />
-                </svg>
-                
-                <p>Python Basics III</p>
-                <button href="#">Start Module</button>
-            </div>
-            
-        </div>
-        
-    </div>
+    <p id="user-stats"></p>
+    <p id="module-boxes"></p>
     
 </html>
+
+<!-- Sample script to display user statistics -->
+<script>
+    var stats, text, i;
+    // Sample user statistics [total submissions, lines of code, number correct], can be
+    // expanded to include more or less detail as needed
+    stats = [24, 329, 74]
+    text = '<div class="stats-contents"><p>' + stats[0] + ' submissions</p><p>' + stats[1] + ' total lines of code</p><p>' + stats[2] + ' answers correct</p></div>'
+    
+    document.getElementById("user-stats").innerHTML = text;
+</script>
+
+<!-- Sample script to display module details -->
+<script>
+    var module, text, i, j;
+    // Sample module details [Module title, % complete], can be expanded to include a
+    // description of the module, module stats breakdown, etc.
+    module = [[["Python Basics I", 87], ["Python Basics II", 67], ["Python Basics III", 63]],
+             [["Intermediate Python I", 45], ["Intermediate Python II", 40]],
+             [["Advanced Python", 23]]];
+    
+    text = '<div class="module">'
+    
+    for (i = 0; i < module.length; i++) {
+        text += '<div class="module module-lines">'
+        for (j = 0; j < module[i].length; j++) {
+            text += '<div class="module-contents"><svg viewBox="0 0 32 32"><circle r="16" cx="16" cy="16" stroke-dasharray="' + module[i][j][1] + ' 100" /></svg><p>' + module[i][j][0] + '</p><button href="#">Start<br>Module</button></div>'
+        }
+        text += '</div>'
+    }
+    text += '</div>'
+        
+    document.getElementById("module-boxes").innerHTML = text;
+</script>
