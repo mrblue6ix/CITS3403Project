@@ -39,6 +39,7 @@ class Activity(db.Model):
     __tablename__='activity'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, unique=True)
+    title = db.Column(db.Text)
     prompt = db.Column(db.Text) #added some dummy integer columns to test stuff first
     answer = db.Column(db.Text)
     solution = db.Column(db.Text)
