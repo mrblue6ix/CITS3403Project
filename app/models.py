@@ -38,6 +38,7 @@ class User(UserMixin, db.Model):
 class Activity(db.Model):
     __tablename__='activity'
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, unique=True)
     prompt = db.Column(db.Text) #added some dummy integer columns to test stuff first
     answer = db.Column(db.Text)
     solution = db.Column(db.Text)
@@ -46,6 +47,7 @@ class Activity(db.Model):
 class Module(db.Model):
     __tablename__='module'
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, unique = True)
     title = db.Column(db.Text)
     description = db.Column(db.Text)
 
