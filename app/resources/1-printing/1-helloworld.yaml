@@ -1,6 +1,7 @@
 ---
 name: 1-helloworld
 title: Hello, world!
+requires: 
 prompt: >
   Python is a very simple language that has a very straightforward syntax.
   It encourages programmers to progarm without a lot of boilerplate code.
@@ -8,8 +9,7 @@ prompt: >
 
   To print a string in Python 3, we can write:
   `print("This line will be printed")`
-
-  Write a line of Python code to print out the the string "Hello, world!"
+question: Write a line of Python code to print out the the string "Hello, world!"
 answer: Hello, world!
 solution: print("Hello, world!")
 ...
