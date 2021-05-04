@@ -1,5 +1,28 @@
-h1 {
-    text-align: center;
+.header {
+    display: flex;
+    padding: 20px;
+    justify-content: space-between;
+    background: lightgray;
+    border: 7px solid gray;
+}
+
+.header div {
+    font-size: 35px;
+    align-self: center;
+}
+
+#home-button {
+    margin-right: auto;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+#logout-button {
+    margin-left: auto;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 15px;
 }
 
 .module {
