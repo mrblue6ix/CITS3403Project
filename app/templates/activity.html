@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Question{% endblock %}
+{% block content %}
+  <div class="container-fluid">
+  {% if locked %}
+  <h1 class="mt-4">🔒 This content is locked! 🔒</h1>
+  <p> You must complete the following activites before this one</p>
+  <ul>
+    {% for dependency in dependencies %}
+      <li><a href="/learn/{{dependency[0].name}}/{{dependency[1].name}}">
+        {{dependency[0].title}} - {{dependency[1].title}}</a></li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <h6 class="mt-4 text-muted">{{module.title}}</h6 >
+  <h1>{{activity.title}}</h1>
+  <p>{{activity.prompt}}</p>
+  <h2>Activity name: {{activity.name}}</h2>
+  </div>
+  {% endif %}
+{% endblock %}
