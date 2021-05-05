@@ -18,6 +18,12 @@ def index():
     #change username to dynamically update for different users
     return render_template('home.html')
 
+@app.route("/profile")
+def profile():
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
+    return render_template('profile.html', user=current_user)
+
 @app.route("/learn/<module_name>/<activity_name>")
 def problem(module_name, activity_name):
     if not current_user.is_authenticated:

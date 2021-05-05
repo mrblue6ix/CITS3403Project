@@ -112,7 +112,7 @@ for module in modules:
     folder = arguments[2].replace('modules.yaml', module) 
     if os.path.isdir(folder):
         for activity_file in glob.glob(f"{folder}/*.yaml"):
-            activity_name = activity_file.split("/")[-1]
+            activity_name = os.path.basename(activity_file)
             with open(activity_file) as activity:
                 try:
                     a = yaml.safe_load(activity)
