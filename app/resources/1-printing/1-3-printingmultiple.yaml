@@ -1,8 +1,8 @@
 ---
-name: 3-printingmultiple
+name: 1-3-printingmultiple
 requires: 
-  - 2-variables
-title: Printing multiple thigns
+  - 1-2-variables
+title: Printing multiple things
 prompt: >
   We can use the `print()` function to print multiple things at once.
   For example:
@@ -10,6 +10,7 @@ prompt: >
   `print('Harry', 'Potter')`
 
   prints out `Harry Potter`.
+question:
 answer:
 solution:
 ...

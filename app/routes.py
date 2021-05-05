@@ -3,22 +3,42 @@ from flask import render_template, flash, redirect
 from flask_login import current_user, login_user, logout_user
 from flask import url_for
 from app import app, db
-from app.models import User
+from app.models import User, Module, Activity
 from .forms import LoginForm, RegistrationForm
+
+@app.context_processor
+def inject_navbar():
+    modules = Module.query.order_by(Module.name).all()
+    activities = Activity.query.all()
+    return dict(modules=modules, activities=activities)
 
 @app.route("/")
 @app.route("/index")
 def index():
     #change username to dynamically update for different users
-    user = {'username': 'Jordan'}
-    return render_template('home.html', user=user)
+    return render_template('home.html')
 
-@app.route("/problem")
-def problem():
-    #change problem number/name to dynamically update
-    #problem is variable to be passed into render_template
-    problem = {'number': '1'}
-    return render_template('problem.html', problem=problem)
+@app.route("/profile")
+def profile():
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
+    return render_template('profile.html', user=current_user)
+
+@app.route("/learn/<module_name>/<activity_name>")
+def problem(module_name, activity_name):
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+    # Does the user have permission to access this activity?
+    activity = Activity.query.filter_by(name=activity_name).first()
+    module = Module.query.filter_by(name=module_name).first()
+    if not activity or (activity not in module.activities):
+        # The activity does not exist
+        return render_template('errors/404.html')
+    if not current_user.has_access(activity):
+        dependencies = [(a.parentActivity.module, a.parentActivity) for a in activity.dependencies]
+        return render_template('activity.html', locked=True, dependencies=dependencies)
+    print(current_user.has_access(activity))
+    return render_template('activity.html', activity=activity, module=module)
 
 # logout the user
 @app.route('/logout')
@@ -46,6 +66,11 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash('Successfully registered.')
+
+        # Generate UserActivities for modules that have no requirements
+        first_module = Module.query.filter_by(dependencies=None).first()
+        first_module.makeUserActivities(user)
+
         return redirect(url_for('login'))
     return render_template('register.html', title="Register", form=form)
 
