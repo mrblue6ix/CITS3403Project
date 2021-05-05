@@ -56,8 +56,7 @@
     
     <h3>Try This</h3> 
     <form> 
-    <textarea id="yourcode" cols="40" rows="10">
-      print("Hello, World!")
+    <textarea id="yourcode" cols="40" rows="10">print("Hello, World!")
     </textarea><br /> 
     <button type="button" onclick="runit()">Run</button>
     <button type="button" onclick="checkAns()">Check your answer</button> 
@@ -69,10 +68,10 @@
     <script type="text/javascript">
     function checkAns() { 
         var userans = document.getElementById("output").innerHTML;
-        if(userans == "Hello, World!"){ //This if statement doesn't work, I can't tell why 
-          alert("Good Job");
+        if(userans == "Hello, World!"){ //This if statement doesn't work, I can't tell why. 
+          window.alert("Good Job, go to the next activity");
         }
-        console.log(userans)
+        console.log(userans);
     } 
     </script>
 
