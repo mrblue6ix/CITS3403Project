@@ -1,13 +1,11 @@
 from datetime import datetime, timedelta
-# Flask provides a mixin class that includes generic implementations for most
-# user model classes.
 from flask_login import UserMixin 
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import login, db
 
-#allows login to get User from db given the id
+# allows login to get User from db given the id
 @login.user_loader
-def load_student(id):
+def load_user(id):
     return User.query.get(int(id))
 
 class User(UserMixin, db.Model):
@@ -22,6 +20,8 @@ class User(UserMixin, db.Model):
     lines_of_code = db.Column(db.Integer, default=0)
     num_correct = db.Column(db.Integer, default=0)
     num_incorrect = db.Column(db.Integer, default=0)
+
+    user_activities = db.relationship("UserActivity", backref='User')
 
     def __repr__(self):
         return f'<User {self.username}>'
@@ -45,12 +45,32 @@ class Activity(db.Model):
     solution = db.Column(db.Text)
     question = db.Column(db.Text)
 
+    module_id = db.Column(db.Integer, db.ForeignKey('module.id'))
+    dependencies = db.relationship("ActivityDependency", foreign_keys="ActivityDependency.child", lazy=True)
+    parent_of = db.relationship("ActivityDependency", foreign_keys="ActivityDependency.parent", lazy=True)
+
+    def __repr__(self):
+        return f"<Activity {self.name}"
+
 class Module(db.Model):
     __tablename__='module'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, unique = True)
     title = db.Column(db.Text)
     description = db.Column(db.Text)
+
+    activities = db.relationship("Activity", lazy=True,
+        backref = db.backref('Module', lazy='joined'))
+
+    dependencies = db.relationship("ModuleDependency", foreign_keys="ModuleDependency.child", lazy=True)
+    parent_of = db.relationship("ModuleDependency", foreign_keys="ModuleDependency.parent", lazy=True)
+
+    # Takes a user object and generates UserActivities
+    def makeUserActivities(self, user):
+        for activity in self.activities:
+            newUserActivity = UserActivity(user_id=user.id, activity_id=activity.id)
+            db.session.add(newUserActivity)
+        db.session.commit()
 
 class UserActivity(db.Model):
     __tablename__='userActivity'
@@ -59,6 +79,11 @@ class UserActivity(db.Model):
     activity_id = db.Column(db.Integer, db.ForeignKey('activity.id'))
     count_submitted = db.Column(db.Integer)
     is_completed = db.Column(db.Integer)
+
+    activity = db.relationship("Activity", foreign_keys=[activity_id])
+    user = db.relationship("User", foreign_keys=[user_id], lazy=True)
+    def __repr__(self):
+        return f"<UserActivity {self.user.username} {self.activity.name}"
 
 class Submission(db.Model):
     __tablename__='submission'

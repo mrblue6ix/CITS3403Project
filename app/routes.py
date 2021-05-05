@@ -3,15 +3,14 @@ from flask import render_template, flash, redirect
 from flask_login import current_user, login_user, logout_user
 from flask import url_for
 from app import app, db
-from app.models import User
+from app.models import User, Module, Activity
 from .forms import LoginForm, RegistrationForm
 
 @app.route("/")
 @app.route("/index")
 def index():
     #change username to dynamically update for different users
-    user = {'username': 'Jordan'}
-    return render_template('home.html', user=user)
+    return render_template('home.html')
 
 @app.route("/problem")
 def problem():
@@ -46,6 +45,11 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash('Successfully registered.')
+
+        # Generate UserActivities for modules that have no requirements
+        first_module = Module.query.filter_by(dependencies=None).first()
+        first_module.makeUserActivities(user)
+
         return redirect(url_for('login'))
     return render_template('register.html', title="Register", form=form)
 

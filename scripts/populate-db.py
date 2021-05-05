@@ -85,7 +85,9 @@ print("Finished inserting ModuleDependencies")
 # Insert activities
 print("Inserting Activities")
 for module in modules:
-    # e.g resources/modules.yaml -> resources/1-printing
+    module_id = cursor.execute('SELECT id FROM Module WHERE name=?',(module,))
+    module_id = cursor.fetchone()[0]
+    # e.g resources/modules.yaml -> resources/1-1-printing
     folder = arguments[2].replace('modules.yaml', module) 
     if os.path.isdir(folder):
         for activity_file in glob.glob(f"{folder}/*.yaml"):
