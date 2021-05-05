@@ -99,8 +99,8 @@ for module in modules:
                     except yaml.YAMLError as exc:
                         print(exc)
                 print(f"Inserting {module}/{a['name']}")
-                cursor.execute("INSERT INTO Activity(name,title, prompt, answer, solution, question) VALUES (?,?,?,?,?,?)",
-                                (a['name'], a['title'], a['prompt'], a['answer'], a['solution'], a['question']))
+                cursor.execute("INSERT INTO Activity(name,title, prompt, answer, solution, question, module_id) VALUES (?,?,?,?,?,?,?)",
+                                (a['name'], a['title'], a['prompt'], a['answer'], a['solution'], a['question'], module_id))
 print("Finished inserting Activities")
 
 # Insert activity dependencies
