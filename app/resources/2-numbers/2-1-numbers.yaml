@@ -1,7 +1,8 @@
 ---
-name: 1-numbers
+name: 2-1-numbers
 title: Numbers
 requires: 
+  - 1-4-userinput
 prompt: >
   Python is a very simple language that has a very straightforward syntax.
   It encourages programmers to progarm without a lot of boilerplate code.
