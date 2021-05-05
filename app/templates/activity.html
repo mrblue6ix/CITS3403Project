@@ -56,18 +56,25 @@
     
     <h3>Try This</h3> 
     <form> 
-    <textarea id="yourcode" cols="40" rows="10">import turtle
-    
-    t = turtle.Turtle()
-    t.forward(100)
-    
-    print "Hello World" 
+    <textarea id="yourcode" cols="40" rows="10">
+      print("Hello, World!")
     </textarea><br /> 
-    <button type="button" onclick="runit()">Run</button> 
+    <button type="button" onclick="runit()">Run</button>
+    <button type="button" onclick="checkAns()">Check your answer</button> 
     </form> 
-    <pre id="output" ></pre> 
+    <pre id="output" ></pre> <!-- Output from python code is saved in here-->
     <!-- If you want turtle graphics include a canvas -->
     <div id="mycanvas"></div> 
+
+    <script type="text/javascript">
+    function checkAns() { 
+        var userans = document.getElementById("output").innerHTML;
+        if(userans == "Hello, World!"){ //This if statement doesn't work, I can't tell why 
+          alert("Good Job");
+        }
+        console.log(userans)
+    } 
+    </script>
 
 
 
