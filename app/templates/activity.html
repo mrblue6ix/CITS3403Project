@@ -60,7 +60,12 @@
     <form> 
     <textarea id="yourcode" cols="69" rows="10">{% if saved %}{{saved}}{% else %}{{activity.prefill}}{% endif %}</textarea><br /> 
     <button type="button" onclick="runit()">Run</button>
-    <button type="button" onclick="checkAns()">Check your answer</button> 
+    <button type="button" onclick="checkAns()">Submit answer</button> 
+    <button type="button" onclick="save()">Save code</button>
+    <div class="alert alert-success alert-dismissible fade hide" id="save-alert">
+      <button type="button" class="close" data-dismiss="alert">x</button>
+      <b>Saved successfully.</b>
+    </div>
     </form> 
     <pre id="output" ></pre> <!-- Output from python code is saved in here-->
     <!-- If you want turtle graphics include a canvas -->
