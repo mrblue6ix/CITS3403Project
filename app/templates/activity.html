@@ -15,7 +15,6 @@
   <h6 class="mt-4 text-muted">{{module.title}}</h6 >
   <h1>{{activity.title}}</h1>
   <p>{{activity.prompt}}</p>
-  <h2>Activity name: {{activity.name}}</h2>
 
   <script type="text/javascript"> 
     // output functions are configurable.  This one just appends some text
@@ -40,7 +39,7 @@
        var mypre = document.getElementById("output"); 
        mypre.innerHTML = ''; 
        Sk.pre = "output";
-       Sk.configure({output:outf, read:builtinRead}); 
+       Sk.configure({output:outf, read:builtinRead, __future__:Sk.python3}); 
        (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
        var myPromise = Sk.misceval.asyncToPromise(function() {
            return Sk.importMainWithBody("<stdin>", false, prog, true);
@@ -56,7 +55,7 @@
     
     <h3>Try This</h3> 
     <form> 
-    <textarea id="yourcode" cols="40" rows="10">print("Hello, World!") <!-- Get rid of the code so user can write their own-->
+    <textarea id="yourcode" cols="40" rows="10">print("Hello, World!")
     </textarea><br /> 
     <button type="button" onclick="runit()">Run</button>
     <button type="button" onclick="checkAns()">Check your answer</button> 
@@ -67,7 +66,7 @@
 
     <script type="text/javascript">
     function checkAns() { 
-        var userans = document.getElementById("output").innerHTML;
+        var userans = $.trim($("#output").html())
         if(userans == "Hello, World!"){ //This if statement doesn't work, I can't tell why. 
           window.alert("Good Job, go to the next activity");
           //button here on the alrert to go to next activity???
