@@ -1,5 +1,5 @@
 # the routes are the different URLs that the application implements.
-from flask import render_template, flash, redirect
+from flask import render_template, flash, redirect, request
 from flask_login import current_user, login_user, logout_user
 from flask import url_for
 from app import app, db
@@ -18,6 +18,55 @@ def index():
     #change username to dynamically update for different users
     return render_template('home.html')
 
+@app.route("/save/<module_name>/<activity_name>", methods=["POST"])
+def save(module_name, activity_name):
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
+    
+    activity = Activity.query.filter_by(name=activity_name).first()
+    module = Module.query.filter_by(name=module_name).first()
+    if not activity or not module or (activity not in module.activities):
+        # The activity or module does not exist
+        return render_template("errors/500.html")
+    current_user_activity = current_user.get_activity(activity)
+    if not current_user_activity:
+        return render_template("errors/403.html")
+    data = request.form['code']
+    current_user_activity.save_code(data)
+    db.session.commit()
+    return {'saved':True}
+
+# Receive an AJAX request from the browser
+@app.route("/submit/<module_name>/<activity_name>", methods=["POST"])
+def check_answer(module_name, activity_name):
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
+    activity = Activity.query.filter_by(name=activity_name).first()
+    module = Module.query.filter_by(name=module_name).first()
+    if not activity or not module or (activity not in module.activities):
+        # The activity or module does not exist
+        return render_template("errors/500.html")
+    current_user_activity = current_user.get_activity(activity)
+    if not current_user_activity:
+        return render_template("errors/403.html")
+    if current_user_activity.is_completed:
+        return {'message': "You have already completed this activity."}
+
+    data = request.form['answer']
+    # check answer to the activity
+    answer = activity.answer
+    if answer == data:
+        # Answer is correct, unlock all activities that depend on this one.
+        current_user_activity.set_completion(1)
+        unlocked = []
+        for dependency in activity.parent_of:
+            newActivity = dependency.childActivity.makeUserActivity(current_user)
+            unlocked.append(dependency.childActivity.name)
+        db.session.commit()
+        return {"message":activity.solution, "unlocked":unlocked}
+    else:
+        return {'message': 'Wrong answer. Try again!'}
+
 @app.route("/profile")
 def profile():
     if not current_user.is_authenticated:
@@ -34,11 +83,15 @@ def problem(module_name, activity_name):
     if not activity or (activity not in module.activities):
         # The activity does not exist
         return render_template('errors/404.html')
-    if not current_user.has_access(activity):
+    current_user_activity = current_user.get_activity(activity)
+    if not current_user_activity:
         dependencies = [(a.parentActivity.module, a.parentActivity) for a in activity.dependencies]
         return render_template('activity.html', locked=True, dependencies=dependencies)
-    print(current_user.has_access(activity))
-    return render_template('activity.html', activity=activity, module=module)
+
+    saved_code = current_user_activity.saved
+    print(saved_code)
+    return render_template('activity.html', saved=saved_code, activity=activity,
+                    module=module, is_completed=current_user_activity.is_completed)
 
 # logout the user
 @app.route('/logout')
@@ -67,9 +120,10 @@ def register():
         db.session.commit()
         flash('Successfully registered.')
 
-        # Generate UserActivities for modules that have no requirements
-        first_module = Module.query.filter_by(dependencies=None).first()
-        first_module.makeUserActivities(user)
+        # Generate UserActivities for Activities that have no requirements
+        activities = Activity.query.filter_by(dependencies=None).all()
+        for activity in activities: 
+            activity.makeUserActivity(user)
 
         return redirect(url_for('login'))
     return render_template('register.html', title="Register", form=form)
