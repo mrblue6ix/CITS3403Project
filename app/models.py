@@ -32,9 +32,8 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
     
-    def has_access(self, activity):
-        activity_names = [ua.activity.name for ua in self.user_activities]
-        return activity.name in activity_names
+    def get_activity(self, activity):
+        return UserActivity.query.filter_by(user_id=self.id, activity_id=activity.id).first()
 
     #can add more methods here
     #eg. for the example website from lectures, getProject(), getPartners() etc
@@ -48,6 +47,7 @@ class Activity(db.Model):
     answer = db.Column(db.Text)
     solution = db.Column(db.Text)
     question = db.Column(db.Text)
+    prefill = db.Column(db.Text)
 
     module_id = db.Column(db.Integer, db.ForeignKey('module.id'))
     dependencies = db.relationship("ActivityDependency", backref='childActivity', foreign_keys="ActivityDependency.child", lazy=True)
@@ -55,6 +55,17 @@ class Activity(db.Model):
 
     def __repr__(self):
         return f"<Activity {self.name}"
+    
+    # Make a UserActivity for the given user
+    def makeUserActivity(self, user):
+        newUserActivity = UserActivity(user_id=user.id, activity_id=self.id)
+        db.session.add(newUserActivity)
+        db.session.commit()
+        return newUserActivity
+    
+    # Get UserActivity from this activity
+    def getUserActivity(self, user):
+        return UserActivity.filter_by(user_id=user.id, activity_id=self.id).first()
 
 class Module(db.Model):
     __tablename__='module'
@@ -69,16 +80,6 @@ class Module(db.Model):
     dependencies = db.relationship("ModuleDependency", foreign_keys="ModuleDependency.child", lazy=True)
     parent_of = db.relationship("ModuleDependency", foreign_keys="ModuleDependency.parent", lazy=True)
 
-    # Takes a user object and generates UserActivities
-    def makeUserActivities(self, user):
-        for activity in self.activities:
-            print(activity.dependencies)
-            if not activity.dependencies:
-                print(f"Making dependency: {activity}")
-                newUserActivity = UserActivity(user_id=user.id, activity_id=activity.id)
-                db.session.add(newUserActivity)
-        db.session.commit()
-
 class UserActivity(db.Model):
     __tablename__='userActivity'
     user_activity_id = db.Column(db.Integer, primary_key=True)
@@ -86,10 +87,17 @@ class UserActivity(db.Model):
     activity_id = db.Column(db.Integer, db.ForeignKey('activity.id'))
     count_submitted = db.Column(db.Integer)
     is_completed = db.Column(db.Integer)
+    saved = db.Column(db.Text)
 
-    activity = db.relationship("Activity", foreign_keys=[activity_id])
+    activity = db.relationship("Activity",lazy=True, foreign_keys=[activity_id])
     def __repr__(self):
         return f"<UserActivity {self.activity.name}>"
+    
+    def set_completion(self, completion):
+        self.is_completed = completion
+    
+    def save_code(self, code):
+        self.saved = code
 
 class Submission(db.Model):
     __tablename__='submission'
