@@ -2,7 +2,7 @@
 name: 2-1-numbers
 title: Numbers
 requires: 
-  - 1-4-userinput
+  - 1-2-variables
 prompt: >
   Python is a very simple language that has a very straightforward syntax.
   It encourages programmers to progarm without a lot of boilerplate code.
@@ -13,4 +13,5 @@ prompt: >
 question: Write a line of Python code to print out the the string "Hello, world!"
 answer: Hello, world!
 solution: print("Hello, world!")
+prefill:
 ...

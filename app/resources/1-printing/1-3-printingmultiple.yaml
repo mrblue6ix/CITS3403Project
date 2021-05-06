@@ -9,8 +9,10 @@ prompt: >
 
   `print('Harry', 'Potter')`
 
-  prints out `Harry Potter`.
+
+  Try running the code below to see what it does for yourself!
 question:
+prefill: print('Harry', 'Potter')
 answer:
 solution:
 ...

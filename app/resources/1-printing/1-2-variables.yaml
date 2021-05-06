@@ -10,7 +10,13 @@ prompt: >
   `message = "Hello, world!"
   
   print(message)`
-question:
-answer:
-solution:
+question: In the `message` variable, try changing "world" to "Python"
+prefill: >
+  message = "Hello, world!"
+
+  print(message)
+answer: Hello, Python!
+solution: > 
+  Good job. Variables are used heavily in programming to store intermediate results,
+  and to help the programmer understand the code more easily.  
 ...
