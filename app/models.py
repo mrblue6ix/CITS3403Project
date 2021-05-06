@@ -1,13 +1,11 @@
 from datetime import datetime, timedelta
-# Flask provides a mixin class that includes generic implementations for most
-# user model classes.
 from flask_login import UserMixin 
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import login, db
 
-#allows login to get User from db given the id
+# allows login to get User from db given the id
 @login.user_loader
-def load_student(id):
+def load_user(id):
     return User.query.get(int(id))
 
 class User(UserMixin, db.Model):
@@ -23,6 +21,8 @@ class User(UserMixin, db.Model):
     num_correct = db.Column(db.Integer, default=0)
     num_incorrect = db.Column(db.Integer, default=0)
 
+    user_activities = db.relationship("UserActivity", backref='User', lazy=True)
+
     def __repr__(self):
         return f'<User {self.username}>'
 
@@ -31,6 +31,9 @@ class User(UserMixin, db.Model):
     
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+    
+    def get_activity(self, activity):
+        return UserActivity.query.filter_by(user_id=self.id, activity_id=activity.id).first()
 
     #can add more methods here
     #eg. for the example website from lectures, getProject(), getPartners() etc
@@ -38,16 +41,44 @@ class User(UserMixin, db.Model):
 class Activity(db.Model):
     __tablename__='activity'
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, unique=True)
+    title = db.Column(db.Text)
     prompt = db.Column(db.Text) #added some dummy integer columns to test stuff first
     answer = db.Column(db.Text)
     solution = db.Column(db.Text)
     question = db.Column(db.Text)
+    prefill = db.Column(db.Text)
+
+    module_id = db.Column(db.Integer, db.ForeignKey('module.id'))
+    dependencies = db.relationship("ActivityDependency", backref='childActivity', foreign_keys="ActivityDependency.child", lazy=True)
+    parent_of = db.relationship("ActivityDependency", backref='parentActivity', foreign_keys="ActivityDependency.parent", lazy=True)
+
+    def __repr__(self):
+        return f"<Activity {self.name}"
+    
+    # Make a UserActivity for the given user
+    def makeUserActivity(self, user):
+        newUserActivity = UserActivity(user_id=user.id, activity_id=self.id)
+        db.session.add(newUserActivity)
+        db.session.commit()
+        return newUserActivity
+    
+    # Get UserActivity from this activity
+    def getUserActivity(self, user):
+        return UserActivity.filter_by(user_id=user.id, activity_id=self.id).first()
 
 class Module(db.Model):
     __tablename__='module'
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, unique = True)
     title = db.Column(db.Text)
     description = db.Column(db.Text)
+
+    activities = db.relationship("Activity", lazy=True,
+        backref = 'module')
+
+    dependencies = db.relationship("ModuleDependency", foreign_keys="ModuleDependency.child", lazy=True)
+    parent_of = db.relationship("ModuleDependency", foreign_keys="ModuleDependency.parent", lazy=True)
 
 class UserActivity(db.Model):
     __tablename__='userActivity'
@@ -56,6 +87,17 @@ class UserActivity(db.Model):
     activity_id = db.Column(db.Integer, db.ForeignKey('activity.id'))
     count_submitted = db.Column(db.Integer)
     is_completed = db.Column(db.Integer)
+    saved = db.Column(db.Text)
+
+    activity = db.relationship("Activity",lazy=True, foreign_keys=[activity_id])
+    def __repr__(self):
+        return f"<UserActivity {self.activity.name}>"
+    
+    def set_completion(self, completion):
+        self.is_completed = completion
+    
+    def save_code(self, code):
+        self.saved = code
 
 class Submission(db.Model):
     __tablename__='submission'

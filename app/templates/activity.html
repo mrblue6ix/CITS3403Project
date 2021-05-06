@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title %}Question{% endblock %}
+{% block content %}
+  <div class="container-fluid">
+  {% if locked %}
+  <h1 class="mt-4">🔒 This content is locked! 🔒</h1>
+  <p> You must complete the following activites before this one</p>
+  <ul>
+    {% for dependency in dependencies %}
+      <li><a href="/learn/{{dependency[0].name}}/{{dependency[1].name}}">
+        {{dependency[0].title}} - {{dependency[1].title}}</a></li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <h6 class="mt-4 text-muted">{{module.title}}</h6 >
+  <h1>{{activity.title}}</h1>
+  {{activity.prompt | safe }}
+
+  {% if activity.question %}
+    <h3 id="your-task">Your task {% if is_completed %} <i class="fas fa-check-circle"></i> {% endif %}</h3>
+    {{activity.question | safe}}
+  {% endif %}
+  <script type="text/javascript"> 
+    // output functions are configurable.  This one just appends some text
+    // to a pre element.
+    function outf(text) { 
+        var mypre = document.getElementById("output"); 
+        mypre.innerHTML = mypre.innerHTML + text; 
+    } 
+    function builtinRead(x) {
+        if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+                throw "File not found: '" + x + "'";
+        return Sk.builtinFiles["files"][x];
+    }
+    
+    // Here's everything you need to run a python program in skulpt
+    // grab the code from your textarea
+    // get a reference to your pre element for output
+    // configure the output function
+    // call Sk.importMainWithBody()
+    function runit() { 
+       var prog = document.getElementById("yourcode").value; 
+       var mypre = document.getElementById("output"); 
+       mypre.innerHTML = ''; 
+       Sk.pre = "output";
+       Sk.configure({output:outf, read:builtinRead, __future__:Sk.python3}); 
+       (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
+       var myPromise = Sk.misceval.asyncToPromise(function() {
+           return Sk.importMainWithBody("<stdin>", false, prog, true);
+       });
+       myPromise.then(function(mod) {
+           console.log('success');
+       },
+           function(err) {
+           console.log(err.toString());
+       });
+    } 
+    </script> 
+    
+    <form> 
+    <textarea id="yourcode" cols="69" rows="10">{% if saved %}{{saved}}{% else %}{{activity.prefill}}{% endif %}</textarea><br /> 
+    <button type="button" onclick="runit()">Run</button>
+    <button type="button" onclick="checkAns()">Submit answer</button> 
+    <button type="button" onclick="save()">Save code</button>
+    <div class="alert alert-success alert-dismissible fade hide" id="save-alert">
+      <button type="button" class="close" data-dismiss="alert">x</button>
+      <b>Saved successfully.</b>
+    </div>
+    </form> 
+    <pre id="output" ></pre> <!-- Output from python code is saved in here-->
+    <!-- If you want turtle graphics include a canvas -->
+    <div id="mycanvas"></div> 
+
+    <script type="text/javascript">
+    function checkAns() { 
+        // Save the code
+        var user_code = $("#yourcode").val()
+        $.post('/save/{{module.name}}/{{activity.name}}',{
+          code:user_code
+        }, function (data, status){
+          console.log(data)
+          if ("saved" in data){
+            $("#save-alert").fadeTo(2000, 500).slideUp(500, function() {
+              $("#save-alert").slideUp(500);
+            })
+          }
+        })
+        // Submit the code
+        var userans = $.trim($("#output").html())
+        $.post("/submit/{{module.name}}/{{activity.name}}", {
+          answer: userans
+        }, function(data, status){
+          alert(data['message'])
+          if ("unlocked" in data) {
+            // We were successful! display unlocked content
+            $("#your-task").append("<i class='fas fa-check-circle'></i>")
+          }
+        }).fail(function(err, status){
+          // something went wrong
+          console.log(err)
+        })
+
+    }
+    
+    function save() {
+      var user_code = $("#yourcode").val()
+      $.post('/save/{{module.name}}/{{activity.name}}',{
+        code:user_code
+      }, function (data, status){
+        console.log(data)
+        if ("saved" in data){
+          $("#save-alert").fadeTo(2000, 500).slideUp(500, function() {
+            $("#save-alert").slideUp(500);
+          })
+        }
+      })
+    }
+
+    </script>
+
+
+
+  
+  </div>
+  {% endif %}
+  <script src="{{ url_for('static',filename='js/skulpt.min.js') }}" type="text/javascript"></script>
+  <script src="{{ url_for('static',filename='js/skulpt-stdlib.js') }}" type="text/javascript"></script>
+{% endblock %}

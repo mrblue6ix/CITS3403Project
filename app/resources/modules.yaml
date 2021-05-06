@@ -1,0 +1,21 @@
+---
+1-printing:
+  requires:
+  title: Printing in Python
+  description: For our first Python module, we will learn how to output to the terminal.
+2-numbers:
+  requires:
+    - 1-printing
+  title: Numbers
+  description: In this module, we will learn how to work with numbers in Python
+3-strings:
+  requires:
+    - 2-numbers
+  title: Strings
+  description: In this module, we will learn how to manipulate strings.
+4-lists:
+  requires:
+    - 3-strings
+  title: Lists
+  description: We will learn how to use lists.
+...

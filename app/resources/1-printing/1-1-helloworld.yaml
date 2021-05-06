@@ -1,0 +1,24 @@
+---
+name: 1-1-helloworld
+title: Hello, world!
+requires: 
+prompt: >
+  Python is a very simple language that has a very straightforward syntax.
+  It encourages programmers to program without a lot of boilerplate code.
+  One example of this is the `print` function - it simply prints out a line.
+
+
+  To print a string in Python 3, we can write:
+
+  `print("This line will be printed")` 
+
+  
+  You can use the prompt below to run the code. Try pressing "Run" below.
+question: >
+  Write a line of Python code to print out the the string "Hello, world!".
+  When you think you are done, press the "Submit" button. 
+prefill: print("This line will be printed")
+answer: Hello, world!
+solution: > 
+  Well done! You have completed your first exercise and are officially a programmer!
+...
