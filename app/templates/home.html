@@ -12,7 +12,8 @@
     {% if current_user.is_authenticated %}
     <h2>Hello, {{ current_user.firstname }}</h2>
     {% else %}
-    <h2>Please login.</h2>
+    <h2>Please <a href="{{url_for('login')}}">Login</a> or <a href="{{url_for('register')}}">Register</a>.</h2>
+    
     {% endif %}
   </div>
 {% endblock %}
