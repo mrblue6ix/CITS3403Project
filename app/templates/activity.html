@@ -14,8 +14,12 @@
   {% else %}
   <h6 class="mt-4 text-muted">{{module.title}}</h6 >
   <h1>{{activity.title}}</h1>
-  <p>{{activity.prompt}}</p>
+  {{activity.prompt | safe }}
 
+  {% if activity.question %}
+    <h3 id="your-task">Your task {% if is_completed %} <i class="fas fa-check-circle"></i> {% endif %}</h3>
+    {{activity.question | safe}}
+  {% endif %}
   <script type="text/javascript"> 
     // output functions are configurable.  This one just appends some text
     // to a pre element.
@@ -53,10 +57,8 @@
     } 
     </script> 
     
-    <h3>Try This</h3> 
     <form> 
-    <textarea id="yourcode" cols="40" rows="10">print("Hello, World!")
-    </textarea><br /> 
+    <textarea id="yourcode" cols="69" rows="10">{% if saved %}{{saved}}{% else %}{{activity.prefill}}{% endif %}</textarea><br /> 
     <button type="button" onclick="runit()">Run</button>
     <button type="button" onclick="checkAns()">Check your answer</button> 
     </form> 
@@ -66,14 +68,49 @@
 
     <script type="text/javascript">
     function checkAns() { 
+        // Save the code
+        var user_code = $("#yourcode").val()
+        $.post('/save/{{module.name}}/{{activity.name}}',{
+          code:user_code
+        }, function (data, status){
+          console.log(data)
+          if ("saved" in data){
+            $("#save-alert").fadeTo(2000, 500).slideUp(500, function() {
+              $("#save-alert").slideUp(500);
+            })
+          }
+        })
+        // Submit the code
         var userans = $.trim($("#output").html())
-        if(userans == "Hello, World!"){ //This if statement doesn't work, I can't tell why. 
-          window.alert("Good Job, go to the next activity");
-          //button here on the alrert to go to next activity???
+        $.post("/submit/{{module.name}}/{{activity.name}}", {
+          answer: userans
+        }, function(data, status){
+          alert(data['message'])
+          if ("unlocked" in data) {
+            // We were successful! display unlocked content
+            $("#your-task").append("<i class='fas fa-check-circle'></i>")
+          }
+        }).fail(function(err, status){
+          // something went wrong
+          console.log(err)
+        })
+
+    }
+    
+    function save() {
+      var user_code = $("#yourcode").val()
+      $.post('/save/{{module.name}}/{{activity.name}}',{
+        code:user_code
+      }, function (data, status){
+        console.log(data)
+        if ("saved" in data){
+          $("#save-alert").fadeTo(2000, 500).slideUp(500, function() {
+            $("#save-alert").slideUp(500);
+          })
         }
-        console.log(userans);
-        //put code here to let user go on to next activity
-    } 
+      })
+    }
+
     </script>
 
 
