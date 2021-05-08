@@ -41,7 +41,7 @@
               <a class="btn collapsed dropdown-toggle" role="button" data-toggle="collapse" data-target="#id{{module.name}}" aria-expanded="false" aria-controls="id{{module.name}}">
                 {{module.title}}
               </a>
-              <div class="collapse" id="id{{module.name}}" style>
+              <div class="collapse sidebar-option" id="id{{module.name}}" style>
                 <ol>
                 {% for activity in module.activities|sort(attribute='name')%}
                   <li><a href="/learn/{{module.name}}/{{activity.name}}">
@@ -135,6 +135,7 @@
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
     });
+
   </script>
 
 </body>

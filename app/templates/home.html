@@ -11,14 +11,13 @@
         If not then do form rendering for login/register-->
     {% if current_user.is_authenticated %}
     <h2>Hello, {{ current_user.firstname }}</h2>
-    <p>{{current_user.user_activities}}</p>
     <div class="row">
     {% for module in modules %}
       <div class="col-auto mb-3">
         <div class="card h-100" style="width: 20rem;">
           <div class="card-body">
             <h5 class="card-title">{{module.title}}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Subtitle</h6>
+            <h6 class="card-subtitle mb-2 text-muted">{{module.name}}</h6>
             <p class="card-text">{{module.description}}</p>
             <ol>
               {% for activity in module.activities|sort(attribute='name') %}
@@ -26,8 +25,12 @@
                     {{activity.title}}
                     {% if activity.getUserActivity(current_user).is_completed %}
                       <i class="fas fa-check-circle"></i>
+                    {% elif activity.getUserActivity(current_user) is none %}
+                      <i class="fas fa-lock"></i>
                     {% elif activity.question is none %}
                       <i class="fas fa-info-circle"></i>
+                    {% else %}
+                      <i class="fas fa-chevron-left"></i>
                     {% endif %}
                   </a>
                   </li>

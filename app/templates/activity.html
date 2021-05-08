@@ -67,7 +67,7 @@
           <form> 
           <textarea id="yourcode" class="form-control" rows=15>{% if saved %}{{saved}}{% else %}{{activity.prefill}}{% endif %}</textarea><br /> 
           <button type="button" onclick="runit()">Run</button>
-          <button type="button" onclick="checkAns()">Submit answer</button> 
+          <button type="button" onclick="checkAns()" {% if activity.question is none %}disabled{% endif %}>Submit answer</button> 
           <button type="button" onclick="save()">Save code</button>
           <div class="alert alert-success alert-dismissible fade hide" id="save-alert">
             <button type="button" class="close" data-dismiss="alert">x</button>
@@ -129,8 +129,6 @@
     }
 
   </script>
-
-
 
   
   </div>
