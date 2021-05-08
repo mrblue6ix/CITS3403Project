@@ -18,8 +18,6 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.Text, nullable=False)
     total_submissions = db.Column(db.Integer, default=0)
     lines_of_code = db.Column(db.Integer, default=0)
-    num_correct = db.Column(db.Integer, default=0)
-    num_incorrect = db.Column(db.Integer, default=0)
 
     user_activities = db.relationship("UserActivity", backref='User', lazy=True)
 
@@ -33,7 +31,15 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
     
     def get_activity(self, activity):
-        return UserActivity.query.filter_by(user_id=self.id, activity_id=activity.id).first()
+        if isinstance(activity, Activity):
+            return UserActivity.query.filter_by(user_id=self.id, activity_id=activity.id).first()
+    
+    def submit_one(self):
+        self.total_submissions += 1
+    
+    def add_loc(self, loc):
+        if isinstance(loc, int) and 0 < loc < 10000:
+            self.lines_of_code += loc
 
     #can add more methods here
     #eg. for the example website from lectures, getProject(), getPartners() etc
