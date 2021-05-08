@@ -124,6 +124,7 @@ def register():
         activities = Activity.query.filter_by(dependencies=None).all()
         for activity in activities: 
             activity.makeUserActivity(user)
+        db.session.commit()
 
         return redirect(url_for('login'))
     return render_template('register.html', title="Register", form=form)

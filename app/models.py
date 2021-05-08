@@ -65,7 +65,7 @@ class Activity(db.Model):
     
     # Get UserActivity from this activity
     def getUserActivity(self, user):
-        return UserActivity.filter_by(user_id=user.id, activity_id=self.id).first()
+        return UserActivity.query.filter_by(user_id=user.id, activity_id=self.id).first()
 
 class Module(db.Model):
     __tablename__='module'

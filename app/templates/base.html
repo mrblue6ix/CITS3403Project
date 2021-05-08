@@ -16,7 +16,8 @@
   <link rel="stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
- 
+
+  {% block head %}{% endblock %}
 
 </head>
 
@@ -35,17 +36,25 @@
         <a href="/register" class="list-group-item list-group-item-action bg-light">Register</a>
         <a href="/login" class="list-group-item list-group-item-action bg-light">Login</a>
         {% else %}
-          <li class="list-group-item">Activities</li>
           {% for module in modules %}
-            <div class="list-group-item px-0">
-              <a class="btn collapsed" role="button" data-toggle="collapse" data-target="#id{{module.name}}" aria-expanded="true">
+            <div class="list-group-item list-group-item-action bg-light">
+              <a class="btn collapsed dropdown-toggle" role="button" data-toggle="collapse" data-target="#id{{module.name}}" aria-expanded="false" aria-controls="id{{module.name}}">
                 {{module.title}}
               </a>
-              <div class="collapse show" id="id{{module.name}}" style>
+              <div class="collapse" id="id{{module.name}}" style>
                 <ol>
                 {% for activity in module.activities|sort(attribute='name')%}
                   <li><a href="/learn/{{module.name}}/{{activity.name}}">
                     {{activity.title}}
+                    {% if activity.getUserActivity(current_user).is_completed %}
+                      <i class="fas fa-check-circle"></i>
+                    {% elif activity.getUserActivity(current_user) is none %}
+                      <i class="fas fa-lock"></i>
+                    {% elif activity.question is none %}
+                      <i class="fas fa-info-circle"></i>
+                    {% else %}
+                      <i class="fas fa-chevron-left"></i>
+                    {% endif %}
                   </a>
                   </li>
                 {% endfor %}

@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Question{% endblock %}
+{{ url_for('static',filename='styles/style.css') }}
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='styles/codemirror.css')}}">
+<script src="{{url_for('static', filename='js/codemirror.js')}}"></script>
+{% endblock %}
 {% block content %}
   <div class="container-fluid">
   {% if locked %}
@@ -57,23 +62,31 @@
     } 
     </script> 
     
-    <form> 
-    <textarea id="yourcode" cols="69" rows="10">{% if saved %}{{saved}}{% else %}{{activity.prefill}}{% endif %}</textarea><br /> 
-    <button type="button" onclick="runit()">Run</button>
-    <button type="button" onclick="checkAns()">Submit answer</button> 
-    <button type="button" onclick="save()">Save code</button>
-    <div class="alert alert-success alert-dismissible fade hide" id="save-alert">
-      <button type="button" class="close" data-dismiss="alert">x</button>
-      <b>Saved successfully.</b>
+     <div class="row">
+        <div class="col-sm">
+          <form> 
+          <textarea id="yourcode" class="form-control" rows=15>{% if saved %}{{saved}}{% else %}{{activity.prefill}}{% endif %}</textarea><br /> 
+          <button type="button" onclick="runit()">Run</button>
+          <button type="button" onclick="checkAns()">Submit answer</button> 
+          <button type="button" onclick="save()">Save code</button>
+          <div class="alert alert-success alert-dismissible fade hide" id="save-alert">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <b>Saved successfully.</b>
+          </div>
+          </form> 
+        </div>
+        <div class="col-sm">
+          <pre id="output" ></pre> <!-- Output from python code is saved in here-->
+        </div>
     </div>
-    </form> 
-    <pre id="output" ></pre> <!-- Output from python code is saved in here-->
     <!-- If you want turtle graphics include a canvas -->
     <div id="mycanvas"></div> 
 
     <script type="text/javascript">
     function checkAns() { 
-        // Save the code
+        // Run the code
+        runit();
+        // Save the code  
         var user_code = $("#yourcode").val()
         $.post('/save/{{module.name}}/{{activity.name}}',{
           code:user_code
@@ -85,7 +98,6 @@
             })
           }
         })
-        // Submit the code
         var userans = $.trim($("#output").html())
         $.post("/submit/{{module.name}}/{{activity.name}}", {
           answer: userans
@@ -116,7 +128,7 @@
       })
     }
 
-    </script>
+  </script>
 
 
 

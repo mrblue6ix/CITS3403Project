@@ -34,7 +34,7 @@ div.card.profile {
 
 #sidebar-wrapper {
   min-height: 100vh;
-  margin-left: -10rem;
+  margin-left: -15rem;
   -webkit-transition: margin .25s ease-out;
   -moz-transition: margin .25s ease-out;
   -o-transition: margin .25s ease-out;
@@ -47,7 +47,7 @@ div.card.profile {
 }
 
 #sidebar-wrapper .list-group {
-  width: 10rem;
+  width: 15rem;
 }
 
 #page-content-wrapper {
@@ -69,6 +69,6 @@ div.card.profile {
   }
 
   #wrapper.toggled #sidebar-wrapper {
-    margin-left: -10rem;
+    margin-left: -15rem;
   }
 }
