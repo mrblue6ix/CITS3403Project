@@ -12,7 +12,6 @@ prompt: >
 
   `print("This line will be printed")` 
 
-  
   You can use the prompt below to run the code. Try pressing "Run" below.
 question: >
   Write a line of Python code to print out the the string "Hello, world!".

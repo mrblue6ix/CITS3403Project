@@ -5,14 +5,14 @@ requires:
 title: Printing multiple things
 prompt: >
   We can use the `print()` function to print multiple things at once.
-  For example:
+  This can be done in a number of ways, as seen below:
+  `1. print('Harry', 'Potter')
+  2. print('Harry Potter')
+  3. firstName, secondName = 'Harry', 'Potter'
+  print(firstName + ' ' + secondName)
 
-  `print('Harry', 'Potter')`
-
-
-  Try running the code below to see what it does for yourself!
-question:
+question: Try printing the string 'Harry Potter' using a variety of methods.
 prefill: print('Harry', 'Potter')
-answer:
-solution:
+answer: Harry Potter
+solution: 
 ...
