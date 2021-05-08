@@ -12,9 +12,34 @@
     {% if current_user.is_authenticated %}
     <h2>Hello, {{ current_user.firstname }}</h2>
     <p>{{current_user.user_activities}}</p>
+    <div class="row">
+    {% for module in modules %}
+      <div class="col-auto mb-3">
+        <div class="card h-100" style="width: 20rem;">
+          <div class="card-body">
+            <h5 class="card-title">{{module.title}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Subtitle</h6>
+            <p class="card-text">{{module.description}}</p>
+            <ol>
+              {% for activity in module.activities|sort(attribute='name') %}
+                  <li><a href="/learn/{{module.name}}/{{activity.name}}">
+                    {{activity.title}}
+                    {% if activity.getUserActivity(current_user).is_completed %}
+                      <i class="fas fa-check-circle"></i>
+                    {% elif activity.question is none %}
+                      <i class="fas fa-info-circle"></i>
+                    {% endif %}
+                  </a>
+                  </li>
+              {% endfor %}
+            </ol>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
     {% else %}
     <h2>Please <a href="{{url_for('login')}}">Login</a> or <a href="{{url_for('register')}}">Register</a>.</h2>
-    
     {% endif %}
   </div>
 {% endblock %}
