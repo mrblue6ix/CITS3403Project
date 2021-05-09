@@ -7,10 +7,10 @@ prompt: >
   Variables are a way we can store a value in memory so we can access it later.
   For example, if we wanted to print a variable we could write:
 
-  `variable = "I'm printable!"
-  
-  print(variable)`
-question: In the `message` variable, try printing out the variable 'message'
+  `variable = "I'm printable!"`
+
+  `print(variable)`
+question: Try printing "Hello, world!" using the `message` variable.
 prefill: >
   message = "Hello, world!"
 answer: Hello, world!
