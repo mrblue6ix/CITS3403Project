@@ -44,18 +44,21 @@
             <span id='savealert'>Saved</span>
           </div>
       </div>
-      <div class="row mb-1">
+
+      <div class="row mb-2">
         <div class="col-md-6">
           <form> 
           <textarea id="yourcode" class="form-control" rows=15>{% if saved %}{{saved}}{% else %}{{activity.prefill}}{% endif %}</textarea><br /> 
           </form> 
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 termynal-output">
           <div id="termynal" data-termynal>
-            <span id="output" ></span> <!-- Output from python code is saved in here-->
+            <div id="output" class="scroll"></div> <!-- Output from python code is saved in here-->
           </div>
         </div>
       </div>
+
+
     </div>
     <!-- If you want turtle graphics include a canvas -->
     <div id="mycanvas"></div> 
@@ -64,6 +67,7 @@
 {% endblock %}
 
 {% block scripts %}
+  {% if not locked %}
     <script type="text/javascript">
     // Global codeMirror Editor
     var codeMirror;
@@ -117,16 +121,27 @@
         $.post('/save/{{module.name}}/{{activity.name}}',{
           code:user_code
         }, function (data, status){
-          console.log(data)
+          console.log("Saved successfully")
         })
         var userans = $.trim($("#output").text())
         $.post("/submit/{{module.name}}/{{activity.name}}", {
-          answer: userans
+          answer: userans,
+          code: user_code
         }, function(data, status){
-          alert(data['message'])
           if ("unlocked" in data) {
             // We were successful! display unlocked content
+            $("#solution").html(data['message'])
+            $("#solution-row").show()
             $("#your-task").append("<i class='fas fa-check-circle'></i>")
+            var html = 'You have unlocked the following activities:<ul>';
+            for (const x of data['unlocked'].sort()) {
+              html += '<li><a href="/learn/'+x[1]+'">'+x[0]+'</a></li>'
+            }
+            html += '</ul>'
+            $("#unlocked-modules").html(html);
+            $("#unlocked-modules").show();
+          } else {
+            alert(data['message']);
           }
         }).fail(function(err, status){
           // something went wrong
@@ -140,13 +155,20 @@
       $.post('/save/{{module.name}}/{{activity.name}}',{
         code:user_code
       }, function (data, status){
-        console.log(data)
         if ("saved" in data){
           $("#savealert").fadeIn(500, function(){
             $(this).delay(2000).fadeOut(500);
           })
         }
       })
+    }
+
+    function reset(){
+      if (confirm("Reset back to original code?")){
+        $.get('/reset/{{module.name}}/{{activity.name}}', function(data, status){
+          codeMirror.setValue(data);
+        })
+      }
     }
 
     // Auto-save code every 20 seconds
