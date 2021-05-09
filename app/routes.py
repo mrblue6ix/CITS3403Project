@@ -5,6 +5,8 @@ from flask import url_for
 from app import app, db
 from app.models import User, Module, Activity
 from .forms import LoginForm, RegistrationForm
+from functools import wraps
+
 
 @app.context_processor
 def inject_navbar():
@@ -18,11 +20,44 @@ def index():
     #change username to dynamically update for different users
     return render_template('home.html')
 
+@app.route("/reset/<module_name>/<activity_name>")
+def reset(module_name, activity_name):
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
+    activity = Activity.query.filter_by(name=activity_name).first()
+    module = Module.query.filter_by(name=module_name).first()
+    if not activity or not module or (activity not in module.activities):
+        # The activity or module does not exist
+        return render_template("errors/500.html")
+    current_user_activity = current_user.get_activity(activity)
+    if not current_user_activity:
+        return render_template("errors/403.html")
+    return activity.prefill;  
+
+@app.route('/stats/<module_name>/<activity_name>')
+def stats(module_name, activity_name):
+    if not current_user.is_authenticated or not current_user.is_admin:
+        return redirect(url_for("index"))
+    activity = Activity.query.filter_by(name=activity_name).first()
+    module = Module.query.filter_by(name=module_name).first()
+    stats = []
+    stats.append(("Times this activity has been submitted", activity.times_submitted))
+    stats.append(("Times this activity has been answered correctly", activity.times_right))
+    if activity.times_submitted == 0:
+        p_right = 0
+    else:
+        p_right = activity.times_right/activity.times_submitted * 100
+    stats.append(("% correct", p_right))
+    num_unique = User.query.filter(User.user_activities.any(activity_id=activity.id)).count()
+    stats.append(("Unique users tried this activity",num_unique))
+
+    return render_template('admin_activity.html', stats=stats, activity=activity)
+
+
 @app.route("/save/<module_name>/<activity_name>", methods=["POST"])
 def save(module_name, activity_name):
     if not current_user.is_authenticated:
         return redirect(url_for("login"))
-    
     activity = Activity.query.filter_by(name=activity_name).first()
     module = Module.query.filter_by(name=module_name).first()
     if not activity or not module or (activity not in module.activities):
@@ -55,7 +90,7 @@ def check_answer(module_name, activity_name):
 
     # check answer to the activity
     user_answer = request.form['answer'].strip()
-    code = current_user_activity.saved
+    code = request.form['code'].strip()
     answer = activity.answer
     current_user.submit_one()
     if user_answer == answer:
@@ -64,8 +99,9 @@ def check_answer(module_name, activity_name):
         current_user.add_loc(len(code.split("\n")))
         unlocked = []
         for dependency in activity.parent_of:
-            newActivity = dependency.childActivity.makeUserActivity(current_user)
-            unlocked.append(dependency.childActivity.name)
+            child = dependency.childActivity
+            newActivity = child.makeUserActivity(current_user)
+            unlocked.append((child.title, child.module.name+"/"+child.name))
         db.session.commit()
         return {"message":activity.solution, "unlocked":unlocked}
     else:
@@ -78,9 +114,11 @@ def profile():
     return render_template('profile.html', user=current_user)
 
 @app.route("/learn/<module_name>/<activity_name>")
-def problem(module_name, activity_name):
+def learn(module_name, activity_name):
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
+    if current_user.is_admin:
+        return redirect(url_for('stats', module_name=module_name, activity_name=activity_name))
     # Does the user have permission to access this activity?
     activity = Activity.query.filter_by(name=activity_name).first()
     module = Module.query.filter_by(name=module_name).first()

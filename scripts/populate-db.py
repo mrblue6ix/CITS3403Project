@@ -22,7 +22,6 @@ if len(arguments) < 3:
 conn = sqlite3.connect(arguments[1])
 cursor = conn.cursor()
 
-
 def toHtml(activity):
     if activity['prompt']:
         activity['prompt'] = markdown.markdown(activity['prompt'], extensions=['nl2br'])
@@ -91,6 +90,8 @@ for module in modules:
                 cursor.execute("INSERT INTO Activity(name,title, prompt, prefill, answer, solution, question, module_id) VALUES (?,?,?,?,?,?,?,?)",
                                 (a['name'], a['title'], a['prompt'], a['prefill'],
                                  a['answer'], a['solution'], a['question'], module_id))
+cursor.execute("UPDATE Activity SET times_submitted=0")
+cursor.execute("UPDATE Activity SET times_right=0")
 print("Finished inserting Activities")
 
 # Insert activity dependencies

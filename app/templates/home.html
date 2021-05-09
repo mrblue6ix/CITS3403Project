@@ -2,15 +2,17 @@
 {% block title %}Homepage{% endblock %}
 {% block content %}
   <div class="container-fluid">
-  <h1 class="mt-4">Homepage</h1>
-  <p>This will be the homepage where users can either see their current status or have a link to create an account</p>
   <!-- If logged in, show stats of account
         If not logged in, show create account/log in button
         (Page 8, flask lecture)-->
+
     <!-- If user.logged_in then display Hello, name, and stats...
         If not then do form rendering for login/register-->
     {% if current_user.is_authenticated %}
-    <h2>Hello, {{ current_user.firstname }}</h2>
+    <h1 class="mt-4">Welcome, {{current_user.firstname}}</h1>
+    <p>LearnPython is an interative tutorial website where anybody can learn how to program in Python.</p>
+      <p>Just click on the activity you would like to get started on and follow the instructions. </p>
+      <p>Good luck!</p>
     <div class="row">
     {% for module in modules %}
       <div class="col-auto mb-3">
