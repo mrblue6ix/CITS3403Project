@@ -38,7 +38,7 @@
         {% else %}
           {% for module in modules %}
             <div class="list-group-item list-group-item-action bg-light">
-              <a class="btn collapsed dropdown-toggle" role="button" data-toggle="collapse" data-target="#id{{module.name}}" aria-expanded="false" aria-controls="id{{module.name}}">
+              <a class="module btn collapsed dropdown-toggle" role="button" data-toggle="collapse" data-target="#id{{module.name}}" aria-expanded="false" aria-controls="id{{module.name}}">
                 {{module.title}}
               </a>
               <div class="collapse sidebar-option" id="id{{module.name}}" style>
@@ -136,7 +136,29 @@
       $("#wrapper").toggleClass("toggled");
     });
 
+    $(".collapse").on('shown.bs.collapse', function(e) {
+      // This module sidebar item is open
+      var id = $(this).attr('id');
+      sessionStorage.setItem(id, true);
+    })
+    $(".collapse").on('hidden.bs.collapse', function(e) {
+      // This module sidebar item is closed
+      var id = $(this).attr('id');
+      sessionStorage.setItem(id, false);
+    })
+
+    $(document).ready(function (){
+      // Iterate over sessionStorage items
+      for (var i = 0; i < sessionStorage.length; i++){
+        var key = sessionStorage.key(i);
+        if (sessionStorage.getItem(key) == "true"){
+          $("#"+key).addClass("show");
+          console.log(key)
+        }
+      }
+    })
   </script>
+  {% block scripts %}{% endblock %}
 
 </body>
 </html>

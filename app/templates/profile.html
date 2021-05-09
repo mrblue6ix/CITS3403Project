@@ -6,6 +6,8 @@
     <div class="card-body">
         <p><b>Username</b>: {{current_user.username}}</p>
         <p><b>Email</b>: {{current_user.email}}</p>
+        <p><b>Total lines of code submitted: </b>{{current_user.lines_of_code}}</p>
+        <p><b>Total number of submissions: </b>{{current_user.total_submissions}}</p>
         <a href="{{url_for('index')}}" class="btn btn-primary">Go somewhere</a>
 
     </div>

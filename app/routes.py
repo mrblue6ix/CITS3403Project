@@ -49,15 +49,19 @@ def check_answer(module_name, activity_name):
     current_user_activity = current_user.get_activity(activity)
     if not current_user_activity:
         return render_template("errors/403.html")
+
     if current_user_activity.is_completed:
         return {'message': "You have already completed this activity."}
 
-    data = request.form['answer']
     # check answer to the activity
+    user_answer = request.form['answer'].strip()
+    code = current_user_activity.saved
     answer = activity.answer
-    if answer == data:
+    current_user.submit_one()
+    if user_answer == answer:
         # Answer is correct, unlock all activities that depend on this one.
         current_user_activity.set_completion(1)
+        current_user.add_loc(len(code.split("\n")))
         unlocked = []
         for dependency in activity.parent_of:
             newActivity = dependency.childActivity.makeUserActivity(current_user)

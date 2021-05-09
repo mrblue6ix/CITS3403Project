@@ -23,7 +23,7 @@ conn = sqlite3.connect(arguments[1])
 cursor = conn.cursor()
 
 
-def toMarkdown(activity):
+def toHtml(activity):
     if activity['prompt']:
         activity['prompt'] = markdown.markdown(activity['prompt'], extensions=['nl2br'])
     if activity['question']:
@@ -84,7 +84,7 @@ for module in modules:
                     try:
                         a = yaml.safe_load(activity)
                         # Convert from Markdown to HTML
-                        a = toMarkdown(a)
+                        a = toHtml(a)
                     except yaml.YAMLError as exc:
                         print(exc)
                 print(f"Inserting {module}/{a['name']}")
