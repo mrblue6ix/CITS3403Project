@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Admin statistics{% endblock %}
+{{ url_for('static',filename='styles/style.css') }}
+
+{% block content %}
+
+<div class="container-fluid mb-4">
+    <h1 class="mt-4">{{activity.title}} stats</h1>
+    {% if stats %}
+    <table>
+        {% for stat in stats %}
+        <tr>
+            <td>{{stat[0]}}</td>
+            <td>{{stat[1]}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+
+{% endblock %}
