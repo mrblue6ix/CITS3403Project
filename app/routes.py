@@ -5,6 +5,8 @@ from flask import url_for
 from app import app, db
 from app.models import User, Module, Activity
 from .forms import LoginForm, RegistrationForm
+from functools import wraps
+
 
 @app.context_processor
 def inject_navbar():
@@ -17,6 +19,20 @@ def inject_navbar():
 def index():
     #change username to dynamically update for different users
     return render_template('home.html')
+
+@app.route("/reset/<module_name>/<activity_name>")
+def reset(module_name, activity_name):
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
+    activity = Activity.query.filter_by(name=activity_name).first()
+    module = Module.query.filter_by(name=module_name).first()
+    if not activity or not module or (activity not in module.activities):
+        # The activity or module does not exist
+        return render_template("errors/500.html")
+    current_user_activity = current_user.get_activity(activity)
+    if not current_user_activity:
+        return render_template("errors/403.html")
+    return activity.prefill;  
 
 @app.route('/stats/<module_name>/<activity_name>')
 def stats(module_name, activity_name):
