@@ -18,11 +18,30 @@ def index():
     #change username to dynamically update for different users
     return render_template('home.html')
 
+@app.route('/stats/<module_name>/<activity_name>')
+def stats(module_name, activity_name):
+    if not current_user.is_authenticated or not current_user.is_admin:
+        return redirect(url_for("index"))
+    activity = Activity.query.filter_by(name=activity_name).first()
+    module = Module.query.filter_by(name=module_name).first()
+    stats = []
+    stats.append(("Times this activity has been submitted", activity.times_submitted))
+    stats.append(("Times this activity has been answered correctly", activity.times_right))
+    if activity.times_submitted == 0:
+        p_right = 0
+    else:
+        p_right = activity.times_right/activity.times_submitted * 100
+    stats.append(("% correct", p_right))
+    num_unique = User.query.filter(User.user_activities.any(activity_id=activity.id)).count()
+    stats.append(("Unique users tried this activity",num_unique))
+
+    return render_template('admin_activity.html', stats=stats, activity=activity)
+
+
 @app.route("/save/<module_name>/<activity_name>", methods=["POST"])
 def save(module_name, activity_name):
     if not current_user.is_authenticated:
         return redirect(url_for("login"))
-    
     activity = Activity.query.filter_by(name=activity_name).first()
     module = Module.query.filter_by(name=module_name).first()
     if not activity or not module or (activity not in module.activities):
@@ -55,7 +74,7 @@ def check_answer(module_name, activity_name):
 
     # check answer to the activity
     user_answer = request.form['answer'].strip()
-    code = current_user_activity.saved
+    code = request.form['code'].strip()
     answer = activity.answer
     current_user.submit_one()
     if user_answer == answer:
