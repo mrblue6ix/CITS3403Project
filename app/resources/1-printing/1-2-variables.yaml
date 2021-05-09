@@ -7,9 +7,9 @@ prompt: >
   Variables are a way we can store a value in memory so we can access it later.
   For example, if we wanted to repeat the previous activity we could write:
 
-  `message = "Hello, world!"
+  `message = "Hello, world!"`
   
-  print(message)`
+  `print(message)`
 question: In the `message` variable, try changing "world" to "Python"
 prefill: >
   message = "Hello, world!"
