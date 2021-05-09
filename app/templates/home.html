@@ -44,7 +44,11 @@
     {% endfor %}
     </div>
     {% else %}
-    <h2>Please <a href="{{url_for('login')}}">Login</a> or <a href="{{url_for('register')}}">Register</a>.</h2>
+    <h1>Welcome!</h1>
+    <p>LearnPython is an interactive website where you can learn the basics of the Python programming language</p>
+    <p>You don't need any prior programming experience to get started.</p>
+    <p>To begin, please login or register an account!</p>
+    <h2>Please <a href="{{url_for('login')}}">login</a> or <a href="{{url_for('register')}}">register</a>.</h2>
     {% endif %}
   </div>
 {% endblock %}
