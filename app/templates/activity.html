@@ -29,21 +29,23 @@
     {{activity.question | safe}}
   {% endif %}
       <div class="row mb-1">
-        <div class="col-sm">
+          <div class="col-lg-12 mh-100">
+            <button type="button" onclick="runit()">Run</button>
+            <button type="button" onclick="checkAns()" {% if activity.question is none %}disabled{% endif %}>Submit answer</button> 
+            <button type="button" onclick="save()">Save code</button>
+            <span id='savealert'>Saved</span>
+          </div>
+      </div>
+      <div class="row mb-1">
+        <div class="col-md-6">
+          <form> 
+          <textarea id="yourcode" class="form-control" rows=15>{% if saved %}{{saved}}{% else %}{{activity.prefill}}{% endif %}</textarea><br /> 
+          </form> 
+        </div>
+        <div class="col-md-6">
           <div id="termynal" data-termynal>
             <span id="output" ></span> <!-- Output from python code is saved in here-->
           </div>
-        </div>
-      </div>
-     <div class="row">
-        <div class="col-sm">
-          <form> 
-          <textarea id="yourcode" class="form-control" rows=15>{% if saved %}{{saved}}{% else %}{{activity.prefill}}{% endif %}</textarea><br /> 
-          <button type="button" onclick="runit()">Run</button>
-          <button type="button" onclick="checkAns()" {% if activity.question is none %}disabled{% endif %}>Submit answer</button> 
-          <button type="button" onclick="save()">Save code</button>
-          <span id='savealert'>Saved</span>
-          </form> 
         </div>
       </div>
     </div>
@@ -55,12 +57,13 @@
 
 {% block scripts %}
     <script type="text/javascript">
+    // Global codeMirror Editor
+    var codeMirror;
     // output functions are configurable.  This one just appends some text
     // to a pre element.
     function outf(text) { 
         var mypre = document.getElementById("output"); 
-        text = text.replace(/(?:\r\n|\r|\n)/g, '<br>');
-        mypre.innerHTML = mypre.innerHTML + text; 
+        mypre.innerText = mypre.innerText+ text; 
     } 
     function builtinRead(x) {
         if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
@@ -76,10 +79,16 @@
     function runit() { 
        var prog = codeMirror.getValue();
        var mypre = document.getElementById("output"); 
+       console.log(mypre)
        mypre.innerHTML = ''; 
        Sk.pre = "output";
-       Sk.configure({output:outf, read:builtinRead, __future__:Sk.python3}); 
-       (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
+       Sk.configure({output:outf,
+         read:builtinRead, __future__:Sk.python3,
+          inputfun: function(str){
+            return window.prompt(str);
+          },
+          inputfunTakesPrompt: true
+        }); 
        var myPromise = Sk.misceval.asyncToPromise(function() {
            return Sk.importMainWithBody("<stdin>", false, prog, true);
        });
@@ -101,13 +110,8 @@
           code:user_code
         }, function (data, status){
           console.log(data)
-          if ("saved" in data){
-            $("#save-alert").fadeTo(2000, 500).slideUp(500, function() {
-              $("#save-alert").slideUp(500);
-            })
-          }
         })
-        var userans = $.trim($("#output").html())
+        var userans = $.trim($("#output").text())
         $.post("/submit/{{module.name}}/{{activity.name}}", {
           answer: userans
         }, function(data, status){
@@ -122,7 +126,7 @@
         })
 
     }
-    
+
     function save() {
       var user_code = codeMirror.getValue()
       $.post('/save/{{module.name}}/{{activity.name}}',{
@@ -141,11 +145,13 @@
     $(document).ready(function(){
       $("#savealert").hide();
       setInterval(save, 20000);
-      var codeMirror = CodeMirror.fromTextArea(document.getElementById("yourcode"), {
+      // Set the global codeMirror object
+      codeMirror = CodeMirror.fromTextArea(document.getElementById("yourcode"), {
         mode:"python",
         lineNumbers: true,
         lineWrapping: true
       })
+
     })
 
   </script>
