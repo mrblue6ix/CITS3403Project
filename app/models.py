@@ -18,6 +18,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.Text, nullable=False)
     total_submissions = db.Column(db.Integer, default=0)
     lines_of_code = db.Column(db.Integer, default=0)
+    is_admin = db.Column(db.Integer, default=0)
 
     user_activities = db.relationship("UserActivity", backref='User', lazy=True)
 
@@ -54,6 +55,12 @@ class Activity(db.Model):
     solution = db.Column(db.Text)
     question = db.Column(db.Text)
     prefill = db.Column(db.Text)
+
+    # statistics
+    # This needs to be server default because they are created manually
+    times_submitted = db.Column(db.Integer, default=0)
+    times_right = db.Column(db.Integer, default=0)
+    # % of of users attempted this 
 
     module_id = db.Column(db.Integer, db.ForeignKey('module.id'))
     dependencies = db.relationship("ActivityDependency", backref='childActivity', foreign_keys="ActivityDependency.child", lazy=True)
