@@ -64,8 +64,9 @@ def check_answer(module_name, activity_name):
         current_user.add_loc(len(code.split("\n")))
         unlocked = []
         for dependency in activity.parent_of:
-            newActivity = dependency.childActivity.makeUserActivity(current_user)
-            unlocked.append(dependency.childActivity.name)
+            child = dependency.childActivity
+            newActivity = child.makeUserActivity(current_user)
+            unlocked.append((child.title, child.module.name+"/"+child.name))
         db.session.commit()
         return {"message":activity.solution, "unlocked":unlocked}
     else:
@@ -78,9 +79,11 @@ def profile():
     return render_template('profile.html', user=current_user)
 
 @app.route("/learn/<module_name>/<activity_name>")
-def problem(module_name, activity_name):
+def learn(module_name, activity_name):
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
+    if current_user.is_admin:
+        return redirect(url_for('stats', module_name=module_name, activity_name=activity_name))
     # Does the user have permission to access this activity?
     activity = Activity.query.filter_by(name=activity_name).first()
     module = Module.query.filter_by(name=module_name).first()
