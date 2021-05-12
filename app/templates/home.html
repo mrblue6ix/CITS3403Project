@@ -9,7 +9,7 @@
     <!-- If user.logged_in then display Hello, name, and stats...
         If not then do form rendering for login/register-->
     {% if current_user.is_authenticated %}
-    <h1 class="mt-4">Welcome, {{current_user.firstname}}</h1>
+    <h1 class="mt-4">Welcome back, {{current_user.firstname}}</h1>
     <p>LearnPython is an interative tutorial website where anybody can learn how to program in Python.</p>
       <p>Just click on the activity you would like to get started on and follow the instructions. </p>
       <p>Good luck!</p>
