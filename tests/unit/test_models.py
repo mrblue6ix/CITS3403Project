@@ -62,13 +62,3 @@ def test_make_user_activity(new_user, new_activity):
     ua.set_completion(1)
     assert ua.is_completed == 1
 
-
-def test_stats(new_user):
-    new_user.loc = 0
-    loc = new_user.lines_of_code
-    new_user.add_loc(10)
-    assert new_user.lines_of_code == loc + 10
-
-    total_submissions = new_user.total_submissions
-    new_user.submit_one()
-    assert new_user.total_submissions == total_submissions + 1

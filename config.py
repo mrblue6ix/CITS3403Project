@@ -10,3 +10,9 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE.URL') or \
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+class TestConfig(object):
+    SECRET_KEY= 'test-secret-ajlsdfkjasd'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE.URL') or \
+        'sqlite:///' + os.path.join(basedir, 'test_app.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False 
