@@ -64,7 +64,7 @@ def test_make_user_activity(new_user, new_activity):
 
 
 def test_stats(new_user):
-    assert new_user.lines_of_code == 0
+    new_user.loc = 0
     loc = new_user.lines_of_code
     new_user.add_loc(10)
     assert new_user.lines_of_code == loc + 10
