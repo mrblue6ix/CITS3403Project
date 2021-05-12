@@ -5,6 +5,7 @@ requires:
 title: Test your skills!
 prompt: >
   It is time to test your skills and see how much you can remember.
+  Write a Python script to print 
 
 
 question:
