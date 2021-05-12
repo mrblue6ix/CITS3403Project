@@ -1,0 +1,36 @@
+---
+name: 4-4-testdictionaries
+title: Test your skills!
+requires: 
+  - 1-1-helloworld
+prompt: >
+  Using your knowledge of dictionaries, perform the following tasks on the dictionary provided below.
+
+
+  Feel free to check on the past sections if you need a refresher.
+question: >
+  1. Add a new entry into `dictionary`, with key = `"Jane"` and value = `312`.
+
+
+  2. Alter the entry with key = `"Greg"` to have its value = `333`.
+
+
+  3. For all entries with a value greater than 400, decrease the entry's value by 200.
+
+
+  4. After that, for all entries whose key is longer than three characters, increase the entry's key by 200.
+
+
+  5. Finally, print out the key with the third greatest value.
+
+
+  If you accidentally modify the given dictionary, press the `Reset` button to restore the original variable (this will remove all other code though).
+prefill: >
+  dictionary = {"Ron":234, "Pat":623, "Greg":127, "Jill":555, "Carl":329, "Carol":357}
+
+  # Perform the set of tasks in the space below.
+
+
+answer: Greg
+solution: Congratulations on completing the dictionary module!
+...
