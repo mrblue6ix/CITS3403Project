@@ -1,0 +1,50 @@
+---
+name: 2-2-datatypes
+title: Data Types
+requires: 
+  - 1-1-helloworld
+prompt: >
+  There are a wide variety of data types in Python, each having different uses and restrictions placed on them. We'll first cover the types you will most often use.
+
+
+  Common data types include:
+
+  - `int`: Your basic integer number that cannot store decimals.
+
+  - `float`: The number type used to store numbers with decimals.
+
+  - `str`: The data type used to store a string of character data. Strings can be delimited using single or double quotes.
+
+  - `bool`: The true or false data type. Often used as a switch to control a Python function.
+
+
+  You can change a variables type by parsing the variable through the type. You do this using functions name after the types, such as int(), float(), str() and so on.
+
+
+  However, be warned! Incorrectly parsing a variable through these functions will throw an error, stopping your Python code in its tracks!
+
+
+  Examples of incorrect type casting include:
+  
+  - `int("12.0")` as the `.` character cannot be parsed
+
+  - `float("abc")` as the string `abc` is not a number
+
+
+  Try having a play with the different data types before moving on. You can use the `type()` function to check what type a variable is.
+question:
+prefill: >
+  exampleInt = 5
+
+  exampleFloat = 27.2
+
+  exampleStr = "Howdy!"
+
+  exampleBool = True
+
+  # Use the given variables above to experiment with different data types.
+
+  print(exampleInt, exampleFloat, exampleStr, exampleBool)
+answer:
+solution:
+...

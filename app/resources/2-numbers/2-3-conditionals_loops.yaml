@@ -1,0 +1,45 @@
+---
+name: 2-3-conditionals_loops
+title: Conditionals and Loops
+requires: 
+  - 1-1-helloworld
+prompt: >
+  Python provides a wide variety of conditional statements and loop operations.
+
+
+  When writing Python programs, many of these functions can be used to reduce visual clutter and automate repetitive tasks.
+
+
+  Examples of common python functions include:
+
+  - `if statement is True`: Used to perform a task if the given statement returns `True`. Can be manipulated to check multiple statements, or to check if a statement is false.
+
+  - `for number in range(lowBound, highBound)`: Used to perform a task iterated over the numbers included in the range of `lowBound` <= `number` < `highBound`
+
+  - `while statement is True`: Similar to `if`, this function performs a task repeatedly till the statement is no longer `True`. Beware possible infinite loops!
+  
+  
+  When using functions, it is necessary to indent the lines of code that the function should be controlling. This will stack, as you see in the example code below.
+question:
+prefill: >
+  exampleInt = 5
+
+  exampleStr = "Howdy!"
+
+  exampleBool = True
+
+  # Use the different variables above to experiment with different functions.
+
+
+  for i in range(0, 3):
+    print("exampleInt + i = " + str(exampleInt + i))
+  
+  while(exampleBool == True):
+    exampleStr += exampleStr[exampleInt]
+    if exampleInt == 0:
+      exampleBool = False
+    exampleInt -= 1
+  print(exampleStr)
+answer:
+solution:
+...

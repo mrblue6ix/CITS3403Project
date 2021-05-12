@@ -1,0 +1,41 @@
+---
+name: 2-1-operations
+title: Operations
+requires: 
+  - 1-1-helloworld
+prompt: >
+  Python provides a wide variety of arithmetic operations for use, including the basics:
+
+  Plus: `+`
+
+  Minus: `-`
+
+  Multiply: `*`
+
+  Divide: `/`
+
+
+  As well as some more advanced operations:
+
+  Integer Divisor: `//` (how many of one number is in another i.e. 65 // 10 = 6)
+
+  Divisor Remainder: `%`  (the remainder after the `//` operation i.e. 65 % 10 = 5)
+
+  Exponent: `**` (the power function i.e. 3 ** 3 = 27)
+
+
+  Test out the different ways you can use operations on the provided variables before moving on.
+question:
+prefill: >
+  a = 10
+
+  b = 2
+
+  c = 5
+
+  # Use the given variables above to experiment with different operations.
+
+  print(a * b * c)
+answer:
+solution:
+...
