@@ -10,8 +10,40 @@
     <!-- If user.logged_in then display Hello, name, and stats...
         If not then do form rendering for login/register-->
     {% if current_user.is_authenticated %}
-    <h2>Hello, {{ current_user.firstname }}</h2>
-    <p>{{current_user.user_activities}}</p>
+    <h1 class="mt-4">Welcome back, {{current_user.firstname}}</h1>
+    <p>LearnPython is an interative tutorial website where anybody can learn how to program in Python.</p>
+      <p>Just click on the activity you would like to get started on and follow the instructions. </p>
+      <p>Good luck!</p>
+    <div class="row">
+    {% for module in modules %}
+      <div class="col-auto mb-3">
+        <div class="card h-100" style="width: 20rem;">
+          <div class="card-body">
+            <h5 class="card-title">{{module.title}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{module.name}}</h6>
+            <p class="card-text">{{module.description}}</p>
+            <ol>
+              {% for activity in module.activities|sort(attribute='name') %}
+                  <li><a href="/learn/{{module.name}}/{{activity.name}}">
+                    {{activity.title}}
+                    {% if activity.getUserActivity(current_user).is_completed %}
+                      <i class="fas fa-check-circle"></i>
+                    {% elif activity.getUserActivity(current_user) is none %}
+                      <i class="fas fa-lock"></i>
+                    {% elif activity.question is none %}
+                      <i class="fas fa-info-circle"></i>
+                    {% else %}
+                      <i class="fas fa-chevron-left"></i>
+                    {% endif %}
+                  </a>
+                  </li>
+              {% endfor %}
+            </ol>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
     {% else %}
     <h2>Please <a href="{{url_for('login')}}">Login</a> or <a href="{{url_for('register')}}">Register</a>.</h2>
     
