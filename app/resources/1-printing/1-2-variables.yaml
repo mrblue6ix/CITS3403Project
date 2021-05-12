@@ -7,13 +7,13 @@ prompt: >
   Variables are a way we can store a value in memory so we can access it later.
   For example, if we wanted to print a variable we could write:
 
-  `message = "Hello, world!"`
-  
-  `print(message)`
-question: In the `message` variable, try changing "world" to "Python"
+  `variable = "I'm printable!"`
+
+  `print(variable)`
+question: Try printing "Hello world" using the `message` variable.
 prefill: >
-  message = "Hello, world!"
-answer: Hello, world!
+  message = "Hello world"
+answer: Hello world
 solution: > 
   Good job. Variables are used heavily in programming to store intermediate results,
   and to help the programmer understand the code more easily.  
