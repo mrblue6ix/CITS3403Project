@@ -2,7 +2,7 @@
 name: 3-1-lists
 title: Lists
 requires: 
-  - 1-1-helloworld
+  - 2-5-testvariables
 prompt: >
   Lists in Python are used to store a variety of data underneath one variable name. Stored data can be of variable types.
 

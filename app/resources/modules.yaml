@@ -13,7 +13,7 @@
     - 2-variables
   title: Lists
   description: In this module, we will learn how to create and use lists.
-4-lists:
+4-dictionaries:
   requires:
     - 3-lists
   title: Dictionaries

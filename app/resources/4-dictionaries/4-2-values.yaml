@@ -2,7 +2,7 @@
 name: 4-2-values
 title: Values
 requires: 
-  - 1-1-helloworld
+  - 3-4-testlists
 prompt: >
   Accessing and manipulating a dictionary's values is slightly different to that of lists.
 

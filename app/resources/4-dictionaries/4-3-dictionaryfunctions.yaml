@@ -2,7 +2,7 @@
 name: 4-3-dictionaryfunctions
 title: Dictionary functions
 requires: 
-  - 1-1-helloworld
+  - 3-4-testlists
 prompt: >
   Dictionaries have a variety of functions at their disposal to display the information being stored.
 

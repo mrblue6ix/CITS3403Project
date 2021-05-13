@@ -2,7 +2,7 @@
 name: 3-4-testlists
 title: Test your skills!
 requires: 
-  - 1-1-helloworld
+  - 2-5-testvariables
 prompt: >
   Test
 question: >

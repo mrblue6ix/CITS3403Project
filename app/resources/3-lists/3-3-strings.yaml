@@ -2,7 +2,7 @@
 name: 3-3-strings
 title: Strings
 requires: 
-  - 1-1-helloworld
+  - 2-5-testvariables
 prompt: >
   Strings are really a form of list, with the prerequisite that all elements are of type `char`. From this, we know we can use list operations on strings, including indexing, slicing, appending and multiplication.
 

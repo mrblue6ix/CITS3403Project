@@ -2,7 +2,7 @@
 name: 4-4-testdictionaries
 title: Test your skills!
 requires: 
-  - 1-1-helloworld
+  - 3-4-testlists
 prompt: >
   Using your knowledge of dictionaries, perform the following tasks on the dictionary provided below.
 
