@@ -157,6 +157,8 @@ def test_selenium_chrome_create_account():
         driver.find_element_by_id("confirm").send_keys("chromePassword")
         driver.find_element_by_id("accept_tos").click()
         driver.find_element_by_id("submit").click()
+        if driver.title == "Learn Python - Register":
+            driver.find_element_by_link_text("Login").click()
         driver.find_element_by_id("username").send_keys("chromeTest")
         driver.find_element_by_id("password").send_keys("chromePassword")
         driver.find_element_by_id("submit").click()
@@ -180,6 +182,8 @@ def test_selenium_firefox_create_account():
         driver.find_element_by_id("confirm").send_keys("firefoxPassword")
         driver.find_element_by_id("accept_tos").click()
         driver.find_element_by_id("submit").click()
+        if driver.title == "Learn Python - Register":
+            driver.find_element_by_link_text("Login").click()
         driver.find_element_by_id("username").send_keys("firefoxTest")
         driver.find_element_by_id("password").send_keys("firefoxPassword")
         driver.find_element_by_id("submit").click()
@@ -202,6 +206,8 @@ def test_selenium_edge_create_account():
         driver.find_element_by_id("confirm").send_keys("edgePassword")
         driver.find_element_by_id("accept_tos").click()
         driver.find_element_by_id("submit").click()
+        if driver.title == "Learn Python - Register":
+            driver.find_element_by_link_text("Login").click()
         driver.find_element_by_id("username").send_keys("edgeTest")
         driver.find_element_by_id("password").send_keys("edgePassword")
         driver.find_element_by_id("submit").click()
