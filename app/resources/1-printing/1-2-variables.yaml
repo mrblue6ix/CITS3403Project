@@ -10,7 +10,7 @@ prompt: >
   `variable = "I'm printable!"`
 
   `print(variable)`
-question: Try printing "Hello world" using the `message` variable.
+question: Try changing the `message` variable so it prints out `Hello, Python!`
 prefill: >
   message = "Hello, world!"
 

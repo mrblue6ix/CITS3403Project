@@ -14,10 +14,10 @@ prompt: >
 
   You can use the "Run" button below to execute your code and see if its correct. Try it out!
 question: >
-  Write a line of Python code to print out the the string "`Hello world`".
+  Write a line of Python code to print out the the string "`Hello, world!`".
   When you think you are done, press the "Submit" button. 
 prefill: print("This line will be printed")
-answer: Hello world
+answer: Hello, world!
 solution: > 
   Well done! You have completed your first exercise and are officially a programmer!
 ...
