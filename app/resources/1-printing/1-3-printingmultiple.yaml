@@ -7,16 +7,11 @@ prompt: >
   We can use the `print()` function to print multiple things at once.
   This can be done in a number of ways, with some being seen below:
 
-  1. `print('Harry', 'Potter')`
 
-  2. `print('Harry' + ' ' + 'Potter')`
+  `print('Harry', 'Potter')`
 
-  3. `firstName, secondName = 'Harry', 'Potter'`
-
-  `print(firstName + ' ' + secondName)`
-
-question: Practice printing the string 'Harry Potter' using a variety of methods.
-prefill: print()
-answer: Harry Potter
-solution: ...And with that, you've completed the introductory module! The print() function is how Learn Python checks your answers are correct, so make sure you utilise your newfound printing capabilities in the next modules.
+question:
+prefill: print("Harry", "Potter")
+answer:
+solution:
 ...

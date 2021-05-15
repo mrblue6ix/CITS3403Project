@@ -13,6 +13,10 @@
   width: 40%;
 }
 
+.test {
+  color:red;
+}
+
 i.fa-check-circle {
   color: green;
 }

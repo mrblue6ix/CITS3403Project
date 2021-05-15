@@ -1,0 +1,20 @@
+---
+name: 3-3-upperlower
+title: Uppercase and lowercase
+requires: 
+  - 3-1-replace
+prompt: >
+  We can convert strings to upper- and lower- case by using
+  the functions `str.upper()` and `str.lower()`
+
+  `message = 'i am lower case'`
+
+  `print(message.upper()) -> I AM LOWER CASE`
+question: 
+answer:
+solution: 
+prefill:
+  message = 'i am lower case'
+
+  print(message.upper())
+...

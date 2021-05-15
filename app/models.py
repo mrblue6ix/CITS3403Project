@@ -80,12 +80,16 @@ class Activity(db.Model):
     def getUserActivity(self, user):
         return UserActivity.query.filter_by(user_id=user.id, activity_id=self.id).first()
 
+
 class Module(db.Model):
     __tablename__='module'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, unique = True)
     title = db.Column(db.Text)
     description = db.Column(db.Text)
+    # A test is a special case of a Module
+    # where all the activities will be completed in one sitting
+    is_test = db.Column(db.Integer, default=0)
 
     activities = db.relationship("Activity", lazy=True,
         backref = 'module')

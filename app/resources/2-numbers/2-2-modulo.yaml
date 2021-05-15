@@ -1,0 +1,20 @@
+---
+name: 2-2-modulo
+title: Modulo operator
+requires: 
+  - 2-1-numbers
+prompt: >
+  The modulo operator returns the **integer remainder of the division**
+
+
+  Try and predict what the following code will ouptut, 
+  then run it for yourself. 
+
+question:
+answer:
+solution:
+prefill: >
+  remainder = 11 % 3
+
+  print(remainder)
+...

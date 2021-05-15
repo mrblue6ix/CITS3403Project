@@ -37,30 +37,38 @@
         <a href="/login" class="list-group-item list-group-item-action bg-light">Login</a>
         {% else %}
           {% for module in modules %}
-            <div class="list-group-item list-group-item-action bg-light">
-              <a class="module btn collapsed dropdown-toggle" role="button" data-toggle="collapse" data-target="#id{{module.name}}" aria-expanded="false" aria-controls="id{{module.name}}">
-                {{module.title}}
-              </a>
-              <div class="collapse sidebar-option" id="id{{module.name}}" style>
-                <ol>
-                {% for activity in module.activities|sort(attribute='name')%}
-                  <li><a href="/learn/{{module.name}}/{{activity.name}}">
-                    {{activity.title}}
-                    {% if activity.getUserActivity(current_user).is_completed %}
-                      <i class="fas fa-check-circle"></i>
-                    {% elif activity.getUserActivity(current_user) is none %}
-                      <i class="fas fa-lock"></i>
-                    {% elif activity.question is none %}
-                      <i class="fas fa-info-circle"></i>
-                    {% else %}
-                      <i class="fas fa-chevron-left"></i>
-                    {% endif %}
-                  </a>
-                  </li>
-                {% endfor %}
-                </ol>
+            {% if not module.is_test %}
+              <div class="list-group-item list-group-item-action bg-light">
+                <a class="module btn collapsed dropdown-toggle" role="button" data-toggle="collapse" data-target="#id{{module.name}}" aria-expanded="false" aria-controls="id{{module.name}}">
+                  {{module.title}}
+                </a>
+                <div class="collapse sidebar-option" id="id{{module.name}}" style>
+                  <ol>
+                  {% for activity in module.activities|sort(attribute='name')%}
+                    <li><a href="/learn/{{module.name}}/{{activity.name}}">
+                      {{activity.title}}
+                      {% if activity.getUserActivity(current_user).is_completed %}
+                        <i class="fas fa-check-circle"></i>
+                      {% elif activity.getUserActivity(current_user) is none %}
+                        <i class="fas fa-lock"></i>
+                      {% elif activity.question is none %}
+                        <i class="fas fa-info-circle"></i>
+                      {% else %}
+                        <i class="fas fa-chevron-left"></i>
+                      {% endif %}
+                    </a>
+                    </li>
+                  {% endfor %}
+                  </ol>
+                </div>
               </div>
-            </div>
+            {% else %}
+              <div class="list-group-item list-group-item-action bg-light">
+                <a class="module btn" role="button" href="/test/{{module.name}}">
+                  <span class="test"><b>{{module.title}}</b></span>
+                </a>
+              </div>
+            {% endif %}
           {% endfor %}
 
         <a href="/logout" class="list-group-item list-group-item-action bg-light">Logout</a>

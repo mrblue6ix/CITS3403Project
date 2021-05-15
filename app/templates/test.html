@@ -123,8 +123,7 @@
         }, function (data, status){
           console.log("Saved successfully")
         })
-        var userans = $.trim($("#output").html().replace(/\s?(<br\s?\/?>)\s?/g, "\n"))
-        console.log(userans)
+        var userans = $.trim($("#output").text())
         $.post("/submit/{{module.name}}/{{activity.name}}", {
           answer: userans,
           code: user_code

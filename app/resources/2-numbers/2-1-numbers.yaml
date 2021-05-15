@@ -1,0 +1,38 @@
+---
+name: 2-1-numbers
+title: Numbers
+requires: 
+  - 1-2-variables
+prompt: >
+  We can perform addition, substraction, multiplication
+  and division in Python using your regular mathematical symbols.
+
+  `+`: addition
+
+  `-`: subtraction
+  
+  `*`: multiplication
+
+  `/`: division
+
+  `**`: raise to the power
+
+
+  Try out the code below
+
+question: > 
+  Write some Python to evaluate this expression:
+
+
+  `((14 x 19) + 109)/12`
+
+
+  Print your result to the output!
+answer: >
+  31.25
+solution: Great work. We can use Python to do common mathematical operations.
+prefill: >
+  number = (1 + 2 + 3*2)/4
+
+  print(number)
+...

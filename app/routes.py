@@ -6,7 +6,11 @@ from app import app, db
 from app.models import User, Module, Activity
 from .forms import LoginForm, RegistrationForm
 from functools import wraps
+from difflib import SequenceMatcher
 
+# https://stackoverflow.com/questions/17388213/find-the-similarity-metric-between-two-strings
+def similar(a, b):
+    return SequenceMatcher(None, a, b).ratio()
 
 @app.context_processor
 def inject_navbar():
@@ -53,6 +57,26 @@ def stats(module_name, activity_name):
 
     return render_template('admin_activity.html', stats=stats, activity=activity)
 
+@app.route("/test/<module_name>")
+def test(module_name):
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+    # Does the user have permission to access this activity?
+    module = Module.query.filter_by(name=module_name).first()
+    # A test should only have one activity
+    activity = Activity.query.filter_by(module=module).first()
+    if not activity or (activity not in module.activities):
+        # The activity does not exist
+        return render_template('errors/404.html')
+    current_user_activity = current_user.get_activity(activity)
+    if not current_user_activity:
+        dependencies = [(a.parentActivity.module, a.parentActivity) for a in activity.dependencies]
+        return render_template('activity.html', locked=True, dependencies=dependencies)
+
+    saved_code = current_user_activity.saved
+    print(saved_code)
+    return render_template('activity.html', saved=saved_code, activity=activity,
+                    module=module, is_completed=current_user_activity.is_completed)
 
 @app.route("/save/<module_name>/<activity_name>", methods=["POST"])
 def save(module_name, activity_name):
@@ -91,9 +115,9 @@ def check_answer(module_name, activity_name):
     # check answer to the activity
     user_answer = request.form['answer'].strip()
     code = request.form['code'].strip()
-    answer = activity.answer
+    answer = str(activity.answer).strip()
     current_user.submit_one()
-    if user_answer == answer:
+    if similar(user_answer, answer) > 0.9:
         # Answer is correct, unlock all activities that depend on this one.
         current_user_activity.set_completion(1)
         current_user.add_loc(len(code.split("\n")))

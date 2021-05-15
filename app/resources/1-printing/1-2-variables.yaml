@@ -12,8 +12,10 @@ prompt: >
   `print(variable)`
 question: Try printing "Hello world" using the `message` variable.
 prefill: >
-  message = "Hello world"
-answer: Hello world
+  message = "Hello, world!"
+
+  print(message)
+answer: Hello, Python!
 solution: > 
   Good job. Variables are used heavily in programming to store intermediate results,
   and to help the programmer understand the code more easily.  

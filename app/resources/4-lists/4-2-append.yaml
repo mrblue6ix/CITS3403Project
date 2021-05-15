@@ -1,0 +1,25 @@
+---
+name: 4-2-append
+title: Appending to a list
+requires: 
+  - 4-1-lists
+prompt: >
+  `mylist = ['apple', 'banana', 'orange']`
+
+  We can use the `.append(item)` function to append an item 
+  to the list - `append` means to add to the end of the list. 
+
+
+  For example, we can write:
+
+  `mylist.append("cherry")`
+  
+  To append the fruit "cherry" to our list
+
+question: > 
+  Write a Python script that prints out mylist on one line,
+  adds the sport `netball` to the end of the list, then prints out the new list.  
+answer: "['soccer', 'basketball', 'tennis', 'netball']"
+solution: Awesome job. 
+prefill: mylist = ['soccer', 'basketball', 'tennis']
+...

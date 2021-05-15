@@ -1,0 +1,27 @@
+---
+name: 3-1-replace
+title: Replacing
+requires: 
+  - 2-3-string
+prompt: >
+  We will now look at more inbuilt `string methods`.
+
+  The first function we will consider is the `.replace()` function.
+  This allows us to replace a *sub-string* in a given string with another substring. 
+  
+
+  For example, consider the string:
+
+  `message = "hello, world"`
+
+  `print(message.replace('world', 'user')) -> 'hello, user'`
+question: >
+  Use the `.replace()` function to change the following string to
+  `The quick green cat jumps over the lazy rabbit` 
+answer: The quick green cat jumps over the lazy rabbit
+solution:
+prefill: >
+  message = 'The quick brown fox jumps over the lazy dog'
+
+  print(message)
+...

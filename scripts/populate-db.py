@@ -43,8 +43,9 @@ for module in modules:
     cursor.execute("SELECT * FROM Module WHERE name=?",(module,) )
     if cursor.fetchone() is None:
         print(f"Inserting {module}")
-        cursor.execute("INSERT INTO Module(name, title, description) VALUES (?, ?, ?)",
-                        (module, m['title'], m['description']))
+        print(module)
+        cursor.execute("INSERT INTO Module(name, title, description, is_test) VALUES (?, ?, ?, ?)",
+                        (module, m['title'], m['description'], 'test-' in module))
 print("Finished inserting Modules")
 
 # Insert module dependancies
@@ -84,6 +85,7 @@ for module in modules:
                         a = yaml.safe_load(activity)
                         # Convert from Markdown to HTML
                         a = toHtml(a)
+                        print(a)
                     except yaml.YAMLError as exc:
                         print(exc)
                 print(f"Inserting {module}/{a['name']}")
@@ -112,6 +114,7 @@ for module in modules:
                 child_id = cursor.execute('SELECT id FROM Activity WHERE name=?', (activity_name.strip('.yaml'),))
                 child_id = child_id.fetchone()[0]
                 for r in requirements:
+                    print(r)
                     parent_id = cursor.execute('SELECT id FROM Activity WHERE name=?', (r,))
                     parent_id = parent_id.fetchone()[0]
                     cursor.execute('SELECT * FROM ActivityDependency WHERE parent=? AND child=?',
