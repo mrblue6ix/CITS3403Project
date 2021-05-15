@@ -27,6 +27,8 @@ def toHtml(activity):
         activity['prompt'] = markdown.markdown(activity['prompt'], extensions=['nl2br'])
     if activity['question']:
         activity['question'] = markdown.markdown(activity['question'], extensions=['nl2br'])
+    if activity['solution']:
+        activity['solution'] = markdown.markdown(activity['solution'], extensions=['nl2br', 'fenced_code'])
     return activity
             
 # these are the folder to look in
@@ -73,7 +75,7 @@ for module in modules:
     module_id = cursor.execute('SELECT id FROM Module WHERE name=?',(module,))
     module_id = cursor.fetchone()[0]
     # e.g resources/modules.yaml -> resources/1-1-printing
-    folder = arguments[2].replace('modules.yaml', module) 
+    folder = arguments[2].replace('modules_caleb.yaml', module) 
     if os.path.isdir(folder):
         for activity_file in glob.glob(f"{folder}/*.yaml"):
             activity_name = activity_file.split("/")[-1]
@@ -92,6 +94,9 @@ for module in modules:
                 cursor.execute("INSERT INTO Activity(name,title, prompt, prefill, answer, solution, question, module_id) VALUES (?,?,?,?,?,?,?,?)",
                                 (a['name'], a['title'], a['prompt'], a['prefill'],
                                  a['answer'], a['solution'], a['question'], module_id))
+                if 'time_limit' in a:
+                    print('inserted time limit')
+                    cursor.execute('UPDATE Activity SET time_limit=? WHERE name=?', (a['time_limit'], a['name']))
 cursor.execute("UPDATE Activity SET times_submitted=0")
 cursor.execute("UPDATE Activity SET times_right=0")
 print("Finished inserting Activities")
@@ -100,7 +105,7 @@ print("Finished inserting Activities")
 print("Inserting ActivityDependencies")
 for module in modules:
     # e.g resources/modules.yaml -> resources/1-printing
-    folder = arguments[2].replace('modules.yaml', module) 
+    folder = arguments[2].replace('modules_caleb.yaml', module) 
     if os.path.isdir(folder):
         for activity_file in glob.glob(f"{folder}/*.yaml"):
             activity_name = os.path.basename(activity_file)
