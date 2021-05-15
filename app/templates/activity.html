@@ -11,7 +11,7 @@
 {% block content %}
   <div class="container-fluid mb-4 mt-4">
   {% if locked %}
-  <h1>🔒 This content is locked! 🔒</h1>
+  <h1 id="lockmessage">🔒 This content is locked! 🔒</h1>
   <p> You must complete the following activites before this one</p>
   <ul>
     {% for dependency in dependencies %}
@@ -42,10 +42,10 @@
   {% endif %}
       <div class="row mb-2">
           <div class="col-lg-12">
-            <button type="button" class="btn btn-outline-success" onclick="runit()">Run</button>
-            <button id='submit' type="button" class="btn btn-outline-primary" onclick="checkAns()" {% if activity.question is none %}disabled{% endif %}>Submit answer</button> 
-            <button type="button" class="btn btn-secondary btn-sm" onclick="save()">Save code</button>
-            <button type="button" class="btn btn-secondary btn-sm" onclick="reset()">Reset</button>
+            <button id="run"    type="button" class="btn btn-outline-success" onclick="runit()">Run</button>
+            <button id="submit" type="button" class="btn btn-outline-primary" onclick="checkAns()" {% if activity.question is none %}disabled{% endif %}>Submit answer</button> 
+            <button id="save"   type="button" class="btn btn-secondary btn-sm" onclick="save()">Save code</button>
+            <button id="reset"  type="button" class="btn btn-secondary btn-sm" onclick="reset()">Reset</button>
             <span id='savealert'>Saved</span>
           </div>
       </div>
