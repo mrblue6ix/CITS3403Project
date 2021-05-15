@@ -73,6 +73,7 @@
 
 {% block scripts %}
   {% if not locked %}
+    <script src="{{ url_for('static',filename='js/humanize-duration.js') }}"></script>
     <script type="text/javascript">
     // Global codeMirror Editor
     var codeMirror;
@@ -191,7 +192,7 @@
     })
 
     // If there is a time limit, update it every second
-    {% if time_stop %}
+      {% if time_stop %}
     $(document).ready(function() {
       var counter = setInterval(function() {
         var time_stop = {{time_stop}}*1000;
@@ -201,6 +202,7 @@
         console.log(p_left)
         if (p_left > 0) {
           $('.progress-bar').css('width', p_left+'%').attr('aria-valuenow', p_left);
+          $('.progress-bar').html(humanizeDuration(time_left, {round:true}));
         } else {
           $('#submit').prop('disabled', true);
           alert("Time is up! Submitting your answer now..")
@@ -209,6 +211,7 @@
         }
       }, 1000); 
     })
+
     {% endif %}
 
   </script>
