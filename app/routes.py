@@ -3,10 +3,11 @@ from flask import render_template, flash, redirect, request
 from flask_login import current_user, login_user, logout_user
 from flask import url_for
 from app import app, db
-from app.models import User, Module, Activity
+from app.models import User, Module, Activity, UserActivity
 from .forms import LoginForm, RegistrationForm
 from functools import wraps
 from difflib import SequenceMatcher
+from sqlalchemy.sql import func
 import time
 
 # https://stackoverflow.com/questions/17388213/find-the-similarity-metric-between-two-strings
@@ -23,6 +24,17 @@ def inject_navbar():
 @app.route("/index")
 def index():
     #change username to dynamically update for different users
+    if current_user.is_authenticated:
+        if current_user.is_admin:
+            stats = []
+            stats.append(('Total site users', User.query.count()))
+            stats.append(('Number of activities', Activity.query.count()))
+            stats.append(('Number of modules', Module.query.count()))
+            return render_template('home.html', stats=stats)
+        else:
+            progress = UserActivity.query.filter_by(user_id=current_user.id).count()/Activity.query.count() * 100
+            print(UserActivity.query.filter_by(user_id=current_user.id).count(), Activity.query.count())
+            return render_template('home.html', progress=progress)
     return render_template('home.html')
 
 @app.route("/reset/<module_name>/<activity_name>")
@@ -58,8 +70,9 @@ def stats(module_name, activity_name):
 
     return render_template('admin_activity.html', stats=stats, activity=activity)
 
+@app.route("/test/<module_name>/<start>")
 @app.route("/test/<module_name>")
-def test(module_name):
+def test(module_name, start=None):
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
     # Does the user have permission to access this activity?
@@ -69,17 +82,21 @@ def test(module_name):
     if not activity or (activity not in module.activities):
         # The activity does not exist
         return render_template('errors/404.html')
+    if current_user.is_admin:
+        return redirect(url_for('stats', module_name=module_name, activity_name=activity.name))
     current_user_activity = current_user.get_activity(activity)
     if not current_user_activity:
         dependencies = [(a.parentActivity.module, a.parentActivity) for a in activity.dependencies]
         return render_template('activity.html', locked=True, dependencies=dependencies)
-
+    if start:
+        return render_template('start_test.html', module=module, activity=activity) 
     saved_code = current_user_activity.saved
 
     # If we haven't started the timer, start it now
     time_stop = current_user_activity.time_stop
     if time_stop == None:
         current_user_activity.set_timestop(activity.time_limit + time.time())
+        time_stop = activity.time_limit + time.time()
         db.session.commit()
     elif time.time() > time_stop:
         current_user_activity.set_completion(1)
@@ -128,7 +145,9 @@ def check_answer(module_name, activity_name):
     code = request.form['code'].strip()
     answer = str(activity.answer).strip()
     current_user.submit_one()
-    if similar(user_answer, answer) > 0.9:
+    activity.submit()
+    if similar(user_answer, answer) > 0.95:
+        activity.correct()
         # Answer is correct, unlock all activities that depend on this one.
         current_user_activity.set_completion(1)
         current_user.add_loc(len(code.split("\n")))
@@ -136,10 +155,15 @@ def check_answer(module_name, activity_name):
         for dependency in activity.parent_of:
             child = dependency.childActivity
             newActivity = child.makeUserActivity(current_user)
-            unlocked.append((child.title, child.module.name+"/"+child.name))
+            # if it is a test, don't append the activity name
+            if 'test' in child.module.name:
+                unlocked.append((child.title, child.module.name))
+            else:
+                unlocked.append((child.title, child.module.name+"/"+child.name))
         db.session.commit()
         return {"message":activity.solution, "unlocked":unlocked}
     else:
+        db.session.commit()
         return {'message': 'Wrong answer. Try again!'}
 
 @app.route("/profile")
