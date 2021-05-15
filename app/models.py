@@ -56,6 +56,9 @@ class Activity(db.Model):
     question = db.Column(db.Text)
     prefill = db.Column(db.Text)
 
+    # Test activities have a time limit
+    time_limit = db.Column(db.Integer)
+
     # statistics
     # This needs to be server default because they are created manually
     times_submitted = db.Column(db.Integer, default=0)
@@ -106,6 +109,9 @@ class UserActivity(db.Model):
     is_completed = db.Column(db.Integer)
     saved = db.Column(db.Text)
 
+    # time when the test will stop
+    time_stop = db.Column(db.Integer)
+
     activity = db.relationship("Activity",lazy=True, foreign_keys=[activity_id])
     def __repr__(self):
         return f"<UserActivity {self.activity.name}>"
@@ -115,6 +121,9 @@ class UserActivity(db.Model):
     
     def save_code(self, code):
         self.saved = code
+    
+    def set_timestop(self, time):
+        self.time_stop = time
 
 class Submission(db.Model):
     __tablename__='submission'
