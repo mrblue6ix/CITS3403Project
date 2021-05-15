@@ -7,6 +7,7 @@ from app.models import User, Module, Activity
 from .forms import LoginForm, RegistrationForm
 from functools import wraps
 from difflib import SequenceMatcher
+import time
 
 # https://stackoverflow.com/questions/17388213/find-the-similarity-metric-between-two-strings
 def similar(a, b):
@@ -74,9 +75,19 @@ def test(module_name):
         return render_template('activity.html', locked=True, dependencies=dependencies)
 
     saved_code = current_user_activity.saved
-    print(saved_code)
-    return render_template('activity.html', saved=saved_code, activity=activity,
-                    module=module, is_completed=current_user_activity.is_completed)
+
+    # If we haven't started the timer, start it now
+    time_stop = current_user_activity.time_stop
+    if time_stop == None:
+        current_user_activity.set_timestop(activity.time_limit + time.time())
+        db.session.commit()
+    elif time.time() > time_stop:
+        current_user_activity.set_completion(1)
+        return render_template('activity.html', saved=saved_code, activity=activity,
+                                module=module, is_completed=1)
+
+    return render_template('activity.html', saved=saved_code, time_stop=time_stop,
+            activity=activity, module=module, is_completed=current_user_activity.is_completed)
 
 @app.route("/save/<module_name>/<activity_name>", methods=["POST"])
 def save(module_name, activity_name):
