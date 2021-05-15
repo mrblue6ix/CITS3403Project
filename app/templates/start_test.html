@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Begin test{% endblock %}
+{{ url_for('static',filename='styles/style.css') }}
+
+{% block content %}
+
+<div class="container-fluid mb-4 mt-4">
+    <h1 class="mt-4 text-center">About to start test</h1>
+    <div class="row">
+        <div class="col-md-12 mx-auto">
+            <p>Press the button below to start the test</p>
+            <p>You will have <code>{{activity.time_limit}}</code> seconds to complete it.</p>
+            <a class="btn btn-outline-success" href='/test/{{module.name}}'>Start test!</a>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
