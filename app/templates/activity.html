@@ -9,9 +9,9 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container-fluid mb-4">
+  <div class="container-fluid mb-4 mt-4">
   {% if locked %}
-  <h1 class="mt-4">🔒 This content is locked! 🔒</h1>
+  <h1>🔒 This content is locked! 🔒</h1>
   <p> You must complete the following activites before this one</p>
   <ul>
     {% for dependency in dependencies %}
@@ -20,7 +20,12 @@
     {% endfor %}
   </ul>
   {% else %}
-  <h6 class="mt-4 text-muted">{{module.title}}</h6 >
+  {% if time_stop %}
+    <div class="progress mb-4">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+    </div>
+  {% endif %}
+  <h6 class="text-muted">{{module.title}}</h6 >
   <h1>{{activity.title}}</h1>
   {{activity.prompt | safe }}
 
@@ -28,7 +33,7 @@
       <div class="row {% if not is_completed %}collapse{% endif %}" id='solution-row'>
         <div class="col-md-12">
           <h3 class="text-primary">Solution</h3>
-          <p id='solution'>{% if is_completed %} {{activity.solution}} {% endif %}</p>
+          <p id='solution'>{% if is_completed %} {{activity.solution | safe}} {% endif %}</p>
           <div class="alert alert-success collapse" role="alert" id="unlocked-modules"></div>
         </div>
       </div>
@@ -38,7 +43,7 @@
       <div class="row mb-2">
           <div class="col-lg-12">
             <button type="button" class="btn btn-outline-success" onclick="runit()">Run</button>
-            <button type="button" class="btn btn-outline-primary" onclick="checkAns()" {% if activity.question is none %}disabled{% endif %}>Submit answer</button> 
+            <button id='submit' type="button" class="btn btn-outline-primary" onclick="checkAns()" {% if activity.question is none %}disabled{% endif %}>Submit answer</button> 
             <button type="button" class="btn btn-secondary btn-sm" onclick="save()">Save code</button>
             <button type="button" class="btn btn-secondary btn-sm" onclick="reset()">Reset</button>
             <span id='savealert'>Saved</span>
@@ -184,6 +189,27 @@
       })
 
     })
+
+    // If there is a time limit, update it every second
+    {% if time_stop %}
+    $(document).ready(function() {
+      var counter = setInterval(function() {
+        var time_stop = {{time_stop}}*1000;
+        var cur_time = Date.now();
+        var time_left = time_stop - cur_time
+        var p_left = (time_left/({{activity.time_limit}}*1000))*100; 
+        console.log(p_left)
+        if (p_left > 0) {
+          $('.progress-bar').css('width', p_left+'%').attr('aria-valuenow', p_left);
+        } else {
+          $('#submit').prop('disabled', true);
+          alert("Time is up! Submitting your answer now..")
+          checkAns();
+          clearInterval(counter);
+        }
+      }, 1000); 
+    })
+    {% endif %}
 
   </script>
   <script src="{{ url_for('static',filename='js/skulpt.min.js') }}" type="text/javascript"></script>
