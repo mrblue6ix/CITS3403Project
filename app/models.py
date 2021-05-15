@@ -72,6 +72,14 @@ class Activity(db.Model):
     def __repr__(self):
         return f"<Activity {self.name}"
     
+    def submit(self):
+        self.times_submitted += 1
+        return self.times_submitted
+    
+    def correct(self):
+        self.times_right += 1
+        return self.times_right
+    
     # Make a UserActivity for the given user
     def makeUserActivity(self, user):
         newUserActivity = UserActivity(user_id=user.id, activity_id=self.id)
