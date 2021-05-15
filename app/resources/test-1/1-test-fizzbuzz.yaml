@@ -1,6 +1,7 @@
 ---
 name: 1-test-fizzbuzz
 title: FizzBuzz
+time_limit: 300
 requires: 
   - 4-2-append
 prompt: >
