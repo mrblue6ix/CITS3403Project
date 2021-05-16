@@ -138,7 +138,7 @@
             $("#solution-row").show()
             $("#your-task").append("<i class='fas fa-check-circle'></i>")
             var html = 'You have unlocked the following activities:<ul>';
-            for (const x of data['unlocked'].sort()) {
+            for (const x of data['unlocked']) {
               html += '<li><a href="/learn/'+x[1]+'">'+x[0]+'</a></li>'
             }
             html += '</ul>'

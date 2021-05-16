@@ -32,9 +32,8 @@ def index():
             stats.append(('Number of modules', Module.query.count()))
             return render_template('home.html', stats=stats)
         else:
-            progress = UserActivity.query.filter_by(user_id=current_user.id).count()/Activity.query.count() * 100
-            print(UserActivity.query.filter_by(user_id=current_user.id).count(), Activity.query.count())
-            return render_template('home.html', progress=progress)
+            progress = UserActivity.query.filter_by(user_id=current_user.id, is_completed=1).count()/Activity.query.count() * 100
+            return render_template('home.html', progress=f'{progress:.1f}')
     return render_template('home.html')
 
 @app.route("/reset/<module_name>/<activity_name>")
@@ -161,7 +160,7 @@ def check_answer(module_name, activity_name):
             else:
                 unlocked.append((child.title, child.module.name+"/"+child.name))
         db.session.commit()
-        return {"message":activity.solution, "unlocked":unlocked}
+        return {"message":activity.solution, "unlocked":sorted(unlocked, key=lambda x: x[1])}
     else:
         db.session.commit()
         return {'message': 'Wrong answer. Try again!'}
