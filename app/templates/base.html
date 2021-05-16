@@ -10,7 +10,7 @@
 
   <title>Learn Python - {% block title %}{% endblock %}</title>
 
-  <!-- Bootstrap core CSS -->
+  <link rel="shortcut icon" href="{{ url_for('static', filename='styles/favicon.ico') }}">
 
   <!-- Custom styles for this template -->
   <link rel="stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
@@ -81,7 +81,7 @@
     <div id="page-content-wrapper">
 
       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+        <button class="btn btn-success" id="menu-toggle">Toggle Menu</button>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -116,7 +116,7 @@
       {% with messages = get_flashed_messages() %}
       {% if messages %}
         {% for message in messages %}
-        <div class="alert alert-primary" role="alert">
+        <div class="alert alert-success" role="alert">
           {{message}}
         </div>
         {% endfor %}

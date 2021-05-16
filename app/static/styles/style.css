@@ -4,11 +4,31 @@
  * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-simple-sidebar/blob/master/LICENSE)
  */
 
+
  /*
  https://dev.to/dcodeyt/creating-beautiful-html-tables-with-css-428l
  */
 
- .styled-table {
+div.card.welcome {
+  margin-top: 50px;
+  width: 50rem;
+}
+
+div.card.welcome .card-header {
+  background-color: rgb(126, 194, 70, 0.8);
+}
+
+#logo {
+  width: 20rem;
+  height: 20rem;
+
+}
+
+a:hover {
+  color: green;
+}
+
+.styled-table {
   border-collapse: collapse;
   margin: 25px 0;
   font-size: 0.9em;
@@ -48,7 +68,7 @@
   overflow: auto;
   height:400px;
 }
-.alert-success {
+.alert-primary {
   width: 40%;
 }
 
