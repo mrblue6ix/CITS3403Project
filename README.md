@@ -147,6 +147,8 @@ A quick outline of the html templates:
         - Skulpt JS libraries (for Python interpreter, https://skulpt.org/using.html)
 2. `admin_activity.html`
     - If the user is an administrator, this activity page is shown instead, which displays some basic usage statistics about that activity.
+    - *Attributions*
+        - Table styling: https://dev.to/dcodeyt/creating-beautiful-html-tables-with-css-428
 3. `base.html`
     - This is the base template, which includes a dynamically formatted sidebar and navbar. 
     - *Attributions*
