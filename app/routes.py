@@ -30,9 +30,10 @@ def index():
             stats.append(('Total site users', User.query.count()))
             stats.append(('Number of activities', Activity.query.count()))
             stats.append(('Number of modules', Module.query.count()))
+            stats.append(('Total user LOC written',))
             return render_template('home.html', stats=stats)
         else:
-            progress = UserActivity.query.filter_by(user_id=current_user.id, is_completed=1).count()/Activity.query.count() * 100
+            progress = UserActivity.query.filter_by(user_id=current_user.id).count()/Activity.query.count() * 100
             return render_template('home.html', progress=f'{progress:.1f}')
     return render_template('home.html')
 

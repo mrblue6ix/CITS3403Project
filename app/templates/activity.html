@@ -139,7 +139,11 @@
             $("#your-task").append("<i class='fas fa-check-circle'></i>")
             var html = 'You have unlocked the following activities:<ul>';
             for (const x of data['unlocked']) {
-              html += '<li><a href="/learn/'+x[1]+'">'+x[0]+'</a></li>'
+              if ("test" in x){
+                html += '<li><a href="/test/'+x[1]+'">'+x[0]+'</a></li>'
+              } else {
+                html += '<li><a href="/learn/'+x[1]+'">'+x[0]+'</a></li>'
+              }
             }
             html += '</ul>'
             $("#unlocked-modules").html(html);

@@ -9,6 +9,10 @@
  https://dev.to/dcodeyt/creating-beautiful-html-tables-with-css-428l
  */
 
+.list-group-item:hover {
+  color: rgb(126, 194, 70, 0.8);
+}
+
 div.card.welcome {
   margin-top: 50px;
   width: 50rem;
@@ -70,10 +74,6 @@ a:hover {
 }
 .alert-primary {
   width: 40%;
-}
-
-.test {
-  color:red;
 }
 
 i.fa-check-circle {

@@ -2,7 +2,7 @@
 #Have to add secret_key somewhere? Not in text form in other py file because bad security
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Length, EqualTo, ValidationError, Email
 from app.models import User
 
 class LoginForm(FlaskForm):
@@ -13,10 +13,10 @@ class LoginForm(FlaskForm):
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', [Length(min=4, max=25)])
-    email = StringField('Email Address', [Length(min=6, max=35)])
+    email = StringField('Email Address', [Length(min=6, max=35), Email("This field must be a valid email address")])
     firstname = StringField('Firstname', [Length(min=1, max=30)])
     lastname = StringField('Lastname', [Length(min=1, max=30)])
-    password = PasswordField('New Password', [DataRequired(), EqualTo('confirm', message='Passwords must match')])
+    password = PasswordField('New Password', [Length(min=4), DataRequired(), EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Repeat Password')
     accept_tos = BooleanField('I accept the TOS', [DataRequired()])
     submit = SubmitField('Register')

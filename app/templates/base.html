@@ -10,7 +10,7 @@
 
   <title>Learn Python - {% block title %}{% endblock %}</title>
 
-  <link rel="shortcut icon" href="{{ url_for('static', filename='styles/favicon.ico') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='media/favicon.ico') }}">
 
   <!-- Custom styles for this template -->
   <link rel="stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
@@ -65,7 +65,16 @@
             {% else %}
               <div class="list-group-item list-group-item-action bg-light">
                 <a class="module btn" role="button" href="/test/{{module.name}}/start">
-                  <span class="test"><b>{{module.title}}</b></span>
+                  <span class="test"><b>{{module.title}}</b>
+                      {% if module.activities[0].getUserActivity(current_user).is_completed %}
+                        <i class="fas fa-check-circle"></i>
+                      {% elif module.activities[0].getUserActivity(current_user) is none %}
+                        <i class="fas fa-lock"></i>
+                      {% elif module.activities[0].question is none %}
+                        <i class="fas fa-info-circle"></i>
+                      {% else %}
+                        <i class="fas fa-chevron-left"></i>
+                      {% endif %} </span>
                 </a>
               </div>
             {% endif %}

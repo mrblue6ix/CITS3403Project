@@ -9,7 +9,7 @@
     <!-- If user.logged_in then display Hello, name, and stats...
         If not then do form rendering for login/register-->
     <div class="text-center">
-      <img id='logo' src="{{ url_for('static',filename='styles/logo.png') }}">
+      <img id='logo' src="{{ url_for('static',filename='media/logo.png') }}">
     </div>
     <div class="card mx-auto welcome mt-n1">
       {% if current_user.is_authenticated %}
