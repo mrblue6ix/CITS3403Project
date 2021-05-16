@@ -74,10 +74,12 @@ class Activity(db.Model):
     
     def submit(self):
         self.times_submitted += 1
+        print("Increased times submitted for "+self.name)
         return self.times_submitted
     
     def correct(self):
         self.times_right += 1
+        print("Increased correct for "+self.name)
         return self.times_right
     
     # Make a UserActivity for the given user
