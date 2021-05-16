@@ -55,8 +55,6 @@ Within the `app` folder, which contains the main logic for the `LearnPython` web
 1. `routes.py`
     - This Flask file handles the routing from one page to the other, and formats our templates depending on dynamic urls and user information.
     - It also handles important security checks such as authentication, error pages, and activity submissions.
-    - *Attributions*
-        - [LINKS TO CODE/LIBRARIES USED HERE @JORDAN]
 2. `forms.py`
     - This file describes the behaviour of the two forms we have in our application, `LoginForm` and `RegistrationForm`. 
     - It ensures that the data entered into our application has appropriate constraints.
@@ -146,23 +144,19 @@ A quick outline of the html templates:
     - It displays some Python content, a question, and an interactive interpreter where users can submit their code. 
     - It also includes an output section where Users can see the `stdout` of their program. 
     - *Attributions*
-        - [LINKS TO CODE/LIBRARIES USED HERE @JORDAN]
+        - Skulpt JS libraries (for Python interpreter, https://skulpt.org/using.html)
 2. `admin_activity.html`
     - If the user is an administrator, this activity page is shown instead, which displays some basic usage statistics about that activity.
 3. `base.html`
     - This is the base template, which includes a dynamically formatted sidebar and navbar. 
     - *Attributions*
-        - [LINKS TO CODE/LIBRARIES USED HERE @JORDAN]
+        - Simple Sidebar Bootstrap (https://startbootstrap.com/template/simple-sidebar) 
 4. `home.html`
     - This is the landing page for authenticated users.
     - It displays their percentage progress so far in a progress bar
     - It also includes links to all the activites, and shows which activities they can complete and have completed so far. 
-    - *Attributions*
-        - [LINKS TO CODE/LIBRARIES USED HERE @JORDAN]
 5. `login.html`
     - Simply allows a registered User to login
-    - *Attributions*
-        - [LINKS TO CODE/LIBRARIES USED HERE @JORDAN]
 6. `profile.html`
     - Displays the users personal information and some basic statistics
         - Lines of code written
@@ -170,8 +164,6 @@ A quick outline of the html templates:
 7. `register.html`
     - Allows a user to create an account on the website
     - Performs some basic checks of input
-    - *Attributions*
-        - [LINKS TO CODE/LIBRARIES USED HERE @JORDAN]
 8. `start_test.html`
     - Landing page for the test start
     - Once the user progresses past this page, the countdown timer will start
@@ -220,3 +212,7 @@ There are two types of tests in this webapp
     - The webdriver executables for each browser must be stored in the root directory. These executables are required for the specific browser versions listed.
     - To launch the application, follow the steps listed above to launch the flask application. Then, navigate to the root directory and run:
         - `python -m test_selenium`
+
+    - *Attributions*
+        - https://www.selenium.dev/
+        - 

@@ -10,7 +10,7 @@ class seleniumTest:
         basedir = os.path.abspath(os.path.dirname(__file__))
         self.app = app.test_client()
         app.config['SQLALCHEMY_DATABASE_URI'] = \
-            'sqlite:///'+os.path.join(basedir,'app.db')
+            'sqlite:///'+os.path.join(basedir, 'app.db')
         if num == 0:
             options = webdriver.ChromeOptions()
             options.add_experimental_option('excludeSwitches', ['enable-logging'])
@@ -29,7 +29,7 @@ def test_selenium_chrome():
     try:
         # Initiate Chrome browser
         driver = st.setUp(0)
-        print("Webdriver setup - OK")
+        print("Chrome webdriver setup - OK")
     except:
         print("Failure - webdriver setup failed")
         return None
@@ -145,7 +145,7 @@ def test_selenium_firefox():
     try:
         # Initiate Firefox browser
         driver = st.setUp(0)
-        print("Webdriver setup - OK")
+        print("Firefox webdriver setup - OK")
     except:
         print("Failure - webdriver setup failed")
         return None
@@ -259,8 +259,8 @@ def test_selenium_edge():
 
     # Initiate Edge browser
     try:
-        driver = st.setUp(0)
-        print("Webdriver setup - OK")
+        driver = st.setUp(2)
+        print("Edge webdriver setup - OK")
     except:
         print("Failure - webdriver setup failed")
         return None
@@ -272,7 +272,7 @@ def test_selenium_edge():
         email = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(35))
         driver.find_element_by_link_text("Register").click()
         driver.find_element_by_id("username").send_keys(username)
-        driver.find_element_by_id("firstname").send_keys("Chrome")
+        driver.find_element_by_id("firstname").send_keys("Edge")
         driver.find_element_by_id("lastname").send_keys("Test")
         driver.find_element_by_id("email").send_keys(email)
         driver.find_element_by_id("password").send_keys("chromePassword")
