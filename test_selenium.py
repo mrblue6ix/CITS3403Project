@@ -5,6 +5,7 @@ from time import sleep
 from selenium import webdriver
 from msedge.selenium_tools import Edge, EdgeOptions
 
+# Webdriver setup for different browsers
 class seleniumTest:
     def setUp(self, num):
         basedir = os.path.abspath(os.path.dirname(__file__))
@@ -23,11 +24,16 @@ class seleniumTest:
             options.add_experimental_option('excludeSwitches', ['enable-logging'])
             self.driver = Edge(options=options)
         return self.driver   
+    
+    def tearDown(self):
+        self.driver.quit()
 
+st = seleniumTest()
+
+# Selenium Tests for Chrome Browser
 def test_selenium_chrome():
-    st = seleniumTest()
+    # Initiate Chrome browser
     try:
-        # Initiate Chrome browser
         driver = st.setUp(0)
         print("Chrome webdriver setup - OK")
     except:
@@ -56,6 +62,7 @@ def test_selenium_chrome():
         print("Account creation - OK")
     except:
         print("Failure - account creation failed")
+        st.tearDown()
         return None
 
     # Navigate to profile page, and assert account details are stored correctly
@@ -73,6 +80,7 @@ def test_selenium_chrome():
         print("Profile page - OK")
     except:
         print("Failure - account details stored incorrectly")
+        st.tearDown()
         return None
 
     # Go to locked activity and assert activity is locked
@@ -83,6 +91,7 @@ def test_selenium_chrome():
         print("Locked activities - OK")
     except:
         print("Failure - locked activity is unlocked, inaccessible or doesn't exist")
+        st.tearDown()
         return None
 
     # Go to unlocked activity and assert activity is unlocked
@@ -93,6 +102,7 @@ def test_selenium_chrome():
         print("Unlocked activities - OK")
     except:
         print("Failure - unlocked activity is locked, inaccessible or doesn't exist")
+        st.tearDown()
         return None
 
     # Check prefill is correctly displayed, and the run function outputs the written code
@@ -105,6 +115,7 @@ def test_selenium_chrome():
         print("Activity prefill - OK")
     except:
         print("Failure - activity prefill is incorrect")
+        st.tearDown()
         return None
 
     # Attempt to submit correct answer
@@ -123,6 +134,7 @@ def test_selenium_chrome():
         
     except:
         print("Failure - Couldn't submit answer")
+        st.tearDown()
         return None
     
     # Check user statistics are updated correctly
@@ -135,15 +147,28 @@ def test_selenium_chrome():
         print("Account statistics - OK")
     except:
         print("Failure - User statistics failed to update")
+        st.tearDown()
         return None
-    print("All OK for Chrome!")
-
-
-def test_selenium_firefox():
-    st = seleniumTest()
-
+    
+    # Check activities will unlock appropriately
     try:
-        # Initiate Firefox browser
+        driver.get("http://127.0.0.1:5000/learn/1-printing/1-2-variables")
+        pageactivity = driver.find_element_by_id("pageactivity").text
+        assert pageactivity == "Printing Variables"
+        print("Unlocking activities - OK")
+    except:
+        print("Failure - Activities failed to unlock after parent activity was completed")
+        st.tearDown()
+        return None
+
+    # If all tests are OK, print success message
+    print("All OK for Chrome!")
+    st.tearDown()
+
+# Selenium Tests for Firefox Browser
+def test_selenium_firefox():
+    # Initiate Firefox browser
+    try:
         driver = st.setUp(0)
         print("Firefox webdriver setup - OK")
     except:
@@ -172,6 +197,7 @@ def test_selenium_firefox():
         print("Account creation - OK")
     except:
         print("Failure - account creation failed")
+        st.tearDown()
         return None
 
     # Navigate to profile page, and assert account details are stored correctly
@@ -189,6 +215,7 @@ def test_selenium_firefox():
         print("Profile page - OK")
     except:
         print("Failure - account details stored incorrectly")
+        st.tearDown()
         return None
 
     # Go to locked activity and assert activity is locked
@@ -199,6 +226,7 @@ def test_selenium_firefox():
         print("Locked activities - OK")
     except:
         print("Failure - locked activity is unlocked, inaccessible or doesn't exist")
+        st.tearDown()
         return None
 
     # Go to unlocked activity and assert activity is unlocked
@@ -209,6 +237,7 @@ def test_selenium_firefox():
         print("Unlocked activities - OK")
     except:
         print("Failure - unlocked activity is locked, inaccessible or doesn't exist")
+        st.tearDown()
         return None
 
     # Check prefill is correctly displayed, and the run function outputs the written code
@@ -221,6 +250,7 @@ def test_selenium_firefox():
         print("Activity prefill - OK")
     except:
         print("Failure - activity prefill is incorrect")
+        st.tearDown()
         return None
 
     # Attempt to submit correct answer
@@ -235,10 +265,10 @@ def test_selenium_firefox():
         prefill = driver.find_element_by_id("yourcode")
         assert prefill.get_attribute("value") == 'print("Hello, world!")'
         driver.find_element_by_id("submit").click()
-        sleep(1) # Pause to let javascript run
-        
+        sleep(1) # Pause to let javascript run  
     except:
         print("Failure - Couldn't submit answer")
+        st.tearDown()
         return None
     
     # Check user statistics are updated correctly
@@ -251,12 +281,26 @@ def test_selenium_firefox():
         print("Account statistics - OK")
     except:
         print("Failure - User statistics failed to update")
+        st.tearDown()
         return None
-    print("All OK for Firefox!")
     
-def test_selenium_edge():
-    st = seleniumTest()
+    # Check activities will unlock appropriately
+    try:
+        driver.get("http://127.0.0.1:5000/learn/1-printing/1-2-variables")
+        pageactivity = driver.find_element_by_id("pageactivity").text
+        assert pageactivity == "Printing Variables"
+        print("Unlocking activities - OK")
+    except:
+        print("Failure - Activities failed to unlock after parent activity was completed")
+        st.tearDown()
+        return None
+    
+    # If all tests are OK, print success message
+    print("All OK for Firefox!")
+    st.tearDown()
 
+# Selenium Tests for Edge Browser
+def test_selenium_edge():
     # Initiate Edge browser
     try:
         driver = st.setUp(2)
@@ -275,18 +319,19 @@ def test_selenium_edge():
         driver.find_element_by_id("firstname").send_keys("Edge")
         driver.find_element_by_id("lastname").send_keys("Test")
         driver.find_element_by_id("email").send_keys(email)
-        driver.find_element_by_id("password").send_keys("chromePassword")
-        driver.find_element_by_id("confirm").send_keys("chromePassword")
+        driver.find_element_by_id("password").send_keys("edgePassword")
+        driver.find_element_by_id("confirm").send_keys("edgePassword")
         driver.find_element_by_id("accept_tos").click()
         driver.find_element_by_id("submit").click()
         driver.find_element_by_id("username").send_keys(username)
-        driver.find_element_by_id("password").send_keys("chromePassword")
+        driver.find_element_by_id("password").send_keys("edgePassword")
         driver.find_element_by_id("submit").click()
         # Once account is created, assert true if on homepage
         assert driver.title == "Learn Python - Homepage"
         print("Account creation - OK")
     except:
         print("Failure - account creation failed")
+        st.tearDown()
         return None
 
     # Navigate to profile page, and assert account details are stored correctly
@@ -304,6 +349,7 @@ def test_selenium_edge():
         print("Profile page - OK")
     except:
         print("Failure - account details stored incorrectly")
+        st.tearDown()
         return None
 
     # Go to locked activity and assert activity is locked
@@ -314,6 +360,7 @@ def test_selenium_edge():
         print("Locked activities - OK")
     except:
         print("Failure - locked activity is unlocked, inaccessible or doesn't exist")
+        st.tearDown()
         return None
 
     # Go to unlocked activity and assert activity is unlocked
@@ -324,6 +371,7 @@ def test_selenium_edge():
         print("Unlocked activities - OK")
     except:
         print("Failure - unlocked activity is locked, inaccessible or doesn't exist")
+        st.tearDown()
         return None
 
     # Check prefill is correctly displayed, and the run function outputs the written code
@@ -336,6 +384,7 @@ def test_selenium_edge():
         print("Activity prefill - OK")
     except:
         print("Failure - activity prefill is incorrect")
+        st.tearDown()
         return None
 
     # Attempt to submit correct answer
@@ -350,10 +399,10 @@ def test_selenium_edge():
         prefill = driver.find_element_by_id("yourcode")
         assert prefill.get_attribute("value") == 'print("Hello, world!")'
         driver.find_element_by_id("submit").click()
-        sleep(1) # Pause to let javascript run
-        
+        sleep(1) # Pause to let javascript run    
     except:
         print("Failure - Couldn't submit answer")
+        st.tearDown()
         return None
     
     # Check user statistics are updated correctly
@@ -366,8 +415,23 @@ def test_selenium_edge():
         print("Account statistics - OK")
     except:
         print("Failure - User statistics failed to update")
+        st.tearDown()
         return None
+
+    # Check activities will unlock appropriately
+    try:
+        driver.get("http://127.0.0.1:5000/learn/1-printing/1-2-variables")
+        pageactivity = driver.find_element_by_id("pageactivity").text
+        assert pageactivity == "Printing Variables"
+        print("Unlocking activities - OK")
+    except:
+        print("Failure - Activities failed to unlock after parent activity was completed")
+        st.tearDown()
+        return None
+
+    # If all tests are OK, print success message
     print("All OK for Edge!")
+    st.tearDown()
 
 # Perform the tests on each browser
 print("Test Chrome implementation:")
