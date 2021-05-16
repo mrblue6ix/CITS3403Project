@@ -1,5 +1,5 @@
 import os
-import flask
+import random, string
 from app import app, db
 from app.models import User, Activity, Module, UserActivity, ActivityDependency, ModuleDependency
 from selenium import webdriver
@@ -22,24 +22,10 @@ class seleniumTest:
             options.use_chromium = True
             options.add_experimental_option('excludeSwitches', ['enable-logging'])
             self.driver = Edge(options=options)
-        db.init_app(app)
-        db.create_all()
-        user = User(id='2', firstname = 'Test', lastname = 'Case', email = 'testCaseEmail', username = 'TestCase')
-        admin = User(id='3', firstname = 'Admin', lastname = 'Test', email = 'adminTestEmail', username = 'admin', is_admin = '1')
-        user.set_password('testCasePassword')
-        admin.set_password('adminTestPassword')
-        activity = Activity(id=25, name="testName", prompt="testPrompt", answer="testAnswer", title="testTitle", solution="testSolution")
-        module = Module(id=26, title="testModuleTitle", description="testModuleDescription", name="testModuleName")
-        db.session.add(user)
-        db.session.add(admin)
-        db.session.add(activity)
-        db.session.add(module)
-        #db.session.commit()
         return self.driver
     
     def tearDown(self):
-        db.session.remove()
-        db.drop_all()
+        db.session.rollback()
 
 def test_new_user():
 # GIVEN the user model 
@@ -137,81 +123,145 @@ def test_new_module_dependency():
         return "Failure"
         
 
-def test_selenium_chrome_create_account():
-    #basedir = os.path.abspath(os.path.dirname(__file__))
-    #app = app.test_client()
-    #app.config['SQLALCHEMY_DATABASE_URI'] = \
-    #    'sqlite:///'+os.path.join(basedir,'app.db')
-    #db.create_all()
+def test_selenium_chrome():
     st = seleniumTest()
-    
     try:
         driver = st.setUp(0)
         driver.get("http://127.0.0.1:5000/")
+        username = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(25))
+        email = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(35))
         driver.find_element_by_link_text("Register").click()
-        driver.find_element_by_id("username").send_keys("chromeTest")
+        driver.find_element_by_id("username").send_keys(username)
         driver.find_element_by_id("firstname").send_keys("Chrome")
         driver.find_element_by_id("lastname").send_keys("Test")
-        driver.find_element_by_id("email").send_keys("chromeEmail")
+        driver.find_element_by_id("email").send_keys(email)
         driver.find_element_by_id("password").send_keys("chromePassword")
         driver.find_element_by_id("confirm").send_keys("chromePassword")
         driver.find_element_by_id("accept_tos").click()
         driver.find_element_by_id("submit").click()
-        if driver.title == "Learn Python - Register":
-            driver.find_element_by_link_text("Login").click()
-        driver.find_element_by_id("username").send_keys("chromeTest")
+        driver.find_element_by_id("username").send_keys(username)
         driver.find_element_by_id("password").send_keys("chromePassword")
         driver.find_element_by_id("submit").click()
         assert driver.title == "Learn Python - Homepage"
-        db.session.remove()
+        driver.get("http://127.0.0.1:5000/profile")
+        assert driver.title == "Learn Python - Profile"
+        recordedUsername = driver.find_element_by_id("username").text
+        assert recordedUsername == "Username: " + username
+        recordedEmail = driver.find_element_by_id("email").text
+        assert recordedEmail == "Email: " + email
+        recordedLines = driver.find_element_by_id("lines").text
+        assert recordedLines == "Total lines of code submitted: 0"
+        recordedSubmissions = driver.find_element_by_id("submissions").text
+        assert recordedSubmissions == "Total number of submissions: 0"
+        driver.get("http://127.0.0.1:5000/learn/1-printing/1-2-variables")
+        lockMessage = driver.find_element_by_id("lockmessage").text
+        assert lockMessage == "🔒 This content is locked! 🔒"
+        driver.get("http://127.0.0.1:5000/learn/1-printing/1-1-helloworld")
+        assert driver.title == "Learn Python - Question"
+        prefill = driver.find_element_by_id("yourcode")
+        assert prefill.get_attribute("value") == 'print("This line will be printed")'
+        driver.find_element_by_id("run").click()
+        output = driver.find_element_by_id("output").text
+        assert output == "This line will be printed"
+
+        #driver.find_element_by_id("submit").click()
+        #driver.get("http://127.0.0.1:5000/profile")
+        #recordedLines = driver.find_element_by_id("lines").text
+        #assert recordedLines == "Total lines of code submitted: 1"
+        #recordedSubmissions = driver.find_element_by_id("submissions").text
+        #assert recordedSubmissions == "Total number of submissions: 1"
+
+        st.tearDown()
         return "Ok"
     except Exception:
         return "Failed"
 
-def test_selenium_firefox_create_account():
+def test_selenium_firefox():
     st = seleniumTest()
     try:
         driver = st.setUp(1)
         driver.get("http://127.0.0.1:5000/")
+        username = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(25))
+        email = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(35))
         driver.find_element_by_link_text("Register").click()
-        driver.find_element_by_id("username").send_keys("firefoxTest")
+        driver.find_element_by_id("username").send_keys(username)
         driver.find_element_by_id("firstname").send_keys("Firefox")
         driver.find_element_by_id("lastname").send_keys("Test")
-        driver.find_element_by_id("email").send_keys("firefoxEmail")
+        driver.find_element_by_id("email").send_keys(email)
         driver.find_element_by_id("password").send_keys("firefoxPassword")
         driver.find_element_by_id("confirm").send_keys("firefoxPassword")
         driver.find_element_by_id("accept_tos").click()
         driver.find_element_by_id("submit").click()
-        if driver.title == "Learn Python - Register":
-            driver.find_element_by_link_text("Login").click()
-        driver.find_element_by_id("username").send_keys("firefoxTest")
+        driver.find_element_by_id("username").send_keys(username)
         driver.find_element_by_id("password").send_keys("firefoxPassword")
         driver.find_element_by_id("submit").click()
         assert driver.title == "Learn Python - Homepage"
+        driver.get("http://127.0.0.1:5000/profile")
+        assert driver.title == "Learn Python - Profile"
+        recordedUsername = driver.find_element_by_id("username").text
+        assert recordedUsername == "Username: " + username
+        recordedEmail = driver.find_element_by_id("email").text
+        assert recordedEmail == "Email: " + email
+        recordedLines = driver.find_element_by_id("lines").text
+        assert recordedLines == "Total lines of code submitted: 0"
+        recordedSubmissions = driver.find_element_by_id("submissions").text
+        assert recordedSubmissions == "Total number of submissions: 0"
+        driver.get("http://127.0.0.1:5000/learn/1-printing/1-2-variables")
+        lockMessage = driver.find_element_by_id("lockmessage").text
+        assert lockMessage == "🔒 This content is locked! 🔒"
+        driver.get("http://127.0.0.1:5000/learn/1-printing/1-1-helloworld")
+        assert driver.title == "Learn Python - Question"
+        prefill = driver.find_element_by_id("yourcode")
+        assert prefill.get_attribute("value") == 'print("This line will be printed")'
+        driver.find_element_by_id("run").click()
+        output = driver.find_element_by_id("output").text
+        assert output == "This line will be printed"
+        st.tearDown()
         return "Ok"
     except Exception:
         return "Failed"
     
-def test_selenium_edge_create_account():
+def test_selenium_edge():
     st = seleniumTest()
     try:
         driver = st.setUp(2)
         driver.get("http://127.0.0.1:5000/")
+        username = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(25))
+        email = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(35))
         driver.find_element_by_link_text("Register").click()
-        driver.find_element_by_id("username").send_keys("edgeTest")
+        driver.find_element_by_id("username").send_keys(username)
         driver.find_element_by_id("firstname").send_keys("Edge")
         driver.find_element_by_id("lastname").send_keys("Test")
-        driver.find_element_by_id("email").send_keys("edgeEmail")
+        driver.find_element_by_id("email").send_keys(email)
         driver.find_element_by_id("password").send_keys("edgePassword")
         driver.find_element_by_id("confirm").send_keys("edgePassword")
         driver.find_element_by_id("accept_tos").click()
         driver.find_element_by_id("submit").click()
-        if driver.title == "Learn Python - Register":
-            driver.find_element_by_link_text("Login").click()
-        driver.find_element_by_id("username").send_keys("edgeTest")
+        driver.find_element_by_id("username").send_keys(username)
         driver.find_element_by_id("password").send_keys("edgePassword")
         driver.find_element_by_id("submit").click()
         assert driver.title == "Learn Python - Homepage"
+        driver.get("http://127.0.0.1:5000/profile")
+        assert driver.title == "Learn Python - Profile"
+        recordedUsername = driver.find_element_by_id("username").text
+        assert recordedUsername == "Username: " + username
+        recordedEmail = driver.find_element_by_id("email").text
+        assert recordedEmail == "Email: " + email
+        recordedLines = driver.find_element_by_id("lines").text
+        assert recordedLines == "Total lines of code submitted: 0"
+        recordedSubmissions = driver.find_element_by_id("submissions").text
+        assert recordedSubmissions == "Total number of submissions: 0"
+        driver.get("http://127.0.0.1:5000/learn/1-printing/1-2-variables")
+        lockMessage = driver.find_element_by_id("lockmessage").text
+        assert lockMessage == "🔒 This content is locked! 🔒"
+        driver.get("http://127.0.0.1:5000/learn/1-printing/1-1-helloworld")
+        assert driver.title == "Learn Python - Question"
+        prefill = driver.find_element_by_id("yourcode")
+        assert prefill.get_attribute("value") == 'print("This line will be printed")'
+        driver.find_element_by_id("run").click()
+        output = driver.find_element_by_id("output").text
+        assert output == "This line will be printed"
+        st.tearDown()
         return "Ok"
     except Exception:
         return "Failed"
@@ -223,6 +273,6 @@ print("Test new module: " + str(test_new_module()))
 print("Test new user activity: " + str(test_new_user_activity()))
 print("Test new activity dependency: " + str(test_new_activity_dependency()))
 print("Test new module dependency: " + str(test_new_module_dependency()))
-print("Test Chrome register account: " + str(test_selenium_chrome_create_account()))
-print("Test Firefox register account: " + str(test_selenium_firefox_create_account()))
-print("Test Edge register account: " + str(test_selenium_edge_create_account()))
+print("Test Chrome implementation: " + str(test_selenium_chrome()))
+print("Test Firefox implementation: " + str(test_selenium_firefox()))
+print("Test Edge implementation: " + str(test_selenium_edge()))
