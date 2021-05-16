@@ -206,10 +206,17 @@ In the root directory of the project.
 # Unit tests
 There are two types of tests in this webapp
 1. Flask front-end and back-end testing
-    - These test are outlined in `test/` folder.
+    - These tests are outlined in `test/` folder.
     - The front-end tests navigate over the dashboard to ensure it is working
     - The back-end tests create models and ensure they are populated correctly
     - To run these tests, navigate to the root directory then run
         - `python3 -m pytest`
 2. Selenium user tests
-    - @ALEX FILL THIS IN 
+    - These tests are stored in the root directory.
+    - The tests are performed on a variety of browsers, including Chrome, Firefox and Edge. The versions of browsers tested on are listed:
+        - Chrome:  `90.0.4430.212`
+        - Firefox: `88.0.1`
+        - Edge:    `90.0.818.62`
+    - The webdriver executables for each browser must be stored in the root directory. These executables are required for the specific browser versions listed.
+    - To launch the application, follow the steps listed above to launch the flask application. Then, navigate to the root directory and run:
+        - `python -m test_selenium`
