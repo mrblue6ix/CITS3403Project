@@ -36,6 +36,10 @@ def index():
             return render_template('home.html', progress=f'{progress:.1f}')
     return render_template('home.html')
 
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
 @app.route("/reset/<module_name>/<activity_name>")
 def reset(module_name, activity_name):
     if not current_user.is_authenticated:
@@ -65,11 +69,12 @@ def stats(module_name, activity_name):
         p_right = activity.times_right/activity.times_submitted * 100
     stats.append(("% correct", p_right))
     num_unique = User.query.filter(User.user_activities.any(activity_id=activity.id)).count()
-    stats.append(("Unique users tried this activity",num_unique))
+    stats.append(("Unique users unlocked this activity",num_unique))
 
-    user_activities = []
-    uas = UserActivity.query.filter_by(activity_id=activity.id)
-
+    uas = UserActivity.query.filter_by(activity_id=activity.id).all()
+    for ua in range(len(uas)):
+        if uas[ua].saved:
+            uas[ua].saved = uas[ua].saved.replace("\n", "</br>")
     return render_template('admin_activity.html', stats=stats, activity=activity, useractivities=uas)
 
 @app.route("/test/<module_name>/<start>")
