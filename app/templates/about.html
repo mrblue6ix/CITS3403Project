@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}About{% endblock %}
+{{ url_for('static',filename='styles/style.css') }}
+
+{% block content %}
+
+<div class="container-fluid mb-4 mt-4">
+    <div class="card">
+        <div class="card-header mt-n1">
+            <h1>About</h1>
+        </div>
+        <div class="card-body">
+            <img id='logo' src="{{ url_for('static',filename='media/logo.png') }}">
+            <p>LearnPython is a free, interactive webapp where you can learn how to program in Python</p>
+
+            <p>This is a project for CITS3402 aimed at making everyone in the world be able to learn how to code for
+                free.</p>
+
+            <p>We teach coding within the browser using short and effective exercises. By running actual code directly
+                from the web browser, students are able to try out coding without installing and executing it locally,
+                which can be hard and redundant for the purpose of learning how to code. This creates a more efficient
+                learning process, because students focus on learning instead of setting up coding environments.</p>
+
+            <p>This website and its content may be used freely and without charge, and it will always be free.</p>
+        </div>
+        </card>
+    </div>
+
+
+    {% endblock %}
