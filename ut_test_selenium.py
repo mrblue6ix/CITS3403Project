@@ -169,7 +169,7 @@ def test_selenium_chrome():
 def test_selenium_firefox():
     # Initiate Firefox browser
     try:
-        driver = st.setUp(0)
+        driver = st.setUp(1)
         print("Firefox webdriver setup - OK")
     except:
         print("Failure - webdriver setup failed")

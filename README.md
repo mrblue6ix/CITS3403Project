@@ -218,6 +218,8 @@ There are two types of tests in this webapp
     - *Attributions*
         - Pytest (https://docs.pytest.org/en/6.2.x/)
 2. Selenium user tests
+    - `requirements`
+        - For each browser to be tested, that browser needs to be installed on the computer, otherwise the test will fail.  
     - These tests are stored in the root directory.
     - The tests are performed on a variety of browsers, including Chrome, Firefox and Edge. The versions of browsers tested on are listed:
         - Chrome:  `90.0.4430.212`
