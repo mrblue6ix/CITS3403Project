@@ -43,8 +43,8 @@ def test_selenium_chrome():
     # Open website and create a new account
     try:
         driver.get("http://127.0.0.1:5000/")
-        username = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(25))
-        email = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(35))
+        username = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
+        email = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5)) + "@"+''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))+'.com'
         driver.find_element_by_link_text("Register").click()
         driver.find_element_by_id("username").send_keys(username)
         driver.find_element_by_id("firstname").send_keys("Chrome")
@@ -179,7 +179,7 @@ def test_selenium_firefox():
     try:
         driver.get("http://127.0.0.1:5000/")
         username = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(25))
-        email = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(35))
+        email = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5)) + "@"+''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))+'.com'
         driver.find_element_by_link_text("Register").click()
         driver.find_element_by_id("username").send_keys(username)
         driver.find_element_by_id("firstname").send_keys("Firefox")
@@ -313,7 +313,7 @@ def test_selenium_edge():
     try:
         driver.get("http://127.0.0.1:5000/")
         username = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(25))
-        email = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(35))
+        email = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5)) + "@"+''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))+'.com'
         driver.find_element_by_link_text("Register").click()
         driver.find_element_by_id("username").send_keys(username)
         driver.find_element_by_id("firstname").send_keys("Edge")
