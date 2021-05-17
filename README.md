@@ -58,13 +58,17 @@ Within the `app` folder, which contains the main logic for the `LearnPython` web
 2. `forms.py`
     - This file describes the behaviour of the two forms we have in our application, `LoginForm` and `RegistrationForm`. 
     - It ensures that the data entered into our application has appropriate constraints.
-    - *Attributions*
-        - [LINKS TO CODE/LIBRARIES USED HERE @JORDAN]
 3. `models.py`
     - This file is the interface between our application front-end logic and the back-end database. 
     - It outlines the `SQLAlchemy ORM` models that are used to create the database, as well as helper functions which are called by the front-end to modify the database.
-    - *Attributions*
-        - [LINKS TO CODE/LIBRARIES USED HERE @JORDAN]
+
+- *Attributions*
+    - Flask (https://flask.palletsprojects.com/en/2.0.x/)
+    - Flask WTForms (https://flask-wtf.readthedocs.io/en/stable)
+    - Flask SQLAlchemy (https://flask-sqlalchema. palletsprojects.com/en/2.x/)
+    - werkzeug (https://werkzeug.palletsprojects.com/en/2.0.x/)
+    - flask_login (https://flask-login.readthedocs.io/en/latest/)
+
 
 ## `Resources` folder
 The `resources` folder is where LearnPython developers can easily write new activities and tests and add them to the database. 
@@ -136,7 +140,7 @@ The `scripts` folder contains a number of helper Python scripts to manually tran
 
 ## Flask `html` templates
 The `templates/` folder contains the `jinja2` `.html` documents that form the basis of our web app. 
-
+- Jinja2 https://jinja.palletsprojects.com/en/3.0.x/
 Most templates extend `base.html`, which adds a sidebar and a navigation bar to the app, with the ability to be dynamically formatted depending on the User.
 
 A quick outline of the html templates:
