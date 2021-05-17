@@ -9,6 +9,11 @@
  https://dev.to/dcodeyt/creating-beautiful-html-tables-with-css-428l
  */
 
+#header-logo {
+  width: 40px;
+  height: 40px;
+}
+
 .list-group-item:hover {
   color: rgb(126, 194, 70, 0.8);
 }
