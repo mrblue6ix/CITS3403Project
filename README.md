@@ -119,19 +119,20 @@ The `scripts` folder contains a number of helper Python scripts to manually tran
 - This script allows a developer to clear out specific parts of the database to allow for fast interation.
 - Usage is `python3 clear-db.py [app.db]`
 - *Attributions*
-    - [LINKS TO CODE/LIBRARIES USED HERE @JORDAN]
+    - SQLite3 https://docs.python.org/3/library/sqlite3.html
 2. `populate-db.py`
 - This reads a module file and all the activities within it, then inserts them into a `Sqlite3` database.
 - It also reads the relationships between the modules and populates the `Dependency` tables.
 - It converts the `markdown` code into valid `html`
 - Usage: `python3 populate-db.py [app.db] [app/resources/modules.yaml]`
 - *Attributions*
-    - [LINKS TO CODE/LIBRARIES USED HERE @JORDAN]
+    - SQLite3 https://docs.python.org/3/library/sqlite3.html
+    - Python-markdown https://python-markdown.github.io/
 3. `add-admin.py`
 - This file adds an admin account to the database.
 - Usage: `python3 add-admin.py [app.db]`
 - *Attributions*
-    - [LINKS TO CODE/LIBRARIES USED HERE @JORDAN]
+    - SQLite3 https://docs.python.org/3/library/sqlite3.html
 
 ## Flask `html` templates
 The `templates/` folder contains the `jinja2` `.html` documents that form the basis of our web app. 
@@ -145,6 +146,9 @@ A quick outline of the html templates:
     - It also includes an output section where Users can see the `stdout` of their program. 
     - *Attributions*
         - Skulpt JS libraries (for Python interpreter, https://skulpt.org/using.html)
+        - Termynal (https://github.com/ines/termynal)
+        - CodeMirror (https://codemirror.net/)
+        - Humanize Duration (https://www.npmjs.com/package/humanize-duration)
 2. `admin_activity.html`
     - If the user is an administrator, this activity page is shown instead, which displays some basic usage statistics about that activity.
     - *Attributions*
@@ -205,6 +209,8 @@ There are two types of tests in this webapp
     - The back-end tests create models and ensure they are populated correctly
     - To run these tests, navigate to the root directory then run
         - `python3 -m pytest`
+    - *Attributions*
+        - Pytest (https://docs.pytest.org/en/6.2.x/)
 2. Selenium user tests
     - These tests are stored in the root directory.
     - The tests are performed on a variety of browsers, including Chrome, Firefox and Edge. The versions of browsers tested on are listed:
@@ -213,8 +219,7 @@ There are two types of tests in this webapp
         - Edge:    `90.0.818.62`
     - The webdriver executables for each browser must be stored in the root directory. These executables are required for the specific browser versions listed.
     - To launch the application, follow the steps listed above to launch the flask application. Then, navigate to the root directory and run:
-        - `python -m test_selenium`
+        - `python ut_test_selenium.py`
 
     - *Attributions*
         - https://www.selenium.dev/
-        - 
