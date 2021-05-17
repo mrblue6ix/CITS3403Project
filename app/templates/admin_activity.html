@@ -22,6 +22,25 @@
         {% endfor %}
     </table>
     {% endif %}
-</div>
+    <h1>User submissions</h1>
+    <div class="row">
+        <div class="col-4">
+            <div class="list-group" id="list-tab" role="tablist">
+                {% for ua in useractivities %}
+                    <a class="list-group-item list-group-item-action" id="list-{{ua.User.username}}-list" data-toggle="list" href="#list-{{ua.User.username}}" role="tab" aria-controls="{{ua.User.username}}">
+                        {{ua.User.firstname}} {{ua.User.lastname}} {{ua.User.username}}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-8">
+            {% for ua in useractivities %}
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show" id="list-{{ua.User.usename}}" role="tabpanel" aria-labelledby="list-{{ua.User.username}}-list">{{ ua.saved }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    </div>
 
 {% endblock %}

@@ -82,7 +82,7 @@ for module in modules:
             cursor.execute("SELECT * FROM Activity WHERE name=?",
                             (activity_name.strip('.yaml'),))
             if cursor.fetchone() is None:
-                with open(activity_file) as activity:
+                with open(activity_file, encoding='utf-8') as activity:
                     try:
                         a = yaml.safe_load(activity)
                         # Convert from Markdown to HTML
@@ -109,7 +109,7 @@ for module in modules:
     if os.path.isdir(folder):
         for activity_file in glob.glob(f"{folder}/*.yaml"):
             activity_name = os.path.basename(activity_file)
-            with open(activity_file) as activity:
+            with open(activity_file, encoding='utf-8') as activity:
                 try:
                     a = yaml.safe_load(activity)
                 except yaml.YAMLError as exc:

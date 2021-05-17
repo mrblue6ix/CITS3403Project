@@ -30,7 +30,6 @@ def index():
             stats.append(('Total site users', User.query.count()))
             stats.append(('Number of activities', Activity.query.count()))
             stats.append(('Number of modules', Module.query.count()))
-            stats.append(('Total user LOC written',))
             return render_template('home.html', stats=stats)
         else:
             progress = UserActivity.query.filter_by(user_id=current_user.id).count()/Activity.query.count() * 100
@@ -68,7 +67,10 @@ def stats(module_name, activity_name):
     num_unique = User.query.filter(User.user_activities.any(activity_id=activity.id)).count()
     stats.append(("Unique users tried this activity",num_unique))
 
-    return render_template('admin_activity.html', stats=stats, activity=activity)
+    user_activities = []
+    uas = UserActivity.query.filter_by(activity_id=activity.id)
+
+    return render_template('admin_activity.html', stats=stats, activity=activity, useractivities=uas)
 
 @app.route("/test/<module_name>/<start>")
 @app.route("/test/<module_name>")
@@ -88,12 +90,12 @@ def test(module_name, start=None):
     if not current_user_activity:
         dependencies = [(a.parentActivity.module, a.parentActivity) for a in activity.dependencies]
         return render_template('activity.html', locked=True, dependencies=dependencies)
-    if start:
+    time_stop = current_user_activity.time_stop
+    if start and time_stop == None:
         return render_template('start_test.html', module=module, activity=activity) 
     saved_code = current_user_activity.saved
 
     # If we haven't started the timer, start it now
-    time_stop = current_user_activity.time_stop
     if time_stop == None:
         current_user_activity.set_timestop(activity.time_limit + time.time())
         time_stop = activity.time_limit + time.time()
