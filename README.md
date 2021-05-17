@@ -1,4 +1,4 @@
-![Alt text](app/static/media/logo.gif "Title")
+![Alt text](app/static/media/logo.png "Title")
 # LearnPython Website
 
 # Introduction
