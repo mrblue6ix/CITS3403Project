@@ -1,0 +1,22 @@
+---
+name: 1-2-variables
+requires: 
+  - 1-1-helloworld
+title: Printing Variables
+prompt: >
+  Variables are a way we can store a value in memory so we can access it later.
+  For example, if we wanted to print a variable we could write:
+
+  `variable = "I'm printable!"`
+
+  `print(variable)`
+question: Try changing the `message` variable so it prints out `Hello, Python!`
+prefill: >
+  message = "Hello, world!"
+
+  print(message)
+answer: Hello, Python!
+solution: > 
+  Good job. Variables are used heavily in programming to store intermediate results,
+  and to help the programmer understand the code more easily.  
+...

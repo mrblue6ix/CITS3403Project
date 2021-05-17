@@ -4,13 +4,104 @@
  * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-simple-sidebar/blob/master/LICENSE)
  */
 
+
+ /*
+ https://dev.to/dcodeyt/creating-beautiful-html-tables-with-css-428l
+ */
+
+.list-group-item:hover {
+  color: rgb(126, 194, 70, 0.8);
+}
+
+div.card.welcome {
+  margin-top: 50px;
+  width: 50rem;
+}
+
+div.card.welcome .card-header {
+  background-color: rgb(126, 194, 70, 0.8);
+}
+
+#logo {
+  width: 20rem;
+  height: 20rem;
+
+}
+
+a:hover {
+  color: green;
+}
+
+.styled-table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+  background-color: #009879;
+  color: #ffffff;
+  text-align: left;
+}
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+.styled-table tbody tr.active-row {
+  font-weight: bold;
+  color: #009879;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+
+.termynal-output {
+  /* enable div scrolling */
+  overflow: auto;
+  height:400px;
+}
+.alert-primary {
+  width: 40%;
+}
+
+i.fa-check-circle {
+  color: green;
+}
+
+div.card.registration {
+  margin-top: 50px;
+  width: 30rem;
+}
+
+div.card.login {
+  margin-top: 50px;
+  width: 20rem;
+}
+
+div.card.profile {
+  margin-top: 50px;
+  width: 40rem;
+}
+
  #wrapper {
     overflow-x: hidden;
  }
 
 #sidebar-wrapper {
   min-height: 100vh;
-  margin-left: -10rem;
+  margin-left: -15rem;
   -webkit-transition: margin .25s ease-out;
   -moz-transition: margin .25s ease-out;
   -o-transition: margin .25s ease-out;
@@ -23,7 +114,7 @@
 }
 
 #sidebar-wrapper .list-group {
-  width: 10rem;
+  width: 15rem;
 }
 
 #page-content-wrapper {
@@ -45,6 +136,6 @@
   }
 
   #wrapper.toggled #sidebar-wrapper {
-    margin-left: -10rem;
+    margin-left: -15rem;
   }
 }

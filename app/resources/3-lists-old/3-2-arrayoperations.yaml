@@ -1,0 +1,43 @@
+---
+name: 3-2-arrayoperations
+title: Array Operations
+requires: 
+  - 2-5-testvariables
+prompt: >
+  Lists have many operations and methods to control the data being stored inside:
+
+  - Indexing: Reading a specific index of the list. Format is `list[index]`, and index can be negative.
+
+  - Slicing: Reading a specific sequence of indices of the list. Format is `list[lowerIndex:higherIndex]`, where the slice includes the lower index and not the higher index. Can also exclude the lower and/or higher index whilst keeping the colon to go to each end of the list.
+
+  - Append: Attaching one list to the end of another using a `+` operation, as in `bigList = list1 + list2`. This can also be done using the `append()` function of lists.
+
+  - Multiplication: Repeating the list multiple times using a `*` operation. as in `string *= 3`. This can only be done with integers, and negative integers will return an empty string.
+
+
+  Something to keep in mind is how copying lists works. If performing a simple `list1 = list2`, one may assume that editing `list2` after this would be fine. However, this operation only serves to place a pointer at `list1` towards `list2`. What this means is that altering `list2` will have the knock-on effect of altering `list1`.
+
+
+  To avoid this happening, a simple fix is to instead use `list1 = list2[:]`. This will perform a copy of the data within `list2`, rather than a copy of the `list` variable itself.
+question:
+prefill: >
+  list1 = [1, 2, 3, 4, 5]
+
+  list2 = list1
+
+  list1.append(7)
+
+  print(list2)
+
+
+  print("testing testing, " + str([1, 2] * 2))
+
+
+  list3 = [6, 7, 8, 9, 10]
+  list4 = list3[:]
+  list3.append(11)
+  print(list3, list4)
+
+answer:
+solution:
+...

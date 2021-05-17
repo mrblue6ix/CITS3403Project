@@ -1,0 +1,43 @@
+---
+name: 2-5-testvariables
+title: Test your skills!
+requires: 
+  - 1-3-printingmultiple
+prompt: >
+  Using your knowledge of operations, data types and functions, write a function to perform the tasks on the given variables below.
+
+
+  Feel free to check on the past sections if you need a refresher.
+
+  If you accidentally modify the given variables, press the `Reset` button to restore the originals (this will remove all other code though).
+question: >
+  1. Define a function that takes one input.
+
+  2. Write an if statement that multiplies `inputVar` by variable `float1` if `float1` is greater than 15. Otherwise, subtract 2 from `inputVar` and square `float1`.
+
+  3. For each character in the string `str1`, if the character is equal to "l", multiply `inputVar` by 2.
+
+  4. If `inputVar` is of type `float`, or `bool1` is True, make `inputVar` equal `inputVar` integer divided by 3 (// 3) and set `bool1` to False. Otherwise, set `bool1` to True.
+
+  5. Finally, update the corresponding value of `inputVar` in `inputVarList`. Code to do this is already provided to reduce confusion.
+
+
+  It may be helpful to perform some of these steps in seperately defined functions. Just remember, variables are defined locally, and won't be updated unless the function returns them too!
+prefill: >
+  def main(inputVarList):
+    float1 = 2.5
+    str1 = "Hello world"
+    bool1 = True
+    for n in range(len(inputVarList)):
+      inputVar = inputVarList[n]
+      # Perform the described tasks on variable inputVar in the space below.
+
+
+      inputVarList[n] = inputVar
+    return inputVarList
+  
+  print(main([5, 10, 7, 17]))
+
+answer: "[8, 64, 13, 906.0]"
+solution: Congratulations on completing the variables module!
+...

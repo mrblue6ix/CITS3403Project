@@ -1,0 +1,42 @@
+---
+name: 3-3-strings
+title: Strings
+requires: 
+  - 2-5-testvariables
+prompt: >
+  Strings are really a form of list, with the prerequisite that all elements are of type `char`. From this, we know we can use list operations on strings, including indexing, slicing, appending and multiplication.
+
+
+  Another function to keep in mind is the `str()` function. Most data types in Python support the conversion to type `str`, which makes printing and reading the stored data easier on the user end.
+
+
+  You can create a string using either single or double quotes, but not both at once! If you have a string that will contain both single and double quotation marks, you must add a `\` character in front of the quotation mark you want to use in the string.
+
+
+  An alternative is to instead use triple quotation marks `'''`. Triple quotation marks also allow us to write strings with breaks in them:
+
+  `string = '''text breaks here->
+  but continues down here!'''
+
+
+  There are also many `str` specific methods available. To see a list of string methods, try typing `print(dir(str))`.
+
+
+  Give some list operations a go on strings, before moving onto the test question!
+question:
+prefill: >
+  str1 = "The code said \"Hello world\""
+
+  str2 = '''The code said "Hello world"'''
+
+  print("str1 == str2: " + str(str1 == str2))
+
+
+  alphabet = "abcdefghijklmnopqrstuvwxyz"
+  print(alphabet[12:-12])
+
+  yell = "echo! "
+  print(yell * 3)
+answer:
+solution:
+...

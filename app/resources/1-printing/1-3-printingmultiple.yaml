@@ -1,0 +1,17 @@
+---
+name: 1-3-printingmultiple
+requires: 
+  - 1-2-variables
+title: Printing Multiple Things
+prompt: >
+  We can use the `print()` function to print multiple things at once.
+  This can be done in a number of ways, with some being seen below:
+
+
+  `print('Harry', 'Potter')`
+
+question:
+prefill: print("Harry", "Potter")
+answer:
+solution:
+...

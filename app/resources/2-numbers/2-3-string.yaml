@@ -1,0 +1,33 @@
+---
+name: 2-3-string
+title: Operators with strings
+requires: 
+  - 2-1-numbers
+prompt: >
+  Python also allows you to manipulate `strings` using operators.
+
+
+  For example, we can concatenate `strings` by using the addition operator:
+
+  `helloworld = "hello" + " " + "world"`
+
+
+  We can also multiply strings together to make them repeat
+
+  `ten_hellos = "hello" * 10`
+
+question: >
+  Write a Python script to print a smiley face with 50 smiles
+  using string concatenation and multiplication.
+
+  Your output should look something like this:
+
+  `:))))))))))))...`
+answer: :))))))))))))))))))))))))))))))))))))))))))))))))))
+solution: > 
+  String operations make this problem very simple to solve!
+  One solution could have been:
+
+  `print(":"+")"*50)`
+prefill: >
+...

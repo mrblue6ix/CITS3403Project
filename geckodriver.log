@@ -1,0 +1,17 @@
+1621172740704	geckodriver	INFO	Listening on 127.0.0.1:61560
+1621172977690	geckodriver	INFO	Listening on 127.0.0.1:61759
+1621228795390	geckodriver	INFO	Listening on 127.0.0.1:51315
+1621228798451	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\caleb\\AppData\\Local\\Temp\\rust_mozprofileVKNnHn"
+1621228798887	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1621228801001	Marionette	INFO	Listening on port 51323
+1621228801135	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://127.0.0.1:5000/static/js/termynal.min.js, line 10: SyntaxError: unexpected token: keyword 'if'
+JavaScript error: http://127.0.0.1:5000/static/js/termynal.min.js, line 10: SyntaxError: unexpected token: keyword 'if'
+JavaScript error: http://127.0.0.1:5000/static/js/termynal.min.js, line 10: SyntaxError: unexpected token: keyword 'if'
+1621228807746	Marionette	INFO	Stopped listening on port 51323
+[Parent 14708, IPC I/O Parent] WARNING: file /builds/worker/checkouts/gecko/ipc/chromium/src/base/process_util_win.cc:167
+[Parent 14708, IPC I/O Parent] WARNING: file /builds/worker/checkouts/gecko/ipc/chromium/src/base/process_util_win.cc:167
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+

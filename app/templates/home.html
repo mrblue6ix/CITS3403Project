@@ -2,17 +2,89 @@
 {% block title %}Homepage{% endblock %}
 {% block content %}
   <div class="container-fluid">
-  <h1 class="mt-4">Homepage</h1>
-  <p>This will be the homepage where users can either see their current status or have a link to create an account</p>
   <!-- If logged in, show stats of account
         If not logged in, show create account/log in button
         (Page 8, flask lecture)-->
+
     <!-- If user.logged_in then display Hello, name, and stats...
         If not then do form rendering for login/register-->
-    {% if current_user.is_authenticated %}
-    <h2>Hello, {{ current_user.firstname }}</h2>
-    {% else %}
-    <h2>Please login.</h2>
-    {% endif %}
+    <div class="text-center">
+      <img id='logo' src="{{ url_for('static',filename='media/logo.png') }}">
+    </div>
+    <div class="card mx-auto welcome mt-n1">
+      {% if current_user.is_authenticated %}
+      <div class="card-header">
+        <h1>Welcome back, {{current_user.firstname}}</h1>
+      </div>
+      <div class="card-body">
+      <p>LearnPython is an interative tutorial website where anybody can learn how to program in Python.</p>
+        <p>Just click on the activity you would like to get started on and follow the instructions. </p>
+        <p>Good luck!</p>
+      {% if progress %}
+      <h3>Overall progress</h3>
+      <div class="progress mb-4">
+        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progress}}%">{{progress}}%</div>
+      </div>
+      {% endif %}
+      {% if current_user.is_admin %}
+        {% if stats %}
+        <table class='styled-table'>
+            <th>
+              Statistics
+            </th>
+            <th>
+                Measure
+            </th>
+            {% for stat in stats %}
+            <tr>
+                <td>{{stat[0]}}</td>
+                <td>{{stat[1]}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+      {% endif %}
+      <div class="row">
+      {% for module in modules %}
+        <div class="col-auto mx-auto mb-3">
+          <div class="card h-100" style="width: 20rem;">
+            <div class="card-body">
+              <h5 class="card-title">{{module.title}}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{module.name}}</h6>
+              <p class="card-text">{{module.description}}</p>
+              <ol>
+                {% for activity in module.activities|sort(attribute='name') %}
+                    <li><a href="/learn/{{module.name}}/{{activity.name}}">
+                      {{activity.title}}
+                      {% if activity.getUserActivity(current_user).is_completed %}
+                        <i class="fas fa-check-circle"></i>
+                      {% elif activity.getUserActivity(current_user) is none %}
+                        <i class="fas fa-lock"></i>
+                      {% elif activity.question is none %}
+                        <i class="fas fa-info-circle"></i>
+                      {% else %}
+                        <i class="fas fa-chevron-left"></i>
+                      {% endif %}
+                    </a>
+                    </li>
+                {% endfor %}
+              </ol>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      </div>
+      {% else %}
+      <div class="card-header welcome mt-n1">
+        <h1>Welcome!</h1>
+      </div>
+      <div class="card-body">
+        <p>LearnPython is an interactive website where you can learn the basics of the Python programming language</p>
+        <p>You don't need any prior programming experience to get started.</p>
+        <p>To begin, please login or register an account!</p>
+        <h2>Please <a href="{{url_for('login')}}">login</a> or <a href="{{url_for('register')}}">register</a>.</h2>
+      </div>
+      {% endif %}
+      </card>
   </div>
 {% endblock %}

@@ -1,0 +1,49 @@
+---
+name: 3-1-lists
+title: Lists
+requires: 
+  - 2-5-testvariables
+prompt: >
+  Lists in Python are used to store a variety of data underneath one variable name. Stored data can be of variable types.
+
+
+  We can create an empty list by initialising a variable to `[]`. Alternatively, we can create a list by filling the square brackets with values or variables separated by commas, like `[1, 2, 3]`.
+
+
+  Although lists can contain multiple types of data at once, we often decide to minimise the variety of data types within a list as to make the handling of list data more uniform and streamlined.
+
+
+  You can also create a list of lists, which we call a 2D array. This can be compounded out ad infinitum to create arrays of three, four and more dimensions. However it is generally good practice to minimise the complexity of accessing data and understanding data models.
+
+
+  To access specific data in a list, we call on the variable followed by the data index, like `array[0]`. Lists start at the 0th index, meaning a list's final index is one less than its length.
+
+
+  If we wanted to access the last element in a list of unknown length, we could use `array[len(array) - 1]`. However, we can also use a negative index, in which case we scan from the back of the list, with the last element being `array[-1]` and the first element being `array[-len(array)]`.
+
+
+  You must take care when accessing lists and arrays though, as trying to access an index out of the list's range will throw an error. This is a very common mistake to make when iterating through a list of unknown size, so it is often beneficial to check or store a list's size using the `len()` function.
+
+
+  Try initialising lists and accessing list data below before moving on.
+question:
+prefill: >
+  numList = [0, 1, 2, 3, 4, 5]
+
+  print(numList[0], numList[-1])
+
+
+  charList = ["a", "b", "c", "d", "e"]
+
+  for i in range(len(charList)):
+    print("char at index " + i + " = " + charList[i])
+
+
+  array2D = [["a", "b", "c"], [1, 2, 3], ["do", "re", "mi"]]
+
+  for array in array2D:
+    print(array)
+
+answer:
+solution:
+...

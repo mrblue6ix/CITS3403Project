@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+{% block title %}Question{% endblock %}
+{{ url_for('static',filename='styles/style.css') }}
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='styles/codemirror.css')}}">
+<script src="{{url_for('static', filename='js/codemirror.js')}}"></script>
+<script src="{{url_for('static', filename='js/python-mode.js')}}"></script>
+<link rel="stylesheet" href="{{url_for('static', filename='styles/termynal.css')}}">
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid mb-4 mt-4">
+    {% if locked %}
+    <h1 id="lockmessage">🔒 This content is locked! 🔒</h1>
+    <p> You must complete the following activites before this one</p>
+    <ul>
+      {% for dependency in dependencies %}
+      <li><a href="/learn/{{dependency[0].name}}/{{dependency[1].name}}">
+          {{dependency[0].title}} - {{dependency[1].title}}</a></li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    {% if time_stop %}
+    <div class="progress mb-4">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75"
+        aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+    </div>
+    {% endif %}
+    <h6 class="text-muted">{{module.title}}</h6>
+    <h1 id="pageactivity">{{activity.title}}</h1>
+    {{activity.prompt | safe }}
+
+    {% if activity.question %}
+    <div class="row {% if not is_completed %}collapse{% endif %}" id='solution-row'>
+      <div class="col-md-12">
+        <h3 class="text-primary">Solution</h3>
+        <p id='solution'>{% if is_completed %} {{activity.solution | safe}} {% endif %}</p>
+        <div class="alert alert-success collapse" role="alert" id="unlocked-modules"></div>
+      </div>
+    </div>
+    <h3 id="your-task">Your task {% if is_completed %} <i class="fas fa-check-circle"></i> {% endif %}</h3>
+    {{activity.question | safe}}
+    {% endif %}
+    <div class="row mb-2">
+      <div class="col-lg-12">
+        <button id="run" type="button" class="btn btn-outline-success" onclick="runit()">Run</button>
+        <button id="submit" type="button" class="btn btn-outline-primary" onclick="checkAns()"
+          {% if activity.question is none %}disabled{% endif %}>Submit answer</button>
+        <button id="save" type="button" class="btn btn-secondary btn-sm" onclick="save()">Save code</button>
+        <button id="reset" type="button" class="btn btn-secondary btn-sm" onclick="reset()">Reset</button>
+        <span id='savealert'>Saved</span>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-md-6">
+        <form>
+          <textarea id="yourcode" class="form-control"
+            rows=15>{% if saved %}{{saved}}{% else %}{{activity.prefill}}{% endif %}</textarea><br />
+        </form>
+      </div>
+      <div class="col-md-6 termynal-output">
+        <div id="termynal" data-termynal>
+          <div id="output" class="scroll"></div> <!-- Output from python code is saved in here-->
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+{% endblock %}
+
+{% block scripts %}
+  {% if not locked %}
+    <script src="{{ url_for('static',filename='js/humanize-duration.js') }}"></script>
+    <script type="text/javascript">
+    // Global codeMirror Editor
+    var codeMirror;
+    // output functions are configurable.  This one just appends some text
+    // to a pre element.
+    function outf(text) { 
+        var mypre = document.getElementById("output"); 
+        mypre.innerText = mypre.innerText+ text; 
+    } 
+    function builtinRead(x) {
+        if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+                throw "File not found: '" + x + "'";
+        return Sk.builtinFiles["files"][x];
+    }
+    
+    // Here's everything you need to run a python program in skulpt
+    // grab the code from your textarea
+    // get a reference to your pre element for output
+    // configure the output function
+    // call Sk.importMainWithBody()
+    function runit() { 
+       var prog = codeMirror.getValue();
+       var mypre = document.getElementById("output"); 
+       console.log(mypre)
+       mypre.innerHTML = ''; 
+       Sk.pre = "output";
+       Sk.configure({output:outf,
+         read:builtinRead, __future__:Sk.python3,
+          inputfun: function(str){
+            return window.prompt(str);
+          },
+          inputfunTakesPrompt: true
+        }); 
+       var myPromise = Sk.misceval.asyncToPromise(function() {
+           return Sk.importMainWithBody("<stdin>", false, prog, true);
+       });
+       myPromise.then(function(mod) {
+           console.log('success');
+       },
+           function(err) {
+             var msg = err.toString();
+             console.log(msg)
+             $('#output').html("<i>"+msg+"</i>")
+       });
+      }
+    function checkAns() { 
+        // Run the code
+        runit();
+        // Save the code  
+        var user_code = codeMirror.getValue()
+        $.post('/save/{{module.name}}/{{activity.name}}',{
+          code:user_code
+        }, function (data, status){
+          console.log("Saved successfully")
+        })
+        var userans = $.trim($("#output").html().replace(/\s?(<br\s?\/?>)\s?/g, "\n"))
+        console.log(userans)
+        $.post("/submit/{{module.name}}/{{activity.name}}", {
+          answer: userans,
+          code: user_code
+        }, function(data, status){
+          if ("unlocked" in data) {
+            // We were successful! display unlocked content
+            $("#solution").html(data['message'])
+            $("#solution-row").show()
+            $("#your-task").append("<i class='fas fa-check-circle'></i>")
+            var html = 'You have unlocked the following activities:<ul>';
+            for (const x of data['unlocked']) {
+              if (x[1].includes("test")){
+                html += '<li><a href="/test/'+x[1]+'">'+x[0]+'</a></li>'
+              } else {
+                html += '<li><a href="/learn/'+x[1]+'">'+x[0]+'</a></li>'
+              }
+            }
+            html += '</ul>'
+            $("#unlocked-modules").html(html);
+            $("#unlocked-modules").show();
+          } else {
+            alert(data['message']);
+          }
+        }).fail(function(err, status){
+          // something went wrong
+          console.log(err)
+        })
+
+    }
+
+    function save() {
+      var user_code = codeMirror.getValue()
+      $.post('/save/{{module.name}}/{{activity.name}}',{
+        code:user_code
+      }, function (data, status){
+        if ("saved" in data){
+          $("#savealert").fadeIn(500, function(){
+            $(this).delay(2000).fadeOut(500);
+          })
+        }
+      })
+    }
+
+    function reset(){
+      if (confirm("Reset back to original code?")){
+        $.get('/reset/{{module.name}}/{{activity.name}}', function(data, status){
+          codeMirror.setValue(data);
+        })
+      }
+    }
+
+    // Auto-save code every 20 seconds
+    $(document).ready(function(){
+      $("#savealert").hide();
+      setInterval(save, 20000);
+      // Set the global codeMirror object
+      codeMirror = CodeMirror.fromTextArea(document.getElementById("yourcode"), {
+        mode:"python",
+        lineNumbers: true,
+        lineWrapping: true
+      })
+
+    })
+
+    // If there is a time limit, update it every second
+      {% if time_stop %}
+    $(document).ready(function() {
+      var counter = setInterval(function() {
+        var time_stop = {{time_stop}}*1000;
+        var cur_time = Date.now();
+        var time_left = time_stop - cur_time
+        var p_left = (time_left/({{activity.time_limit}}*1000))*100; 
+        console.log(p_left)
+        if (p_left > 0) {
+          $('.progress-bar').css('width', p_left+'%').attr('aria-valuenow', p_left);
+          $('.progress-bar').html(humanizeDuration(time_left, {round:true}));
+        } else {
+          $('#submit').prop('disabled', true);
+          alert("Time is up! Submitting your answer now..")
+          checkAns();
+          clearInterval(counter);
+        }
+      }, 1000); 
+    })
+
+    {% endif %}
+
+  </script>
+  <script src="{{ url_for('static',filename='js/skulpt.min.js') }}" type="text/javascript"></script>
+  <script src="{{ url_for('static',filename='js/skulpt-stdlib.js') }}" type="text/javascript"></script>
+  <script src="{{ url_for('static',filename='js/termynal.min.js') }}" data-termynal-container="#termynal"></script>
+  {% endif %}
+{% endblock %}

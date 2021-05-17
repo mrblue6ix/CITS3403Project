@@ -1,0 +1,16 @@
+---
+name: 1-1-test-printing 
+title: Alphabet length
+requires: 
+prompt: >
+ Complete the test question below! 
+question: >
+  Write some Python code to print the alphabet and the length of the alphabet
+  on a single line. 
+
+prefill: 
+answer: abcdefghijklmnopqrstuvwxyz 26
+solution: > 
+  Well done, you have learnt how to use `print()` and `len()`,
+  two commonly used Python functions when working with strings.
+...

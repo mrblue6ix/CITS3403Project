@@ -1,0 +1,41 @@
+---
+name: 4-1-lists
+title: Lists
+requires: 
+  - 3-1-replace
+prompt: >
+  `mylist = ['apple', 'banana', 'orange']`
+
+
+  Lists are used to store multiple items in a *single variable*.
+
+  Lists can be created using square brackets, and are indexed using square
+  brackets as well (starting from `0`).
+
+  For example, to get the first fruit from the list above, 
+  we can use the code
+
+  `print(mylist[0])`
+question: >
+  Conver the list below so instead of showing three fruits, 
+  it shows three sports:
+
+  1. `soccer`
+
+  2. `basketball`
+
+  3. `tennis`
+
+  `print(` your answer once you have it. 
+answer: "['soccer', 'basketball', 'tennis']"
+solution: >
+  Great work. Lists are the most common form of storing
+  multiple objects in a single variable. Other types of collections
+  of data include `sets`, `dictionaries`, and `tuples`. 
+prefill: >
+  mylist = ['apple', 'banana', 'orange']
+
+  print(mylist)
+
+  print(mylist[0], mylist[1], mylist[2])
+...

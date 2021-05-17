@@ -1,0 +1,16 @@
+---
+name: 1-2-test-numbers 
+title: How long?
+requires: 
+prompt: >
+ Complete the test question below! 
+question: >
+  Write a Python script to print out the number of `seconds`
+  there are in a regular `year`
+
+prefill: 
+answer: 31536000 
+solution: > 
+  Good job, you now know how to perform mathematical 
+  operations using Python. 
+...

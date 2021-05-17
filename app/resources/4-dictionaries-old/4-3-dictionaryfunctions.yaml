@@ -1,0 +1,43 @@
+---
+name: 4-3-dictionaryfunctions
+title: Dictionary functions
+requires: 
+  - 3-4-testlists
+prompt: >
+  Dictionaries have a variety of functions at their disposal to display the information being stored.
+
+
+  Dictionaries have multiple iterator functions, including `.keys()`, `.values()` and `.items()`, that return an iterator of keys, values and key/value pairs respectively.
+
+
+  There are multiple methods to remove a dictionary element. `del dictionary[key]` removes the entry, whilst `dictionary.pop(key)` returns the value of the corresponding key whilst removing the entry.
+
+
+  We can fully clear a dictionary by reinitialising the `dict` variable to an empty `dict`, or by using the `.clear()` function.
+
+
+  If we want to change the key in a dictionary, we are better off creating a new key/value pair and deleting the old pair.
+
+
+  
+question:
+prefill: >
+  dictionary = {}
+
+  for i in range(0, 5):
+    dictionary[i] = i ** i + 3
+  
+  print(dictionary)
+
+  print(dictionary.pop(3))
+
+  print(dictionary.keys())
+
+  print(dictionary.values())
+
+  dictionary.clear()
+
+  print(dictionary)
+answer:
+solution:
+...

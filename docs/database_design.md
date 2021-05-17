@@ -45,16 +45,18 @@ A user is someone that uses the site.
 ## Activity
 An activity is information and maybe a question
 - `ActivityID`
+- `name`
 - `prompt`
 - `answer`
+- `title`
 - `solution`
-- `question`
 
 ## Module
 A module is a group of related activities.
 - `ModuleID`
 - `Title`
 - `Description`
+- `name`
 
 ## UserActivity
 A UserActivity is the data associated with one User completing one Activity

@@ -1,0 +1,36 @@
+---
+name: 4-2-values
+title: Values
+requires: 
+  - 3-4-testlists
+prompt: >
+  Accessing and manipulating a dictionary's values is slightly different to that of lists.
+
+
+  Similar to keys, values in a dictionary can be of any type. This also means a dictionary can contain multiple types of keys and values.
+
+
+  To initialise an empty `dict` variable, we can use `{}` or `dict()`.
+
+
+  To add an entry to a `dict` variable, we input `dictionary[newKey] = value`. This creates a new key/value pair within the dictionary.
+
+
+  To modify a `dict` variables value, we input `dictionary[existingKey] = newValue`. This changes the key's corresponding value without changing the key itself.
+
+
+  To find a key given a value, we need to check each entry in the dictionary to see if `dictionary[key] = givenValue`.
+
+
+  Try practicing the different methods to add and manipulate values within a dictionary below.
+question:
+prefill: >
+  dictionary = {}
+
+  for i in range(0, 5):
+    dictionary[i] = i ** i + 3
+  
+  print(dictionary)
+answer:
+solution:
+...

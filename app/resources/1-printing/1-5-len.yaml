@@ -1,0 +1,26 @@
+---
+name: 1-5-len
+requires: 
+  - 1-2-variables
+title: Length of a string
+prompt: >
+  We can find the length of a string using the `len(` function.
+
+  For example, we can find the length of the `'Hello, world!'` string:
+
+  `print(len("Hello, world!"))`
+
+  `13`
+
+
+  Try running the code below that calculates the length of your name!
+
+question:
+prefill: >
+  name = input("What is your name? ")
+
+  print(len(name))
+
+answer:
+solution:
+...

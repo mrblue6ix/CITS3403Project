@@ -1,0 +1,28 @@
+---
+name: 3-4-testlists
+title: Test your skills!
+requires: 
+  - 2-5-testvariables
+prompt: >
+  Test
+question: >
+  1. For each element in the list, add its index number to its value. So for index 0, add 0, for index 1, add 1, and so on.
+
+  2. Create a duplicate list of `list1`, making sure you have copied the list elements and not the list itself.
+
+  3. Reverse the order of the duplicate list, then for each element divide it by its index number.
+
+  4. Add the duplicate list to the original list, `list1`.
+
+  5. Multiply `list1` by five so it repeats five times.
+
+  6. Print a slice of `list1` with lower bound 47 and upper bound 58.
+prefill: >
+  list1 = [5, 10, 7, 17, 23, 0, 5, 32]
+
+  # Perform the tasks on the provided list.
+ 
+  
+answer: "[35, 5, 11, 9, 20, 27, 5, 11, 39, 0, 11]"
+solution: Congratulations on completing the lists module!
+...

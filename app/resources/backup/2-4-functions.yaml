@@ -1,0 +1,48 @@
+---
+name: 2-4-functions
+title: Functions
+requires: 
+  - 1-1-helloworld
+prompt: >
+  The most important function you need to be able to use is your own!
+
+
+  The `def` function allows you to utilise all of your previous tools to define your own functions, to be used within your Python file.
+
+
+  By defining a function to perform a task, you can later call on this function to get a desired output, process data or perform a check.
+
+
+  If you have an intended end goal, and need to perform a task multiple times, it is useful to define that task in a function.
+  
+
+  This reduces visual clutter and improves the readability of your main function, benefiting both you and users of your code.
+
+
+  If you are planning to use your function throughout your code, you need to include a `return` statement at the desired endpoint of your code, as seen below.
+
+
+  Have a play with the functions below, and try writing your own defined functions to garner a better understanding of using functions.
+question:
+prefill: >
+  def exampleFunc(inputInt):
+    if inputInt <= 0:
+      return "Invalid input. Give me a number above 0."
+    while inputInt < 50:
+      inputInt = helperFunc(inputInt)
+    return inputInt
+  
+  def helperFunc(inputInt):
+    inputInt *= 4
+    inputInt -= 8
+    inputInt **= 2
+    inputInt += 2
+    inputInt /= 10
+    return inputInt
+  
+  # Experiment by changing the input in the exampleFunc() below, and the operations performed in the functions above.
+
+  print(exampleFunc(10))
+answer:
+solution:
+...

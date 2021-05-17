@@ -1,0 +1,41 @@
+---
+name: 4-1-keys
+title: Keys
+requires: 
+  - 3-4-testlists
+prompt: >
+  Dictionaries are similar to lists in that they store a collection of unordered values.
+
+
+  Where dictionaries differ is that they store variables in key/value pairs, allowing for access to the value using the key.
+
+
+  Keys are used as identifiers to access their corresponding values, and thus can't be repeated within the `dict` variable.
+
+
+  Unlike a list, keys can be of any type. However, like a list, you can't access a dictionary entry with an incorrect key. Doing so will throw an error, so beware!
+
+
+  If you know all the keys within a dictionary, you can use them to access their values. However, if you have a long or complex dictionary, it can help to use `if` and `for` statements to check keys without returning an error.
+
+
+  Experiment with the different ways you can access a dictionary using keys below before moving on.
+question:
+prefill: >
+  dictionary = {"key1":"value1", "key2":"value2", "key3":"value3"}
+
+  # Below are some different ways you can safely access a dictionary's keys and values using its keys.
+
+  print(dictionary["key1"])
+
+  for key in dictionary:
+    print(key + ":" + dictionary[key])
+  
+  if "key4" in dictionary:
+    print(dictionary["key4"])
+  else:
+    dictionary["key4"] = "value4"
+    print(dictionary["key4"])
+answer:
+solution:
+...

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-
+{% block title %}Register{% endblock %}
 {% block content %}
-    <div class="card mx-auto" style='margin-top: 50px; width:30rem;'>
+    <div class="card mx-auto registration">
         <div class="card-header">
             Register
         </div>
@@ -56,6 +56,7 @@
                     {{ form.accept_tos(size=20) }}<br>
                     <a href='tos'>Terms of Service</a>
                 </div>
+                <a href="/register">Already have an account? Log-In now!</a>
                 <p>{{ form.submit() }}</p>
             </form>
         </div>

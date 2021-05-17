@@ -1,4 +1,6 @@
+__pycache__/
 venv
 *.un~
 *.pyc
 .vscode/settings.json
+*.txt~
