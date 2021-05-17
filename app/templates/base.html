@@ -36,50 +36,52 @@
         <a href="/register" class="list-group-item list-group-item-action bg-light">Register</a>
         <a href="/login" class="list-group-item list-group-item-action bg-light">Login</a>
         {% else %}
-          {% for module in modules %}
-            {% if not module.is_test %}
-              <div class="list-group-item list-group-item-action bg-light">
-                <a class="module btn collapsed dropdown-toggle" role="button" data-toggle="collapse" data-target="#id{{module.name}}" aria-expanded="false" aria-controls="id{{module.name}}">
-                  {{module.title}}
+        {% for module in modules %}
+        {% if not module.is_test %}
+        <div class="list-group-item list-group-item-action bg-light">
+          <a class="module btn collapsed dropdown-toggle" role="button" data-toggle="collapse"
+            data-target="#id{{module.name}}" aria-expanded="false" aria-controls="id{{module.name}}">
+            {{module.title}}
+          </a>
+          <div class="collapse sidebar-option" id="id{{module.name}}" style>
+            <ol>
+              {% for activity in module.activities|sort(attribute='name')%}
+              <li><a href="/learn/{{module.name}}/{{activity.name}}">
+                  {{activity.title}}
+                  {% if activity.getUserActivity(current_user).is_completed %}
+                  <i class="fas fa-check-circle"></i>
+                  {% elif activity.getUserActivity(current_user) is none %}
+                  <i class="fas fa-lock"></i>
+                  {% elif activity.question is none %}
+                  <i class="fas fa-info-circle"></i>
+                  {% else %}
+                  <i class="fas fa-chevron-left"></i>
+                  {% endif %}
                 </a>
-                <div class="collapse sidebar-option" id="id{{module.name}}" style>
-                  <ol>
-                  {% for activity in module.activities|sort(attribute='name')%}
-                    <li><a href="/learn/{{module.name}}/{{activity.name}}">
-                      {{activity.title}}
-                      {% if activity.getUserActivity(current_user).is_completed %}
-                        <i class="fas fa-check-circle"></i>
-                      {% elif activity.getUserActivity(current_user) is none %}
-                        <i class="fas fa-lock"></i>
-                      {% elif activity.question is none %}
-                        <i class="fas fa-info-circle"></i>
-                      {% else %}
-                        <i class="fas fa-chevron-left"></i>
-                      {% endif %}
-                    </a>
-                    </li>
-                  {% endfor %}
-                  </ol>
-                </div>
-              </div>
-            {% else %}
-              <div class="list-group-item list-group-item-action bg-light">
-                <a class="module btn" role="button" href="/test/{{module.name}}/start">
-                  <span class="test"><b>{{module.title}}</b>
-                      {% if module.activities[0].getUserActivity(current_user).is_completed %}
-                        <i class="fas fa-check-circle"></i>
-                      {% elif module.activities[0].getUserActivity(current_user) is none %}
-                        <i class="fas fa-lock"></i>
-                      {% elif module.activities[0].question is none %}
-                        <i class="fas fa-info-circle"></i>
-                      {% else %}
-                        <i class="fas fa-chevron-left"></i>
-                      {% endif %} </span>
-                </a>
-              </div>
-            {% endif %}
-          {% endfor %}
+              </li>
+              {% endfor %}
+            </ol>
+          </div>
+        </div>
+        {% else %}
+        <div class="list-group-item list-group-item-action bg-light">
+          <a class="module btn" role="button" href="/test/{{module.name}}/start">
+            <span class="test"><b>{{module.title}}</b>
+              {% if module.activities[0].getUserActivity(current_user).is_completed %}
+              <i class="fas fa-check-circle"></i>
+              {% elif module.activities[0].getUserActivity(current_user) is none %}
+              <i class="fas fa-lock"></i>
+              {% elif module.activities[0].question is none %}
+              <i class="fas fa-info-circle"></i>
+              {% else %}
+              <i class="fas fa-chevron-left"></i>
+              {% endif %} </span>
+          </a>
+        </div>
+        {% endif %}
+        {% endfor %}
 
+        <a href="/about" class="list-group-item list-group-item-action bg-light">About</a>
         <a href="/logout" class="list-group-item list-group-item-action bg-light">Logout</a>
         {% endif %}
       </ul>
@@ -92,7 +94,8 @@
       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
         <button class="btn btn-success" id="menu-toggle">Toggle Menu</button>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -102,7 +105,8 @@
               <a class="nav-link" href="/index">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
                 User
               </a>
               <!-- login dropdown elements-->
@@ -124,11 +128,11 @@
       <!-- FLASHED MESSAGES TO BE INSERTED HERE-->
       {% with messages = get_flashed_messages() %}
       {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-success" role="alert">
-          {{message}}
-        </div>
-        {% endfor %}
+      {% for message in messages %}
+      <div class="alert alert-success" role="alert">
+        {{message}}
+      </div>
+      {% endfor %}
       {% endif %}
       {% endwith %}
       <!-- END FLASHED MESSAGES-->
@@ -143,33 +147,38 @@
   <!-- /#wrapper -->
 
   <!-- Bootstrap core JavaScript -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> 
-<!-- Menu Toggle Script -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+  <!-- Menu Toggle Script -->
   <script>
-    $("#menu-toggle").click(function(e) {
+    $("#menu-toggle").click(function (e) {
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
     });
 
-    $(".collapse").on('shown.bs.collapse', function(e) {
+    $(".collapse").on('shown.bs.collapse', function (e) {
       // This module sidebar item is open
       var id = $(this).attr('id');
       sessionStorage.setItem(id, true);
     })
-    $(".collapse").on('hidden.bs.collapse', function(e) {
+    $(".collapse").on('hidden.bs.collapse', function (e) {
       // This module sidebar item is closed
       var id = $(this).attr('id');
       sessionStorage.setItem(id, false);
     })
 
-    $(document).ready(function (){
+    $(document).ready(function () {
       // Iterate over sessionStorage items
-      for (var i = 0; i < sessionStorage.length; i++){
+      for (var i = 0; i < sessionStorage.length; i++) {
         var key = sessionStorage.key(i);
-        if (sessionStorage.getItem(key) == "true"){
-          $("#"+key).addClass("show");
+        if (sessionStorage.getItem(key) == "true") {
+          $("#" + key).addClass("show");
           console.log(key)
         }
       }
