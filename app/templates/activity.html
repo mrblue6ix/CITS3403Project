@@ -141,7 +141,7 @@
             var html = 'You have unlocked the following activities:<ul>';
             for (const x of data['unlocked']) {
               if (x[1].includes("test")){
-                html += '<li><a href="/test/'+x[1]+'">'+x[0]+'</a></li>'
+                html += '<li><a href="/test/'+x[1]+'/start">'+x[0]+'</a></li>'
               } else {
                 html += '<li><a href="/learn/'+x[1]+'">'+x[0]+'</a></li>'
               }
