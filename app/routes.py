@@ -72,6 +72,7 @@ def stats(module_name, activity_name):
     stats.append(("Unique users unlocked this activity",num_unique))
 
     uas = UserActivity.query.filter_by(activity_id=activity.id).all()
+    # remove the "test"
     for ua in range(len(uas)):
         if uas[ua].saved:
             uas[ua].saved = uas[ua].saved.replace("\n", "</br>")

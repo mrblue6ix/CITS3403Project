@@ -1,3 +1,4 @@
+![Alt text](app/static/media/logo.gif "Title")
 # LearnPython Website
 
 # Introduction
@@ -149,6 +150,7 @@ A quick outline of the html templates:
     - It displays some Python content, a question, and an interactive interpreter where users can submit their code. 
     - It also includes an output section where Users can see the `stdout` of their program. 
     - *Attributions*
+        - Bootstrap (https://getbootstrap.com/)
         - Skulpt JS libraries (for Python interpreter, https://skulpt.org/using.html)
         - Termynal (https://github.com/ines/termynal)
         - CodeMirror (https://codemirror.net/)
